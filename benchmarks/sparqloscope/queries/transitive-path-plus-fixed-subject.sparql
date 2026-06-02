@@ -1,0 +1,2 @@
+# Transitive path with plus and a fixed subject
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (COUNT(*) AS ?count) { <https://dblp.org/streams/conf/damp> dblp:relatedStream+ ?o }

@@ -1,0 +1,2 @@
+# ROUND function
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (SUM(ROUND(?o)) AS ?sum) WHERE { ?s dblp:numberOfCreators ?o }

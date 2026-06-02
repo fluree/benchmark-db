@@ -1,0 +1,2 @@
+# Implicit GROUP BY with MIN on numeric predicate
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (MIN(?o) AS ?min) { ?s dblp:numberOfCreators ?o. }

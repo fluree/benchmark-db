@@ -1,0 +1,737 @@
+[
+[
+"date-day",
+"EXPECTED",
+"fl=8548377",
+"ql=",
+"1/1 rows"
+],
+[
+"date-month",
+"EXPECTED",
+"fl=8548377",
+"ql=",
+"1/1 rows"
+],
+[
+"date-year",
+"MATCH",
+"fl=17220481649",
+"ql=17220481649",
+"1/1 rows"
+],
+[
+"distinct-count-object-high-multiplicity",
+"MATCH",
+"fl=35",
+"ql=35",
+"1/1 rows"
+],
+[
+"distinct-count-object-low-multiplicity",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"distinct-count-object-wrong-sort-order",
+"MATCH",
+"fl=8",
+"ql=8",
+"1/1 rows"
+],
+[
+"exists-join-2-large-large-with-large-result",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"exists-join-2-large-large-with-small-join-result-1",
+"MATCH",
+"fl=2150",
+"ql=2150",
+"1/1 rows"
+],
+[
+"exists-join-2-large-large-with-small-join-result-2",
+"MATCH",
+"fl=2150",
+"ql=2150",
+"1/1 rows"
+],
+[
+"exists-join-3-chain-1",
+"CLOSE",
+"fl=58785436",
+"ql=58790156",
+"1/1 rows"
+],
+[
+"exists-join-3-chain-2",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"exists-join-3-star-1",
+"MATCH",
+"fl=58790156",
+"ql=58790156",
+"1/1 rows"
+],
+[
+"exists-join-3-star-2",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"exists-join-large-large",
+"MATCH",
+"fl=16975012",
+"ql=16975012",
+"1/1 rows"
+],
+[
+"exists-join-large-small",
+"MATCH",
+"fl=1674",
+"ql=1674",
+"1/1 rows"
+],
+[
+"exists-join-small-large",
+"CLOSE",
+"fl=1025",
+"ql=1024",
+"1/1 rows"
+],
+[
+"filter-few-results",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"filter-language-en",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"filter-many-results",
+"EXPECTED",
+"fl=307865688",
+"ql=193994024",
+"1/1 rows"
+],
+[
+"group-by-complex-aggregate",
+"ROWS_MATCH",
+"fl_rows=8",
+"ql_rows=8",
+""
+],
+[
+"group-by-count-object-high-multiplicity",
+"ROWS_MATCH",
+"fl_rows=10",
+"ql_rows=10",
+""
+],
+[
+"group-by-count-object-low-multiplicity",
+"ROWS_MATCH",
+"fl_rows=10",
+"ql_rows=10",
+""
+],
+[
+"group-by-count-object-wrong-sort-order",
+"ROWS_MATCH",
+"fl_rows=8",
+"ql_rows=8",
+""
+],
+[
+"group-by-implicit-numeric-avg",
+"CLOSE",
+"fl=3.436742189835571",
+"ql=3.436742189836",
+"1/1 rows"
+],
+[
+"group-by-implicit-numeric-baseline",
+"MATCH",
+"fl=8553181",
+"ql=8553181",
+"1/1 rows"
+],
+[
+"group-by-implicit-numeric-max",
+"MATCH",
+"fl=450",
+"ql=450",
+"1/1 rows"
+],
+[
+"group-by-implicit-numeric-min",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"group-by-implicit-numeric-sum",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"group-by-implicit-string-baseline",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"group-by-implicit-string-max",
+"EXPECTED",
+"fl=\u00feorger\u00f0ur P\u00e1lsd\u00f3ttir",
+"ql=\u00der\u00f6stur P\u00e9tursson",
+"1/1 rows"
+],
+[
+"group-by-implicit-string-min",
+"EXPECTED",
+"fl=Johann\" Sebastian Rudolph",
+"ql=-Abdullah",
+"1/1 rows"
+],
+[
+"group-by-string-groupconcat",
+"MATCH",
+"fl=416293690",
+"ql=416293690",
+"1/1 rows"
+],
+[
+"join-2-large-large-with-large-result",
+"CLOSE",
+"fl=149599284",
+"ql=149594500",
+"1/1 rows"
+],
+[
+"join-2-large-large-with-small-result",
+"MATCH",
+"fl=2150",
+"ql=2150",
+"1/1 rows"
+],
+[
+"join-2-large-large",
+"MATCH",
+"fl=58790156",
+"ql=58790156",
+"1/1 rows"
+],
+[
+"join-2-large-small",
+"CLOSE",
+"fl=2050",
+"ql=2048",
+"1/1 rows"
+],
+[
+"join-2-largest-result",
+"CLOSE",
+"fl=149599284",
+"ql=149594500",
+"1/1 rows"
+],
+[
+"join-2-small-large",
+"CLOSE",
+"fl=2050",
+"ql=2048",
+"1/1 rows"
+],
+[
+"join-3-chain-largest-sum-of-join-sizes",
+"CLOSE",
+"fl=310139473",
+"ql=310163849",
+"1/1 rows"
+],
+[
+"join-3-star-largest-sum-of-join-sizes",
+"MATCH",
+"fl=58790156",
+"ql=58790156",
+"1/1 rows"
+],
+[
+"join-xlarge-chain-on-small-predicates",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"join-xlarge-star-on-small-predicates",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"minus-join-2-large-large-with-large-result",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"minus-join-2-large-large-with-small-join-result-1",
+"MATCH",
+"fl=3962590",
+"ql=3962590",
+"1/1 rows"
+],
+[
+"minus-join-2-large-large-with-small-join-result-2",
+"MATCH",
+"fl=4318743",
+"ql=4318743",
+"1/1 rows"
+],
+[
+"minus-join-3-chain-1",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"minus-join-3-chain-2",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"minus-join-3-star-1",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"minus-join-3-star-2",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"minus-join-large-large",
+"MATCH",
+"fl=290890676",
+"ql=290890676",
+"1/1 rows"
+],
+[
+"minus-join-large-small",
+"MATCH",
+"fl=307864014",
+"ql=307864014",
+"1/1 rows"
+],
+[
+"minus-join-small-large",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"multicolumn-join-large",
+"CLOSE",
+"fl=29227812",
+"ql=29227317",
+"1/1 rows"
+],
+[
+"multicolumn-join-small",
+"MATCH",
+"fl=1430",
+"ql=1430",
+"1/1 rows"
+],
+[
+"number-of-blank-nodes",
+"MATCH",
+"fl=295289691",
+"ql=295289691",
+"1/1 rows"
+],
+[
+"number-of-literals",
+"CLOSE",
+"fl=634551647",
+"ql=634551476",
+"1/1 rows"
+],
+[
+"number-of-objects",
+"CLOSE",
+"fl=341753932",
+"ql=341780834",
+"1/1 rows"
+],
+[
+"number-of-predicates",
+"MATCH",
+"fl=96",
+"ql=96",
+"1/1 rows"
+],
+[
+"number-of-subjects",
+"MATCH",
+"fl=253521219",
+"ql=253521219",
+"1/1 rows"
+],
+[
+"number-of-triples",
+"CLOSE",
+"fl=1574283728",
+"ql=1574230030",
+"1/1 rows"
+],
+[
+"numeric-abs",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"numeric-add",
+"MATCH",
+"fl=58790156",
+"ql=58790156",
+"1/1 rows"
+],
+[
+"numeric-baseline",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"numeric-ceil",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"numeric-filter-bin-search-fifty-fifty",
+"MATCH",
+"fl=7321550",
+"ql=7321550",
+"1/1 rows"
+],
+[
+"numeric-filter-bin-search-ninetyfive-five",
+"MATCH",
+"fl=591557",
+"ql=591557",
+"1/1 rows"
+],
+[
+"numeric-filter-bin-search-seventy-thirty",
+"MATCH",
+"fl=5385544",
+"ql=5385544",
+"1/1 rows"
+],
+[
+"numeric-floor",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"numeric-greater",
+"MATCH",
+"fl=8487506",
+"ql=8487506",
+"1/1 rows"
+],
+[
+"numeric-round",
+"MATCH",
+"fl=29395078",
+"ql=29395078",
+"1/1 rows"
+],
+[
+"optional-join-2-large-large-with-large-result",
+"CLOSE",
+"fl=149599284",
+"ql=149594500",
+"1/1 rows"
+],
+[
+"optional-join-2-large-large-with-small-join-result-1",
+"MATCH",
+"fl=3964740",
+"ql=3964740",
+"1/1 rows"
+],
+[
+"optional-join-2-large-large-with-small-join-result-2",
+"MATCH",
+"fl=4320893",
+"ql=4320893",
+"1/1 rows"
+],
+[
+"optional-join-3-chain-1",
+"CLOSE",
+"fl=310139473",
+"ql=310163849",
+"1/1 rows"
+],
+[
+"optional-join-3-chain-2",
+"CLOSE",
+"fl=310141833",
+"ql=310163849",
+"1/1 rows"
+],
+[
+"optional-join-3-star-1",
+"MATCH",
+"fl=58790156",
+"ql=58790156",
+"1/1 rows"
+],
+[
+"optional-join-3-star-2",
+"MATCH",
+"fl=58790156",
+"ql=58790156",
+"1/1 rows"
+],
+[
+"optional-join-large-large",
+"MATCH",
+"fl=349680832",
+"ql=349680832",
+"1/1 rows"
+],
+[
+"optional-join-large-small",
+"CLOSE",
+"fl=307866064",
+"ql=307866062",
+"1/1 rows"
+],
+[
+"optional-join-small-large",
+"CLOSE",
+"fl=2050",
+"ql=2048",
+"1/1 rows"
+],
+[
+"regex-3-contains",
+"MATCH",
+"fl=505810",
+"ql=505810",
+"1/1 rows"
+],
+[
+"regex-3-fixed",
+"MATCH",
+"fl=505810",
+"ql=505810",
+"1/1 rows"
+],
+[
+"regex-3",
+"MATCH",
+"fl=809346",
+"ql=809346",
+"1/1 rows"
+],
+[
+"regex-prefix-1",
+"DIFF",
+"fl=609621",
+"ql=610530",
+"1/1 rows"
+],
+[
+"regex-prefix-2",
+"DIFF",
+"fl=39855",
+"ql=40037",
+"1/1 rows"
+],
+[
+"regex-prefix-3",
+"DIFF",
+"fl=1051",
+"ql=1135",
+"1/1 rows"
+],
+[
+"result-size-large",
+"ROWS_MATCH",
+"fl_rows=1000000",
+"ql_rows=1000000",
+""
+],
+[
+"result-size-medium",
+"ROWS_MATCH",
+"fl_rows=100000",
+"ql_rows=100000",
+""
+],
+[
+"result-size-small",
+"ROWS_MATCH",
+"fl_rows=1000",
+"ql_rows=1000",
+""
+],
+[
+"result-size-tiny",
+"ROWS_MATCH",
+"fl_rows=10",
+"ql_rows=10",
+""
+],
+[
+"result-size-xlarge",
+"ROWS_MATCH",
+"fl_rows=10000000",
+"ql_rows=10000000",
+""
+],
+[
+"strafter",
+"MATCH",
+"fl=916611736",
+"ql=916611736",
+"1/1 rows"
+],
+[
+"strbefore",
+"MATCH",
+"fl=74919074",
+"ql=74919074",
+"1/1 rows"
+],
+[
+"strends",
+"MATCH",
+"fl=416384",
+"ql=416384",
+"1/1 rows"
+],
+[
+"strlen",
+"MATCH",
+"fl=5399011257",
+"ql=5399011257",
+"1/1 rows"
+],
+[
+"strstarts",
+"MATCH",
+"fl=54",
+"ql=54",
+"1/1 rows"
+],
+[
+"transitive-path-large-join-and-plus",
+"DIFF",
+"fl=321712717",
+"ql=332897155",
+"1/1 rows"
+],
+[
+"transitive-path-plus-fixed-subject",
+"MATCH",
+"fl=936",
+"ql=936",
+"1/1 rows"
+],
+[
+"transitive-path-plus",
+"MATCH",
+"fl=651542",
+"ql=651542",
+"1/1 rows"
+],
+[
+"transitive-path-small-join-and-plus",
+"DIFF",
+"fl=85943",
+"ql=647278",
+"1/1 rows"
+],
+[
+"union-constraint-filter-restrictive",
+"MATCH",
+"fl=0",
+"ql=0",
+"1/1 rows"
+],
+[
+"union-constraint-from-star",
+"MATCH",
+"fl=88185234",
+"ql=88185234",
+"1/1 rows"
+],
+[
+"union-constraint-large-join",
+"CLOSE",
+"fl=208389440",
+"ql=208383662",
+"1/1 rows"
+],
+[
+"union-constraint-small-join",
+"MATCH",
+"fl=4361287",
+"ql=4361287",
+"1/1 rows"
+],
+[
+"union-no-constraint",
+"MATCH",
+"fl=337260766",
+"ql=337260766",
+"1/1 rows"
+]
+]

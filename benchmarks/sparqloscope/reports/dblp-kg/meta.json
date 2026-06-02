@@ -1,0 +1,68 @@
+{
+  "status": "DRAFT / preliminary. Numbers as of Fluree v4.0.5. This is the DBLP KG+citations dataset (~1.57B), NOT the paper's ~502M core, so it is NOT directly comparable to the published SPARQLoscope table.",
+  "dataset": {
+    "name": "DBLP-KG (bibliography + OpenCitations citations)",
+    "description": "dblp_KG_with_associated_data.tar \u2014 DBLP bibliography plus OpenCitations citation data",
+    "source_url": "https://sparql.dblp.org/download/dblp_KG_with_associated_data.tar",
+    "version": "snapshot 2026-05-30 01:16:39 GMT",
+    "sha256": "963cf2d1483a068ba8460b901c11a3bd3598e22f945aff181f65740754329cba",
+    "triples": 1574283728,
+    "predicates": 96,
+    "subjects": null,
+    "objects": 341753932,
+    "size_disk": "6.1 GB compressed (168 .ttl.gz shards)"
+  },
+  "hardware": {
+    "instance": "AWS r7a.4xlarge",
+    "cpu": "AMD EPYC (Zen 4), no-SMT",
+    "cores": 16,
+    "ram_gb": 128,
+    "disk": "500 GB gp3 (6000 IOPS / 500 MB/s)",
+    "os": "Ubuntu 24.04"
+  },
+  "methodology": {
+    "warmup": 1,
+    "runs": 3,
+    "metric": "median",
+    "timeout_s": 300,
+    "accept": "text/tab-separated-values",
+    "notes": "QLever result cache disabled + cleared before each query so it re-executes (matches Fluree, which has no result cache). Reference engine for the correctness check: QLever."
+  },
+  "engines": {
+    "fluree": {
+      "label": "Fluree",
+      "version": "v4.0.5",
+      "commit": "",
+      "config": "server cache auto (~63 GB); inline-indexed ledger",
+      "import": {
+        "time": "1,047 s",
+        "throughput": "1.50 M tr/s",
+        "peak_ram": "72 GB",
+        "index_size": "~53 GB",
+        "notes": "parallelized import (16 parse threads + parallel secondary index builds)",
+        "phases": "parse+commit 633 s, index build 336 s (3 secondaries built in parallel alongside SPOT)"
+      }
+    },
+    "qlever": {
+      "label": "QLever",
+      "version": "latest",
+      "commit": "adfreiburg/qlever:latest (fabf229)",
+      "config": "MEMORY_FOR_QUERIES 60G, CACHE 20G (disabled for benchmark)",
+      "import": {
+        "time": "3,937 s",
+        "throughput": "0.40 M tr/s",
+        "peak_ram": "n/a",
+        "index_size": "20.7 GB",
+        "notes": "required --parallel-parsing false (per-shard prefixes) + -m 90G (merge memory)",
+        "phases": "sequential parse ~50 min (parallel parse rejected on this layout) + permutation build"
+      }
+    }
+  },
+  "caveats": [
+    "Triple-count delta: Fluree 1,574,283,728 vs QLever 1,574,230,030 (+0.0034%) \u2014 full-scan counts differ slightly; folded into 'within data delta' agreement.",
+    "NOT comparable to the published SPARQLoscope table (that used the ~502M DBLP core, no citations). Absolute times are this-box-only.",
+    "Fluree's import (1,047 s, parallelized) vs QLever (3,937 s) \u2014 QLever handicapped by the forced sequential parse on this concatenated shard layout.",
+    "Documented engine-semantics differences (\u26a0, both defensible, Fluree spec-correct): filter-many-results \u2014 FILTER(?s != ?o) over blank-node subjects; both agree the data is identical (0 self-typed), Fluree keeps the 113.9M bnode rows (spec-correct per RDFterm-equal), QLever drops them. date-day / date-month \u2014 DAY()/MONTH() on a gYear literal (edge case). group-by-implicit-string-max / -min \u2014 string collation order.",
+    "Under review (\u2717, root cause not yet confirmed): regex-prefix-1/2/3 and transitive-path-large/small-join-and-plus \u2014 small \u00b11-row divergences from QLever; not yet determined which engine is correct."
+  ]
+}

@@ -1,0 +1,2 @@
+# Total number of distinct objects
+SELECT (COUNT(DISTINCT ?o) AS ?count) WHERE { ?s ?p ?o }

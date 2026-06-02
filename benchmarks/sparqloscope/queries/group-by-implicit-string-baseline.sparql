@@ -1,0 +1,2 @@
+# Implicit GROUP BY with COUNT on string predicate as baseline
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (COUNT(?o) AS ?count) { ?s dblp:signatureDblpName ?o. }

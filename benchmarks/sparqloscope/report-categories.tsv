@@ -1,0 +1,106 @@
+query_id	category	order
+date-day	Date functions	9
+date-month	Date functions	9
+date-year	Date functions	9
+distinct-count-object-high-multiplicity	GROUP BY / aggregate	6
+distinct-count-object-low-multiplicity	GROUP BY / aggregate	6
+distinct-count-object-wrong-sort-order	GROUP BY / aggregate	6
+exists-join-2-large-large-with-large-result	EXISTS	4
+exists-join-2-large-large-with-small-join-result-1	EXISTS	4
+exists-join-2-large-large-with-small-join-result-2	EXISTS	4
+exists-join-3-chain-1	EXISTS	4
+exists-join-3-chain-2	EXISTS	4
+exists-join-3-star-1	EXISTS	4
+exists-join-3-star-2	EXISTS	4
+exists-join-large-large	EXISTS	4
+exists-join-large-small	EXISTS	4
+exists-join-small-large	EXISTS	4
+filter-few-results	FILTER	7
+filter-language-en	FILTER	7
+filter-many-results	FILTER	7
+group-by-complex-aggregate	GROUP BY / aggregate	6
+group-by-count-object-high-multiplicity	GROUP BY / aggregate	6
+group-by-count-object-low-multiplicity	GROUP BY / aggregate	6
+group-by-count-object-wrong-sort-order	GROUP BY / aggregate	6
+group-by-implicit-numeric-avg	GROUP BY / aggregate	6
+group-by-implicit-numeric-baseline	GROUP BY / aggregate	6
+group-by-implicit-numeric-max	GROUP BY / aggregate	6
+group-by-implicit-numeric-min	GROUP BY / aggregate	6
+group-by-implicit-numeric-sum	GROUP BY / aggregate	6
+group-by-implicit-string-baseline	GROUP BY / aggregate	6
+group-by-implicit-string-max	GROUP BY / aggregate	6
+group-by-implicit-string-min	GROUP BY / aggregate	6
+group-by-string-groupconcat	GROUP BY / aggregate	6
+join-2-large-large	JOIN	1
+join-2-large-large-with-large-result	JOIN	1
+join-2-large-large-with-small-result	JOIN	1
+join-2-large-small	JOIN	1
+join-2-largest-result	JOIN	1
+join-2-small-large	JOIN	1
+join-3-chain-largest-sum-of-join-sizes	JOIN	1
+join-3-star-largest-sum-of-join-sizes	JOIN	1
+join-xlarge-chain-on-small-predicates	JOIN	1
+join-xlarge-star-on-small-predicates	JOIN	1
+minus-join-2-large-large-with-large-result	MINUS	3
+minus-join-2-large-large-with-small-join-result-1	MINUS	3
+minus-join-2-large-large-with-small-join-result-2	MINUS	3
+minus-join-3-chain-1	MINUS	3
+minus-join-3-chain-2	MINUS	3
+minus-join-3-star-1	MINUS	3
+minus-join-3-star-2	MINUS	3
+minus-join-large-large	MINUS	3
+minus-join-large-small	MINUS	3
+minus-join-small-large	MINUS	3
+multicolumn-join-large	JOIN	1
+multicolumn-join-small	JOIN	1
+number-of-blank-nodes	Dataset statistics	0
+number-of-literals	Dataset statistics	0
+number-of-objects	Dataset statistics	0
+number-of-predicates	Dataset statistics	0
+number-of-subjects	Dataset statistics	0
+number-of-triples	Dataset statistics	0
+numeric-abs	Numeric functions	8
+numeric-add	Numeric functions	8
+numeric-baseline	Numeric functions	8
+numeric-ceil	Numeric functions	8
+numeric-filter-bin-search-fifty-fifty	Numeric functions	8
+numeric-filter-bin-search-ninetyfive-five	Numeric functions	8
+numeric-filter-bin-search-seventy-thirty	Numeric functions	8
+numeric-floor	Numeric functions	8
+numeric-greater	Numeric functions	8
+numeric-round	Numeric functions	8
+optional-join-2-large-large-with-large-result	OPTIONAL	2
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL	2
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL	2
+optional-join-3-chain-1	OPTIONAL	2
+optional-join-3-chain-2	OPTIONAL	2
+optional-join-3-star-1	OPTIONAL	2
+optional-join-3-star-2	OPTIONAL	2
+optional-join-large-large	OPTIONAL	2
+optional-join-large-small	OPTIONAL	2
+optional-join-small-large	OPTIONAL	2
+regex-3	String / REGEX	10
+regex-3-contains	String / REGEX	10
+regex-3-fixed	String / REGEX	10
+regex-prefix-1	String / REGEX	10
+regex-prefix-2	String / REGEX	10
+regex-prefix-3	String / REGEX	10
+result-size-large	Result size / export	12
+result-size-medium	Result size / export	12
+result-size-small	Result size / export	12
+result-size-tiny	Result size / export	12
+result-size-xlarge	Result size / export	12
+strafter	String / REGEX	10
+strbefore	String / REGEX	10
+strends	String / REGEX	10
+strlen	String / REGEX	10
+strstarts	String / REGEX	10
+transitive-path-large-join-and-plus	Transitive paths	11
+transitive-path-plus	Transitive paths	11
+transitive-path-plus-fixed-subject	Transitive paths	11
+transitive-path-small-join-and-plus	Transitive paths	11
+union-constraint-filter-restrictive	UNION	5
+union-constraint-from-star	UNION	5
+union-constraint-large-join	UNION	5
+union-constraint-small-join	UNION	5
+union-no-constraint	UNION	5

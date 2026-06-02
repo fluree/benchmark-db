@@ -1,0 +1,2 @@
+# GROUP BY with COUNT, for object with low multiplicity
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT ?object (COUNT(?subject) AS ?count) { ?subject dblp:hasSignature ?object . } GROUP BY ?object ORDER BY DESC(?count) LIMIT 10

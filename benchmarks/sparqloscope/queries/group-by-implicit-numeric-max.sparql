@@ -1,0 +1,2 @@
+# Implicit GROUP BY with MAX on numeric predicate
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (MAX(?o) AS ?max) { ?s dblp:numberOfCreators ?o. }

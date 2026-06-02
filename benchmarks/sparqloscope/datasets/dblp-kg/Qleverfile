@@ -1,0 +1,33 @@
+# Qleverfile for the DBLP "KG with associated data" dataset, for use with
+# qlever-control (https://github.com/ad-freiburg/qlever-control).
+#
+# This is the same dataset SPARQLoscope generates its DBLP benchmark against:
+# the DBLP bibliography PLUS OpenCitations citation data, distributed as one
+# tar of gzipped Turtle shards.
+#
+# NOTE: indexing this dataset needs two non-default flags that are NOT
+# expressible in standard Qleverfile fields — see qlever/README.md. Plain
+# `qlever index` will fail on it. Use the documented manual index command.
+
+[data]
+NAME         = dblp
+GET_DATA_URL = https://sparql.dblp.org/download/dblp_KG_with_associated_data.tar
+GET_DATA_CMD = curl -LRC - -o dblp_KG_with_associated_data.tar ${GET_DATA_URL} && tar -xf dblp_KG_with_associated_data.tar
+DESCRIPTION  = DBLP bibliography + OpenCitations citations (SPARQLoscope)
+
+[index]
+INPUT_FILES     = *.gz
+CAT_INPUT_FILES = ( echo '@base <https://dblp.org/rdf/schema> .'; zcat ${INPUT_FILES} )
+SETTINGS_JSON   = { "num-triples-per-batch": 5000000, "group-by-hash-map-enabled" : true }
+VOCABULARY_TYPE = on-disk-compressed
+
+[server]
+PORT               = 7015
+ACCESS_TOKEN       = dblp_token
+MEMORY_FOR_QUERIES = 60G
+CACHE_MAX_SIZE     = 20G
+TIMEOUT            = 300s
+
+[runtime]
+SYSTEM = docker
+IMAGE  = docker.io/adfreiburg/qlever:latest

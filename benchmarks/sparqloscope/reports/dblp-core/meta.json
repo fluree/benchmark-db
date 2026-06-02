@@ -1,0 +1,38 @@
+{
+  "status": "PENDING — not yet run. This is the ~502M DBLP-core dataset (bibliography only, no OpenCitations citations) that matches the published SPARQLoscope table. Drop engine summaries into engines/ and run the generator.",
+  "dataset": {
+    "name": "DBLP-core (bibliography only)",
+    "description": "Core DBLP RDF bibliography, no OpenCitations citations — the paper's dataset",
+    "source_url": "https://doi.org/10.4230/dblp.rdf.ntriples.2025-04-01  (or dblp.org/rdf latest)",
+    "version": "2025-04-01 (DROPS DOI) — TBD",
+    "sha256": "TBD",
+    "triples": null,
+    "predicates": null,
+    "subjects": null,
+    "objects": null,
+    "size_disk": "TBD (~4.56 GB .nt.gz)"
+  },
+  "hardware": {
+    "instance": "TBD",
+    "cpu": "TBD", "cores": null, "ram_gb": null, "disk": "TBD", "os": "TBD"
+  },
+  "methodology": {
+    "warmup": 1, "runs": 3, "metric": "median", "timeout_s": 300,
+    "accept": "text/tab-separated-values",
+    "notes": "QLever result cache disabled + cleared per query. Reference engine: QLever."
+  },
+  "engines": {
+    "fluree": {
+      "label": "Fluree", "version": "TBD", "commit": "TBD", "config": "TBD",
+      "import": {"time": "TBD", "throughput": "TBD", "peak_ram": "TBD", "index_size": "TBD", "notes": "", "phases": ""}
+    },
+    "qlever": {
+      "label": "QLever", "version": "latest", "commit": "TBD", "config": "TBD",
+      "import": {"time": "TBD", "throughput": "TBD", "peak_ram": "n/a", "index_size": "TBD", "notes": "", "phases": ""}
+    }
+  },
+  "caveats": [
+    "This dataset matches the paper's ~502M core, so per-query result COUNTS should match the published SPARQLoscope reference yaml — verify them.",
+    "Absolute times are this-box-only."
+  ]
+}

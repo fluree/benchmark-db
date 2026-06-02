@@ -1,0 +1,2 @@
+# JOIN of a large and a small predicate
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (COUNT(*) AS ?count) WHERE { ?s rdf:type ?o1 . ?s dblp:formerStreamTitle ?o2 }

@@ -1,0 +1,2 @@
+# Multicolumn JOIN small
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (COUNT(*) AS ?count) WHERE { ?s dblp:subStream ?o . ?s dblp:relatedStream ?o }

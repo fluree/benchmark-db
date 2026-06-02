@@ -1,0 +1,38 @@
+{
+  "status": "PENDING — needs a bigger box. Wikidata Truthy is ~8B triples, ~70GB compressed (~700GB+ uncompressed), and needs ~64-128GB RAM + ~1.5-3TB disk to index. Not feasible on the 128GB/500GB DBLP box. The paper's exact 2025-04-18 snapshot is no longer on the live mirror.",
+  "dataset": {
+    "name": "Wikidata Truthy",
+    "description": "Wikidata 'truthy' dump (latest-truthy.nt.gz)",
+    "source_url": "https://dumps.wikimedia.org/wikidatawiki/entities/latest-truthy.nt.gz",
+    "version": "paper used 'as of 2025-04-18' (no longer on the live mirror); rolling latest otherwise",
+    "sha256": "TBD",
+    "triples": null,
+    "predicates": null,
+    "subjects": null,
+    "objects": null,
+    "size_disk": "~70.5 GB compressed (.nt.gz)"
+  },
+  "hardware": {
+    "instance": "TBD (>=64GB RAM, ~1.5-3TB NVMe)",
+    "cpu": "TBD", "cores": null, "ram_gb": null, "disk": "TBD", "os": "TBD"
+  },
+  "methodology": {
+    "warmup": 1, "runs": 3, "metric": "median", "timeout_s": 300,
+    "accept": "text/tab-separated-values",
+    "notes": "QLever result cache disabled + cleared per query. Reference engine: QLever."
+  },
+  "engines": {
+    "fluree": {
+      "label": "Fluree", "version": "TBD", "commit": "TBD", "config": "TBD",
+      "import": {"time": "TBD", "throughput": "TBD", "peak_ram": "TBD", "index_size": "TBD", "notes": "", "phases": ""}
+    },
+    "qlever": {
+      "label": "QLever", "version": "latest", "commit": "TBD", "config": "TBD",
+      "import": {"time": "TBD", "throughput": "TBD", "peak_ram": "n/a", "index_size": "TBD", "notes": "", "phases": ""}
+    }
+  },
+  "caveats": [
+    "Wikidata Truthy is the second dataset with a published SPARQLoscope reference (alongside DBLP).",
+    "The exact paper snapshot (2025-04-18) is unavailable; a current dump will be larger, so result counts won't match the published yaml exactly."
+  ]
+}
