@@ -1,0 +1,140 @@
+{
+  "status": "Run 2026-06-02 · Fluree v4.0.5 official release. Standard DBLP-core (bibliography only, no OpenCitations), stable DROPS archive 2026-06-01 (574.2M raw N-Triples lines; ~561.5M distinct triples after dedup). All seven engines run NATIVE (no Docker); QLever config matches ad-freiburg/sparqloscope docs/Qleverfile.dblp. Engine-vs-engine on one box; NOT bit-comparable to the paper's 2024/2025 dumps.",
+  "dataset": {
+    "name": "DBLP-core (bibliography only)",
+    "description": "Standard DBLP RDF bibliography, no OpenCitations citations — DROPS monthly archive 2026-06-01",
+    "source_url": "https://drops.dagstuhl.de/storage/artifacts/dblp/rdf/2026/dblp-2026-06-01.nt.gz",
+    "doi": "10.4230/dblp.rdf.ntriples.2026-06-01",
+    "version": "2026-06-01 (stable DROPS monthly archive)",
+    "sha256": "6a1edc1b7aebcd7a581bc4313243029952af4af0fbf900e4126a72d6deb92309",
+    "triples": 574218804,
+    "triples_distinct": 561544658,
+    "predicates": 90,
+    "subjects": null,
+    "objects": null,
+    "size_disk": "4.73 GB .nt.gz (5,083,386,634 bytes); ~73.5 GB uncompressed .nt"
+  },
+  "hardware": {
+    "instance": "AWS m7a.4xlarge",
+    "cpu": "AMD EPYC (Zen 4), no-SMT",
+    "cores": 16,
+    "ram_gb": 64,
+    "disk": "250 GB gp3 (6000 IOPS / 500 MB/s)",
+    "os": "Ubuntu 24.04"
+  },
+  "methodology": {
+    "warmup": 1, "runs": 3, "metric": "median", "timeout_s": 180,
+    "accept": "text/tab-separated-values",
+    "notes": "All engines NATIVE (no Docker). Timeout 180 s per query per the SPARQLoscope DBLP spec (docs/Qleverfile.dblp TIMEOUT=180s), with a per-query 180 s wall budget (a query that takes ~180 s for one run is measured once, not 3x). Fluree/QLever/Virtuoso were initially run at a 300 s cap but NO query fell in the 180-300 s window (max passing: Fluree 12 s, QLever 37 s, Virtuoso 154 s), so their results are identical to a 180 s run and were not re-run; Oxigraph and Jena ran at 180 s. QLever result cache disabled + cleared before each run so it re-executes (matches Fluree/Virtuoso/Jena, which have no result cache); Oxigraph runs single-shot, memory-capped, per-query restart-on-failure."
+  },
+  "engines": {
+    "fluree": {
+      "label": "Fluree",
+      "version": "4.0.5 (official release)",
+      "commit": "v4.0.5 (GitHub release, installed via fluree-db-cli-installer.sh; §1 figures are the release binary on a fresh m7a.4xlarge. The pre-release branch feature/count-plan-aggregate-fastpaths @ ba88283 on the original box gave matching numbers, 936 ms / 67 ms.)",
+      "config": "server cache auto (~31.5 GB); inline-indexed ledger. Native binary installed via the GitHub releases shell installer (fluree-db-cli-installer.sh); benchmarked natively, not the Docker image.",
+      "import": {
+        "time": "527 s",
+        "throughput": "1.07 M tr/s",
+        "peak_ram": "21.4 GB",
+        "index_size": "27 GB",
+        "notes": "fluree create dblp --from dblp.ttl on the official v4.0.5 release; auto parallelism 9 (capped by 37.75 GB mem budget on the 64 GB box), 768 MB chunks, 92 committed chunks. I/O-bound, not CPU-bound: the import is disk/EBS-bound, so time is box-variance dominated — across the v4.0.5-release fresh boxes it ranged 458-527 s (the pre-release ba88283 run on the original box was 504 s @ 1.14 M tr/s / 21.9 GB peak). Fluree counts 561,544,658 distinct triples vs 574,218,804 raw N-Triples lines (~2.2% exact-duplicate dedup on import).",
+        "phases": "parse + sorted-commit ~340 s (~25-30% CPU), then index build (upload_dicts + permutations) ~165 s"
+      }
+    },
+    "qlever": {
+      "label": "QLever",
+      "version": "git 621cf31 (native)",
+      "commit": "621cf31 (native binaries from adfreiburg/qlever:latest image, run directly — no Docker)",
+      "config": "native; MEMORY_FOR_QUERIES 26G, CACHE_MAX_SIZE 6G (disabled for the benchmark), in-memory-compressed vocab, TIMEOUT 300s — matches ad-freiburg/sparqloscope docs/Qleverfile.dblp",
+      "import": {
+        "time": "521 s",
+        "throughput": "1.08 M tr/s",
+        "peak_ram": "20.8 GB",
+        "index_size": "9.4 GB",
+        "notes": "qlever index (native), parallel parse @ 2.3 M/s. in-memory-compressed vocab, num-triples-per-batch 1M (matches the paper). Native on the host needed two things Docker masked: ulimit -n raised to 1048576 (533 partial vocabs) and --stxxl-memory 20G (permutation merge). QLever counts 561,477,456 distinct triples (Fluree 561,544,658; +0.012% delta, different exact-dup handling).",
+        "phases": "parse 247 s @ 2.3 M/s + vocab merge + convert + sort/permutations; total 521 s"
+      }
+    },
+    "oxigraph": {
+      "label": "Oxigraph",
+      "version": "0.5.8 (native, prebuilt binary)",
+      "commit": "oxigraph_v0.5.8_x86_64_linux_gnu (GitHub release)",
+      "config": "serve-read-only; systemd MemoryMax 52G; no result cache; no server-side query timeout (issue #1336). Sweep methodology DEVIATES from the other engines: warmup 0 + 1 timed run, 180 s timeout, memory-capped with per-query restart-on-failure (mirrors ad-freiburg/sparqloscope util/oxigraph-helper.sh). RocksDB-backed.",
+      "import": {
+        "time": "572 s",
+        "throughput": "0.98 M tr/s",
+        "peak_ram": "n/a",
+        "index_size": "43 GB",
+        "notes": "oxigraph load --format nt --lenient. Till-ready = 329 s parse @ 1.70 M t/s + ~243 s RocksDB compaction (engine not queryable until compaction settles). Loaded 561,477,456 triples (same distinct count as QLever). No COUNT fastpath: a full COUNT(?s) takes ~224 s. 36/105 queries completed within 180 s; 69/105 timed out.",
+        "phases": "parse 329 s @ 1.70 M t/s + RocksDB compaction ~243 s = 572 s till-ready"
+      }
+    },
+    "virtuoso": {
+      "label": "Virtuoso",
+      "version": "7.2.5.1 (Ubuntu apt, virtuoso-opensource-7)",
+      "commit": "07.20.3229",
+      "config": "32 GB profile: NumberOfBuffers 2,720,000 (~21 GB), MaxDirtyBuffers 2,000,000, MaxQueryExecutionTime 300 s, ResultSetMaxRows 10M. Data in named graph <https://dblp.org>; benchmark queries sent form-encoded with default-graph-uri=<https://dblp.org> so they hit only dblp (the no-FROM default would union Virtuoso's system graphs). No result cache to clear (warm buffers, like Fluree).",
+      "import": {
+        "time": "628 s",
+        "throughput": "0.89 M tr/s",
+        "peak_ram": "27.7 GB",
+        "index_size": "17 GB",
+        "notes": "Till-ready = 217 s split (16-way) + 411 s parallel load (8 rdf_loader_run) + checkpoint. Loaded 561,483,067 triples, 90 predicates (matches the others). Single-file unsplit load would be far slower. No COUNT fastpath: number-of-objects and number-of-subjects timed out (>300 s full distinct scans); transitive-path-plus returned HTTP 500 (engine error). 102/105 completed.",
+        "phases": "split 217 s + 8 parallel loaders 411 s + checkpoint = 628 s till-ready"
+      }
+    },
+    "mdb": {
+      "label": "MillenniumDB",
+      "version": "v1.0.0 (built from source)",
+      "commit": "github.com/MillenniumDB/MillenniumDB main",
+      "config": "native; mdb server -t 180 --strings-static 16GB --strings-dynamic 8GB --tensors-static 8GB --tensors-dynamic 4GB; body POST; no result cache. Built on its own m7a.4xlarge (16c/64GB), dblp-core pulled from S3.",
+      "import": {
+        "time": "1241 s",
+        "throughput": "0.45 M tr/s",
+        "peak_ram": "~40 GB",
+        "index_size": "21 GB",
+        "notes": "mdb import --format ttl --buffer-strings 20GB --buffer-tensors 20GB (scaled down from the paper's 40GB+40GB=80GB, which OOMs a 64GB box). Loaded 561,477,456 triples, 90 predicates. number-of-objects/number-of-subjects timed out (>180 s full distinct scans); 103/105 completed.",
+        "phases": "single-pass import 1241 s"
+      }
+    },
+    "jena": {
+      "label": "Jena",
+      "version": "Apache Jena 6.1.0 / Fuseki 6.1.0 (JDK 21)",
+      "commit": "6.1.0",
+      "config": "TDB2 + Fuseki; fuseki-server -Xmx32g --timeout=300000 (runner enforces 180 s); body POST; no result cache. Built on the core m7a.4xlarge (16c/64GB).",
+      "import": {
+        "time": "7471 s",
+        "throughput": "0.075 M tr/s",
+        "peak_ram": "~33 GB",
+        "index_size": "54 GB",
+        "notes": "tdb2.xloader (external-sort bulk loader) — by far the slowest here: nodes ~20 min, then terms, data, and a separate build of each permutation (SPO/POS/OSP). Loaded from the 574.2M-line .ttl. No COUNT fastpath + cold 54GB index reads make queries slow: 36/105 timed out (all dataset-statistics counts, heavy joins/exists/minus/optional, big group-bys).",
+        "phases": "nodes 1217 s + terms + data + per-permutation index build = 7471 s till-ready"
+      }
+    },
+    "blazegraph": {
+      "label": "Blazegraph",
+      "version": "2.1.6-RC (Java 11)",
+      "commit": "BLAZEGRAPH_2_1_6_RC",
+      "config": "native jar; offline DataLoader on a SKOLEMIZED .nt (blank nodes rewritten to IRIs — required: default load silently drops ALL blank-node triples, 239M/561M); served with -Xmx16g so the OS page cache can hold the journal; web.xml queryTimeout 180000; queries via --post-form. Dedicated m7a.4xlarge.",
+      "import": {
+        "time": "9950 s",
+        "throughput": "0.056 M tr/s",
+        "peak_ram": "n/a",
+        "index_size": "43 GB",
+        "notes": "REQUIRED skolemization: chunked LOAD and default/storeBlankNodes DataLoader all loaded only 239,412,597 of ~561.5M (every blank-node triple dropped). Skolemizing _:label -> IRI then DataLoader gave the full 561,544,658 (verified COUNT(*) = 561,477,456 distinct, hasSignature present). +~33 min skolemize (sed) before the 9950 s load. Chunked LOAD also GC-thrashed/decelerated (~4.5h) — abandoned.",
+        "phases": "skolemize ~33 min + DataLoader 9950 s (2.76 h) = ~3.3 h till-ready"
+      }
+    }
+  },
+  "caveats": [
+    "Both engines run NATIVE (no Docker), matching the SPARQLoscope paper's recommendation (containerization overhead distorts results). QLever uses the upstream binaries (git 621cf31) extracted from adfreiburg/qlever:latest and run directly; Fluree is the official v4.0.5 release (native binary from the GitHub releases shell installer; §1 numbers were measured on its pre-release branch ba88283 and re-validated on the release binary).",
+    "Fluree numbers are from the official v4.0.5 release on a fresh m7a.4xlarge (105/105, arith 981 ms, median 69 ms, geo 124 ms); the other six engines were measured on the original box. Same spec, different physical instance — the gap is well inside box-CPU variance and does not change rankings (Fluree leads every aggregate). Confirmed by a second fresh release box (957 ms / 71 ms) and the pre-release ba88283 run on the original box (936 ms / 67 ms). Query arith mean is box-CPU-variance dominated at the heavy string/regex tail (a third fresh draw hit 1,046 ms with identical median/geo); median and geo are stable across all draws.",
+    "NOT bit-comparable to the published SPARQLoscope table: that used DBLP 2024-04-01 / 2025-04-01 (~390-502M); this is the 2026-06-01 core archive (574.2M raw lines, ~561.5M distinct). Engine-vs-engine on this box is valid; absolute per-query COUNTS will not match the paper's reference yaml.",
+    "Triple-count delta: Fluree 561,544,658 vs QLever 561,477,456 distinct (+0.012%) — different exact-duplicate handling on import; both agree on 90 predicates.",
+    "QLever result cache disabled + cleared per query (re-executes each run) to match Fluree's no-result-cache behavior; this is stricter than the paper's run-once-with-warm-cache protocol.",
+    "Absolute times are this-box-only (m7a.4xlarge, 16c/64GB).",
+    "Oxigraph completed only 36/105 queries within its 180 s timeout (69 timed out) on this 561.5M-triple dataset, and has no COUNT fastpath. Its sweep used a documented deviation (1 run, 180 s, memory-capped, per-query restart) because Oxigraph cannot cancel queries and an uncapped run OOM-locked the box; median-of-3 was infeasible. Oxigraph times are not directly comparable to the warmup+median-of-3 engines and are best read as 'completed vs timed out'.",
+    "Scope: this run compares query completion and latency, not result-set equivalence (correctness diffing across engines is out of scope here)."
+  ]
+}

@@ -1,0 +1,2 @@
+# EXISTS JOIN of two large predicates with a reasonably large join result
+PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) WHERE { ?s schema:description ?o1 . FILTER EXISTS { ?s wdt:P2093 ?o2 } }

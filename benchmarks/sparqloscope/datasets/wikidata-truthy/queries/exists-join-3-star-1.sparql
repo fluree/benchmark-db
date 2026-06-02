@@ -1,0 +1,2 @@
+# EXISTS JOIN star of three large predicates with the largest sum of join sizes
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) WHERE { ?s rdf:type ?o1 . ?s schema:description ?o2 . FILTER EXISTS { ?s wdt:P31 ?o3 . } }

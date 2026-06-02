@@ -1,0 +1,2 @@
+# GROUP BY with COUNT, for object with high multiplicity
+PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX p: <http://www.wikidata.org/prop/> SELECT ?object (COUNT(?subject) AS ?count) { ?subject wdt:P2548 ?object . } GROUP BY ?object ORDER BY DESC(?count) LIMIT 10

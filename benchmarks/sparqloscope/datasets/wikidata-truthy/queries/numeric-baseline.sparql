@@ -1,0 +1,2 @@
+# Baseline for numeric queries
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(?o) AS ?sum) WHERE { ?s schema:version ?o }

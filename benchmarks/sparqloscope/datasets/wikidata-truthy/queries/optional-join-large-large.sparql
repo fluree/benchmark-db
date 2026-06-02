@@ -1,0 +1,2 @@
+# OPTIONAL JOIN of two large predicates
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) WHERE { ?s schema:description ?o1 OPTIONAL { ?s schema:name ?o2 } }

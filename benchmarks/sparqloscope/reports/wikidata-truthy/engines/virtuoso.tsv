@@ -1,0 +1,316 @@
+query_id	description	run	status	time_ms	result_size	error
+date-day	DAY function	1	200	2013	17	
+date-day	DAY function	2	200	1992	17	
+date-day	DAY function	3	200	2584	17	
+date-month	MONTH function	1	200	2008	16	
+date-month	MONTH function	2	200	2022	16	
+date-month	MONTH function	3	200	2010	16	
+date-year	YEAR function	1	200	1950	19	
+date-year	YEAR function	2	200	1951	19	
+date-year	YEAR function	3	200	1954	19	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	1	200	99	10	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	2	200	98	10	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	3	200	98	10	
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	1	000	300000	0	early-abort: warmup timed out
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	2	000	300000	0	early-abort: warmup timed out
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	3	000	300000	0	early-abort: warmup timed out
+distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	1	200	10376	11	
+distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	2	200	10364	11	
+distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	3	200	10369	11	
+exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	1	000	300000	0	early-abort: warmup timed out
+exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	2	000	300000	0	early-abort: warmup timed out
+exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	3	000	300000	0	early-abort: warmup timed out
+exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	1	200	72417	17	
+exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	2	200	71518	17	
+exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	3	200	71945	17	
+exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	1	200	1359	17	
+exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	2	200	1362	17	
+exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	3	200	1364	17	
+exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	1	200	68396	18	
+exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	2	200	68562	18	
+exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	3	200	68309	18	
+exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	1	000	300000	0	early-abort: warmup timed out
+exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	2	000	300000	0	early-abort: warmup timed out
+exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	3	000	300000	0	early-abort: warmup timed out
+exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	1	500	1	414	Virtuoso 42000 Error The estimated execution time 4498 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	2	500	1	414	Virtuoso 42000 Error The estimated execution time 4498 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	3	500	1	414	Virtuoso 42000 Error The estimated execution time 4498 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	1	200	33091	18	
+exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	2	200	33136	18	
+exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	3	200	32649	18	
+exists-join-large-large	EXISTS JOIN of two large predicates	1	000	300000	0	early-abort: warmup timed out
+exists-join-large-large	EXISTS JOIN of two large predicates	2	000	300000	0	early-abort: warmup timed out
+exists-join-large-large	EXISTS JOIN of two large predicates	3	000	300000	0	early-abort: warmup timed out
+exists-join-large-small	EXISTS JOIN of a large and a small predicate	1	200	5	15	
+exists-join-large-small	EXISTS JOIN of a large and a small predicate	2	200	9	15	
+exists-join-large-small	EXISTS JOIN of a large and a small predicate	3	200	6	15	
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	1	200	5	13	
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	2	200	5	13	
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	3	200	5	13	
+filter-few-results	FILTER that filters out most rows and has few results	1	200	67084	10	
+filter-few-results	FILTER that filters out most rows and has few results	2	200	65033	10	
+filter-few-results	FILTER that filters out most rows and has few results	3	200	38449	10	
+filter-language-en	FILTER on string predicate for only English literals	1	500	0	270	Virtuoso 42000 Error The estimated execution time 2907 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(
+filter-language-en	FILTER on string predicate for only English literals	2	500	0	270	Virtuoso 42000 Error The estimated execution time 2907 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(
+filter-language-en	FILTER on string predicate for only English literals	3	500	0	270	Virtuoso 42000 Error The estimated execution time 2907 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(
+filter-many-results	FILTER that filters out few rows and has many results	1	200	38419	19	
+filter-many-results	FILTER that filters out few rows and has many results	2	200	38969	19	
+filter-many-results	FILTER that filters out few rows and has many results	3	200	38301	19	
+group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	1	200	89520	1813	
+group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	2	200	89405	1813	
+group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	3	200	89218	1813	
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	1	200	14	159	
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	2	200	14	159	
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	3	200	14	159	
+group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	1	000	300000	0	early-abort: warmup timed out
+group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	2	000	300000	0	early-abort: warmup timed out
+group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	3	000	300000	0	early-abort: warmup timed out
+group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	1	200	9814	493	
+group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	2	200	1406	493	
+group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	3	200	1402	493	
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	1	200	22262	33	
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	2	200	22141	33	
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	3	200	22111	33	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	1	200	1180	18	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	2	200	1166	18	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	3	200	1170	18	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	1	200	11253	17	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	2	200	11180	17	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	3	200	11211	17	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	1	200	6649	14	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	2	200	6722	14	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	3	200	6648	14	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	1	200	13860	25	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	2	200	13876	25	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	3	200	13674	25	
+group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	1	200	7947	19	
+group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	2	200	8101	19	
+group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	3	200	7916	19	
+group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	1	200	51905	8	
+group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	2	200	49876	8	
+group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	3	200	50002	8	
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	1	200	34560	7	
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	2	200	35594	7	
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	3	200	37408	7	
+group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	1	500	0	320	Virtuoso 42000 Error The estimated execution time 2996 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(ST
+group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	2	500	1	320	Virtuoso 42000 Error The estimated execution time 2996 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(ST
+group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	3	500	1	320	Virtuoso 42000 Error The estimated execution time 2996 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(ST
+join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	1	200	155304	19	
+join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	2	200	155026	19	
+join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	3	200	152969	19	
+join-2-large-large-with-small-result	JOIN of two large predicates with a small result	1	200	1214	17	
+join-2-large-large-with-small-result	JOIN of two large predicates with a small result	2	200	1210	17	
+join-2-large-large-with-small-result	JOIN of two large predicates with a small result	3	200	1211	17	
+join-2-large-large	JOIN of two large predicates	1	200	231507	20	
+join-2-large-large	JOIN of two large predicates	2	200	239406	20	
+join-2-large-large	JOIN of two large predicates	3	200	232697	20	
+join-2-large-small	JOIN of a large and a small predicate	1	200	5	15	
+join-2-large-small	JOIN of a large and a small predicate	2	200	5	15	
+join-2-large-small	JOIN of a large and a small predicate	3	200	5	15	
+join-2-largest-result	JOIN of two predicates with the largest possible result	1	000	300000	0	early-abort: warmup timed out
+join-2-largest-result	JOIN of two predicates with the largest possible result	2	000	300000	0	early-abort: warmup timed out
+join-2-largest-result	JOIN of two predicates with the largest possible result	3	000	300000	0	early-abort: warmup timed out
+join-2-small-large	JOIN of a small and a large predicate	1	200	5	15	
+join-2-small-large	JOIN of a small and a large predicate	2	200	5	15	
+join-2-small-large	JOIN of a small and a large predicate	3	200	5	15	
+join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	1	200	110193	20	
+join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	2	200	106923	20	
+join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	3	200	107376	20	
+join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	1	200	55057	19	
+join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	2	200	54956	19	
+join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	3	200	55513	19	
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	1	200	58	10	
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	2	200	58	10	
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	3	200	58	10	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	1	200	369	10	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	2	200	369	10	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	3	200	369	10	
+minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	1	500	1	329	Virtuoso 42000 Error The estimated execution time 715 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX
+minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	2	500	1	329	Virtuoso 42000 Error The estimated execution time 715 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX
+minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	3	500	1	329	Virtuoso 42000 Error The estimated execution time 715 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX
+minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	1	200	25876	16	
+minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	2	200	25687	16	
+minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	3	200	25689	16	
+minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	1	200	1375	17	
+minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	2	200	1371	17	
+minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	3	200	1375	17	
+minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	1	200	57091	13	
+minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	2	200	57161	13	
+minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	3	200	57200	13	
+minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	1	000	300000	0	early-abort: warmup timed out
+minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	2	000	300000	0	early-abort: warmup timed out
+minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	3	000	300000	0	early-abort: warmup timed out
+minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	1	500	1	406	Virtuoso 42000 Error The estimated execution time 2524 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	2	500	1	406	Virtuoso 42000 Error The estimated execution time 2524 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	3	500	1	406	Virtuoso 42000 Error The estimated execution time 2524 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	1	200	34446	18	
+minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	2	200	34173	18	
+minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	3	200	34290	18	
+minus-join-large-large	MINUS JOIN of two large predicates	1	000	300000	0	early-abort: warmup timed out
+minus-join-large-large	MINUS JOIN of two large predicates	2	000	300000	0	early-abort: warmup timed out
+minus-join-large-large	MINUS JOIN of two large predicates	3	000	300000	0	early-abort: warmup timed out
+minus-join-large-small	MINUS JOIN of a large and a small predicate	1	200	46909	19	
+minus-join-large-small	MINUS JOIN of a large and a small predicate	2	200	47105	19	
+minus-join-large-small	MINUS JOIN of a large and a small predicate	3	200	46840	19	
+minus-join-small-large	MINUS JOIN of a small and a large predicate	1	200	6	10	
+minus-join-small-large	MINUS JOIN of a small and a large predicate	2	200	6	10	
+minus-join-small-large	MINUS JOIN of a small and a large predicate	3	200	6	10	
+multicolumn-join-large	Multicolumn JOIN large	1	200	43667	18	
+multicolumn-join-large	Multicolumn JOIN large	2	200	43755	18	
+multicolumn-join-large	Multicolumn JOIN large	3	200	43705	18	
+multicolumn-join-small	Multicolumn JOIN small	1	200	2375	14	
+multicolumn-join-small	Multicolumn JOIN small	2	200	2374	14	
+multicolumn-join-small	Multicolumn JOIN small	3	200	2405	14	
+number-of-blank-nodes	Total number of blank nodes	1	200	8	14	
+number-of-blank-nodes	Total number of blank nodes	2	200	8	14	
+number-of-blank-nodes	Total number of blank nodes	3	200	7	14	
+number-of-literals	Total number of literals	1	200	87589	19	
+number-of-literals	Total number of literals	2	200	88545	19	
+number-of-literals	Total number of literals	3	200	88217	19	
+number-of-objects	Total number of distinct objects	1	000	300000	0	early-abort: warmup timed out
+number-of-objects	Total number of distinct objects	2	000	300000	0	early-abort: warmup timed out
+number-of-objects	Total number of distinct objects	3	000	300000	0	early-abort: warmup timed out
+number-of-predicates	Total number of distinct predicates	1	000	300000	0	early-abort: warmup timed out
+number-of-predicates	Total number of distinct predicates	2	000	300000	0	early-abort: warmup timed out
+number-of-predicates	Total number of distinct predicates	3	000	300000	0	early-abort: warmup timed out
+number-of-subjects	Total number of distinct subjects	1	000	300000	0	early-abort: warmup timed out
+number-of-subjects	Total number of distinct subjects	2	000	300000	0	early-abort: warmup timed out
+number-of-subjects	Total number of distinct subjects	3	000	300000	0	early-abort: warmup timed out
+number-of-triples	Total number of triples	1	200	23781	19	
+number-of-triples	Total number of triples	2	200	23799	19	
+number-of-triples	Total number of triples	3	200	23939	19	
+numeric-abs	ABS function	1	200	19459	25	
+numeric-abs	ABS function	2	200	19811	25	
+numeric-abs	ABS function	3	200	19751	25	
+numeric-add	Addition	1	200	6835	25	
+numeric-add	Addition	2	200	6852	25	
+numeric-add	Addition	3	200	6831	25	
+numeric-baseline	Baseline for numeric queries	1	200	13817	25	
+numeric-baseline	Baseline for numeric queries	2	200	13865	25	
+numeric-baseline	Baseline for numeric queries	3	200	13795	25	
+numeric-ceil	CEIL function	1	200	7977	25	
+numeric-ceil	CEIL function	2	200	7923	25	
+numeric-ceil	CEIL function	3	200	7930	25	
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	1	200	2669	17	
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	2	200	2671	17	
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	3	200	2671	17	
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	1	200	2227	17	
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	2	200	2221	17	
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	3	200	2234	17	
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	1	200	2406	17	
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	2	200	2403	17	
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	3	200	2405	17	
+numeric-floor	FLOOR function	1	200	7932	25	
+numeric-floor	FLOOR function	2	200	7911	25	
+numeric-floor	FLOOR function	3	200	7938	25	
+numeric-greater	Greater than	1	200	4495	16	
+numeric-greater	Greater than	2	200	4513	16	
+numeric-greater	Greater than	3	200	4458	16	
+numeric-round	ROUND function	1	200	7929	25	
+numeric-round	ROUND function	2	200	7942	25	
+numeric-round	ROUND function	3	200	7929	25	
+optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	1	500	0	333	Virtuoso 42000 Error The estimated execution time 2573 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFI
+optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	2	500	0	333	Virtuoso 42000 Error The estimated execution time 2573 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFI
+optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	3	500	0	333	Virtuoso 42000 Error The estimated execution time 2573 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFI
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	1	200	25495	17	
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	2	200	25473	17	
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	3	200	25315	17	
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	1	200	1434	17	
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	2	200	1433	17	
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	3	200	1435	17	
+optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	1	200	124765	20	
+optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	2	200	124477	20	
+optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	3	200	124538	20	
+optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	1	500	0	348	Virtuoso 42000 Error The estimated execution time 647 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX
+optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	2	500	1	348	Virtuoso 42000 Error The estimated execution time 647 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX
+optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	3	500	1	348	Virtuoso 42000 Error The estimated execution time 647 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX
+optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	1	500	0	409	Virtuoso 42000 Error The estimated execution time 2677 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	2	500	1	409	Virtuoso 42000 Error The estimated execution time 2677 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	3	500	1	409	Virtuoso 42000 Error The estimated execution time 2677 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX wdt: <http://www.wikidata.o
+optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	1	200	93520	19	
+optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	2	200	93727	19	
+optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	3	200	94062	19	
+optional-join-large-large	OPTIONAL JOIN of two large predicates	1	500	0	282	Virtuoso 42000 Error The estimated execution time 1347 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(
+optional-join-large-large	OPTIONAL JOIN of two large predicates	2	500	0	282	Virtuoso 42000 Error The estimated execution time 1347 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(
+optional-join-large-large	OPTIONAL JOIN of two large predicates	3	500	1	282	Virtuoso 42000 Error The estimated execution time 1347 (sec) exceeds the limit of 400 (sec).  SPARQL query: PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(
+optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	1	200	47144	19	
+optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	2	200	47035	19	
+optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	3	200	47151	19	
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	1	200	6	15	
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	2	200	6	15	
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	3	200	6	15	
+regex-3-contains	CONTAINS filter with fixed string of length 3	1	200	237973	16	
+regex-3-contains	CONTAINS filter with fixed string of length 3	2	200	229929	16	
+regex-3-contains	CONTAINS filter with fixed string of length 3	3	200	232726	16	
+regex-3-fixed	REGEX filter with fixed string of length 3	1	200	260499	16	
+regex-3-fixed	REGEX filter with fixed string of length 3	2	200	261870	16	
+regex-3-fixed	REGEX filter with fixed string of length 3	3	200	263461	16	
+regex-3	REGEX filter with expression of length 3	1	000	300000	0	early-abort: warmup timed out
+regex-3	REGEX filter with expression of length 3	2	000	300000	0	early-abort: warmup timed out
+regex-3	REGEX filter with expression of length 3	3	000	300000	0	early-abort: warmup timed out
+regex-prefix-1	REGEX filter with prefix of length 1	1	200	257322	17	
+regex-prefix-1	REGEX filter with prefix of length 1	2	200	261125	17	
+regex-prefix-1	REGEX filter with prefix of length 1	3	200	255540	17	
+regex-prefix-2	REGEX filter with prefix of length 2	1	200	251898	16	
+regex-prefix-2	REGEX filter with prefix of length 2	2	200	259518	16	
+regex-prefix-2	REGEX filter with prefix of length 2	3	200	258909	16	
+regex-prefix-3	REGEX filter with prefix of length 3	1	200	255711	16	
+regex-prefix-3	REGEX filter with prefix of length 3	2	200	257758	16	
+regex-prefix-3	REGEX filter with prefix of length 3	3	200	256858	16	
+result-size-large	Export 1M tuples	1	200	19764	101364795	
+result-size-large	Export 1M tuples	2	200	19751	101364795	
+result-size-large	Export 1M tuples	3	200	19800	101364795	
+result-size-medium	Export 100K tuples	1	200	595	11885158	
+result-size-medium	Export 100K tuples	2	200	575	11885158	
+result-size-medium	Export 100K tuples	3	200	572	11885158	
+result-size-small	Export 1000 tuples	1	200	4	128915	
+result-size-small	Export 1000 tuples	2	200	4	128915	
+result-size-small	Export 1000 tuples	3	200	4	128915	
+result-size-tiny	Export 10 tuples	1	200	0	1261	
+result-size-tiny	Export 10 tuples	2	200	0	1261	
+result-size-tiny	Export 10 tuples	3	200	0	1261	
+result-size-xlarge	Export 10M tuples	1	200	20882	106129402	
+result-size-xlarge	Export 10M tuples	2	200	20690	106129402	
+result-size-xlarge	Export 10M tuples	3	200	20741	106129402	
+strafter	STRAFTER string function	1	200	275684	23	
+strafter	STRAFTER string function	2	200	282235	23	
+strafter	STRAFTER string function	3	200	283687	23	
+strbefore	STRBEFORE string function	1	200	270264	22	
+strbefore	STRBEFORE string function	2	200	269712	22	
+strbefore	STRBEFORE string function	3	200	272051	22	
+strends	STRENDS string function	1	200	240209	17	
+strends	STRENDS string function	2	200	222194	17	
+strends	STRENDS string function	3	200	230317	17	
+strlen	String length for large string predicate	1	200	236479	23	
+strlen	String length for large string predicate	2	200	235090	23	
+strlen	String length for large string predicate	3	200	235460	23	
+strstarts	STRSTARTS string function	1	200	234078	15	
+strstarts	STRSTARTS string function	2	200	232937	15	
+strstarts	STRSTARTS string function	3	200	237891	15	
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	1	500	2120	427	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	2	500	2145	427	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	3	500	2141	427	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	1	500	2292	470	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	2	500	2275	470	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	3	500	2273	470	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-plus	Transitive path with plus	1	500	1	299	Virtuoso 37000 Error TR...: transitive start not given  SPARQL query: define sql:big-data-const 0 define input:default-graph-uri <https://www.wikidata.org/> PREFIX wdt: <http://www.wikidata.org/prop/d
+transitive-path-plus	Transitive path with plus	2	500	1	299	Virtuoso 37000 Error TR...: transitive start not given  SPARQL query: define sql:big-data-const 0 define input:default-graph-uri <https://www.wikidata.org/> PREFIX wdt: <http://www.wikidata.org/prop/d
+transitive-path-plus	Transitive path with plus	3	500	1	299	Virtuoso 37000 Error TR...: transitive start not given  SPARQL query: define sql:big-data-const 0 define input:default-graph-uri <https://www.wikidata.org/> PREFIX wdt: <http://www.wikidata.org/prop/d
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	1	500	1366	428	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	2	500	1362	428	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	3	500	1366	428	Virtuoso 42000 Error TN...: Exceeded 1000000000 bytes in transitive temp memory.  use t_distinct, t_max or more T_MAX_memory options to limit the search or increase the pool  SPARQL query: define sql:
+union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	1	200	4300	10	
+union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	2	200	4300	10	
+union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	3	200	4303	10	
+union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	1	200	58946	19	
+union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	2	200	59016	19	
+union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	3	200	59055	19	
+union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	1	200	183569	19	
+union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	2	200	183566	19	
+union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	3	200	183469	19	
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	1	200	3485	18	
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	2	200	3489	18	
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	3	200	3482	18	
+union-no-constraint	UNION of two large predicates, no constraint	1	200	17639	19	
+union-no-constraint	UNION of two large predicates, no constraint	2	200	17606	19	
+union-no-constraint	UNION of two large predicates, no constraint	3	200	17643	19	

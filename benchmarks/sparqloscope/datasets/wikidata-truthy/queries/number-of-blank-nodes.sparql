@@ -1,0 +1,2 @@
+# Total number of blank nodes
+SELECT (COUNT(?s) AS ?count) WHERE { ?s ?p ?o FILTER ISBLANK(?s) }

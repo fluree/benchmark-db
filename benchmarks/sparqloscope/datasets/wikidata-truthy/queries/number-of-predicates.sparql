@@ -1,0 +1,2 @@
+# Total number of distinct predicates
+SELECT (COUNT(DISTINCT ?p) AS ?count) WHERE { ?s ?p ?o }

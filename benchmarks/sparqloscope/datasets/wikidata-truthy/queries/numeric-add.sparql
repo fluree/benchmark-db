@@ -1,0 +1,2 @@
+# Addition
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(?o + ?o) AS ?sum) WHERE { ?s schema:version ?o }

@@ -1,0 +1,2 @@
+# JOIN of two predicates with the largest possible result
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) WHERE { ?s schema:name ?o1 . ?s rdfs:label ?o2 }

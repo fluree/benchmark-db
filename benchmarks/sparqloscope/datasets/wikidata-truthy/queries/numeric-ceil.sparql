@@ -1,0 +1,2 @@
+# CEIL function
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(CEIL(?o)) AS ?sum) WHERE { ?s schema:version ?o }

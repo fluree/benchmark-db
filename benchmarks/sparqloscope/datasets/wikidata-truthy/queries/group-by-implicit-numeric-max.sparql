@@ -1,0 +1,2 @@
+# Implicit GROUP BY with MAX on numeric predicate
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (MAX(?o) AS ?max) { ?s schema:version ?o. }

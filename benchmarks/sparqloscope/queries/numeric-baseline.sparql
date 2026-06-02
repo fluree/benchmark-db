@@ -1,0 +1,2 @@
+# Baseline for numeric queries
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (SUM(?o) AS ?sum) WHERE { ?s dblp:numberOfCreators ?o }

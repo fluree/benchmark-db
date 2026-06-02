@@ -1,0 +1,2 @@
+# Implicit GROUP BY with SUM on numeric predicate
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(?o) AS ?sum) { ?s schema:version ?o. }

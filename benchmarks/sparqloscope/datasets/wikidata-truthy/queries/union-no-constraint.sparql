@@ -1,0 +1,2 @@
+# UNION of two large predicates, no constraint
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) WHERE { { ?s schema:description ?o } UNION { ?s schema:name ?o } }

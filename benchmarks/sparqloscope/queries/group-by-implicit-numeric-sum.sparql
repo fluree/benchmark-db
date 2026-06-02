@@ -1,0 +1,2 @@
+# Implicit GROUP BY with SUM on numeric predicate
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (SUM(?o) AS ?sum) { ?s dblp:numberOfCreators ?o. }

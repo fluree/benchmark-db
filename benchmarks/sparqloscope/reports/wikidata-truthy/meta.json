@@ -1,0 +1,100 @@
+{
+  "status": "8.19B-triple 2026-05-29 truthy snapshot on r7a.16xlarge (64c/512GB/3TB). Four engines: Fluree 94/105, QLever latest 91/105, Virtuoso 7.2.5.1 80/105 (loaded 8.17B, geo:wktLiteral dropped), MillenniumDB v1.0.0 63/105 (loaded full 8.18B). Jena EXCLUDED (TDB2 xloader did not finish loading 8.19B within the run window). Blazegraph EXCLUDED (drops blank nodes even with storeBlankNodes=true + scale ceiling). 105 queries, 1 warmup + 3 runs, 300s timeout (early-abort). Fluree ran the v4.0.5 pre-release count-fastpath build (reports 4.0.4); queries are COUNT-dominated. Engine-vs-engine on this box only.",
+  "dataset": {
+    "name": "Wikidata Truthy",
+    "description": "Wikidata 'truthy' dump (latest-truthy.nt.gz)",
+    "source_url": "https://dumps.wikimedia.org/wikidatawiki/entities/latest-truthy.nt.gz",
+    "version": "snapshot 2026-05-29 11:17:24 GMT (rolling latest; pinned as GitHub release wikidata-truthy-source-20260529). Paper used 'as of 2025-04-18', no longer on the live mirror.",
+    "sha256": "9fb5a16502ac05d9b9aad9f161bfe4e3e9ac514e142d7cf5ae4efd030b9f739a",
+    "triples": 8186371175,
+    "predicates": 13306,
+    "subjects": 250814143,
+    "objects": 1660872132,
+    "size_disk": "70,497,233,745 bytes (~70.5 GB compressed .nt.gz; ~700 GB+ uncompressed)"
+  },
+  "hardware": {
+    "instance": "AWS r7a.16xlarge",
+    "cpu": "AMD EPYC (Zen 4), no-SMT",
+    "cores": 64,
+    "ram_gb": 512,
+    "disk": "3 TB gp3 (12000 IOPS / 600 MB/s)",
+    "os": "Ubuntu 24.04"
+  },
+  "methodology": {
+    "warmup": 1,
+    "runs": 3,
+    "metric": "median",
+    "timeout_s": 300,
+    "accept": "text/tab-separated-values",
+    "notes": "QLever result cache disabled + cleared per query. Reference engine: QLever."
+  },
+  "engines": {
+    "fluree": {
+      "label": "Fluree",
+      "version": "4.0.4",
+      "commit": "ba88283 (feature/count-plan-aggregate-fastpaths)",
+      "config": "server cache auto (~252 GB / 50% RAM); inline-indexed ledger; ulimit -n raised to 1048576 for the import",
+      "import": {
+        "time": "4,079 s (1:08:02)",
+        "throughput": "2.01 M flakes/s",
+        "peak_ram": "179 GB",
+        "index_size": "201 GB",
+        "notes": "8,186.4M flakes across 1444 commits. Imported from a directory of 1444 single-member gzip shards (<768 MB each) as a workaround: Fluree's streaming chunker fails on uncompressed and on the 70 GB multi-member gzip for this high-prefix-cardinality data (see import bug report).",
+        "phases": "parse+commit ~35 cores to ~49 GB storage, then single-threaded index sort/merge buffering to ~179 GB RAM, then flush to 201 GB index"
+      }
+    },
+    "qlever": {
+      "label": "QLever",
+      "version": "latest",
+      "commit": "b802870 (adfreiburg/qlever:latest)",
+      "config": "index -m 300G, num-triples-per-batch 10M, vocab on-disk-compressed; server MEMORY_FOR_QUERIES 200G, result cache disabled+cleared per query; docker --ulimit nofile=1048576 (required for vocab merge)",
+      "import": {
+        "time": "8,653 s (2:24:13)",
+        "throughput": "0.95 M triples/s",
+        "peak_ram": "n/a (mmap index)",
+        "index_size": "180 GB",
+        "notes": "Parallel-parsed the single N-Triples stream (no @prefix) at ~2.8M/s from pigz -dc. QLever indexed 8,180,599,054 triples (Fluree 8,186,371,175; +0.07% delta \u2014 QLever dedups exact-duplicate triples). First attempt failed merging 816 partial vocabularies on the default 1024 fd limit inside Docker; fixed with --ulimit nofile=1048576 and re-ran.",
+        "phases": "parse ~48min, then convert-to-global-ids + 6-permutation sort/build"
+      }
+    },
+    "virtuoso": {
+      "label": "Virtuoso",
+      "version": "7.2.5.1 (Ubuntu apt, virtuoso-opensource-7)",
+      "commit": "07.20.3229",
+      "config": "NumberOfBuffers 32M / MaxDirtyBuffers 24M (~256GB), ServerThreads 200, MaxQueryExecutionTime 300s, ResultSetMaxRows 10M. Loaded via ld_dir of 1444 single-member .nt.gz shards into graph <https://www.wikidata.org/>, 32 parallel rdf_loader_run. Queries: form-POST (url-encoded query=) + default-graph-uri. No result cache (warm buffers, like Fluree).",
+      "import": {
+        "time": "~108 min (40 min initial + 68 min geo-fix reload)",
+        "throughput": "n/a",
+        "peak_ram": "n/a",
+        "index_size": "367 GB (virtuoso.db; 434 GB db dir)",
+        "notes": "Loaded 8,174,845,462 triples. 629/1444 shards initially aborted on Wikidata geo:wktLiteral (RDFGE error; no INI flag to disable; known Virtuoso issue), fixed by filtering wktLiteral from the failed shards and reloading -> drops ~11.5M geo-coordinate triples (99.86% of dataset). 4 shards hit an RDF_LANGUAGE primary-key race on parallel load.",
+        "phases": ""
+      }
+    },
+    "mdb": {
+      "label": "MillenniumDB",
+      "version": "v1.0.0",
+      "commit": "6118e08 (built from source)",
+      "config": "cmake Release build (deps: libboost-all-dev, libicu-dev, libncurses-dev, libssl-dev). Import: pigz -dc | mdb import --format ttl --buffer-strings 100GB --buffer-tensors 100GB. Server: --versioned-buffer 120GB, strings 15/10GB, tensors 5/5GB, --threads 64 --timeout 300. Endpoint :1234/sparql (body POST). No result cache.",
+      "import": {
+        "time": "5.05 h (18,193 s)",
+        "throughput": "0.45 M triples/s",
+        "peak_ram": "n/a",
+        "index_size": "327 GB",
+        "notes": "Imported 8,180,602,084 triples (matches QLever's 8.18B exactly -- cleanest full load of the non-Fluree/QLever engines, no data loss). Server buffer total must stay below available RAM (288GB total failed to allocate right after the import).",
+        "phases": ""
+      }
+    }
+  },
+  "caveats": [
+    "Wikidata Truthy is the second dataset with a published SPARQLoscope reference (alongside DBLP).",
+    "NOT comparable to the published SPARQLoscope table / paper: that used the 2025-04-18 truthy snapshot (~7.94B, gone from the live mirror); this is the current 2026-05-29 snapshot (~8.19B). Engine-vs-engine on this box is valid; absolute per-query COUNTs will not match the paper's reference yaml.",
+    "Fluree was built from the COUNT-optimized count-plan-aggregate-fastpaths branch (ba88283), and the SPARQLoscope queries are COUNT-dominated \u2014 weigh Fluree's aggregate lead accordingly.",
+    "QLever result cache disabled + cleared per query (re-executes each run) to match Fluree's no-result-cache behavior; stricter than the paper's run-once-with-warm-cache protocol.",
+    "Triple-count delta: Fluree 8,186,371,175 vs QLever 8,180,599,054 (+0.07%) \u2014 different exact-duplicate handling on import (QLever dedups exact-duplicate triples). Both agree exactly on 13,306 predicates and 250,814,143 subjects; distinct-object counts differ (Fluree 1,660,872,132 vs QLever 1,671,827,330, ~0.66%) \u2014 literal-normalization difference.",
+    "Both engines required a raised open-file limit (nofile 1048576) to index 8B triples: Fluree's import and QLever's vocabulary merge each hit the default 1024 fd limit (Fluree natively; QLever inside Docker via --ulimit).",
+    "Result-equivalence (per-query correctness): a 60s spot-check shows count queries mostly agree exactly between engines (e.g. exists-join-2-large-large-with-large-result = 1,702,521,603 both); join-family queries (exists/minus/optional with small results) diverge ~0.2-0.7%, tracking the triple-count delta plus OPTIONAL/blank-node semantics. (Full multi-row result-equivalence diffing is out of scope for this run.)",
+    "Virtuoso loaded 8,174,845,462 triples (~11.5M fewer than the others): Wikidata's geo:wktLiteral coordinates trigger Virtuoso's RDFGE error which aborts the whole shard, and the documented workaround drops those geo-coordinate triples (see common/engine-setup/virtuoso.md). Virtuoso also returns HTTP 500 on transitive-path-plus and times out on number-of-objects/subjects (no COUNT fastpath) -- expected (also in the published SPARQLoscope DBLP Virtuoso run); 80/105 passed.",
+    "MillenniumDB loaded the full 8,180,602,084 triples (matches QLever exactly). 63/105 passed, 42 timeouts (no HTTP errors) -- slowest of the loaded engines on the heavy COUNT/join/string categories, but a clean complete load."
+  ]
+}

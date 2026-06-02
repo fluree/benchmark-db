@@ -1,0 +1,23 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='760' height='252' viewBox='0 0 760 252' font-family='-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif'>
+<rect width='760' height='252' fill='white'/>
+<text x='20' y='26' font-size='17' font-weight='700' fill='#1e293b'>Wikidata-truthy (8.19B triples) · geometric-mean query time</text>
+<text x='20' y='46' font-size='12.5' fill='#64748b'>4 engines on one box (AWS r7a.16xlarge, 64c / 512 GB) · log scale, lower is better</text>
+<line x1='150.0' y1='64' x2='150.0' y2='212' stroke='#e2e8f0' stroke-width='1'/>
+<text x='150.0' y='228' font-size='11' fill='#64748b' text-anchor='middle'>500 ms</text>
+<line x1='256.4' y1='64' x2='256.4' y2='212' stroke='#e2e8f0' stroke-width='1'/>
+<text x='256.4' y='228' font-size='11' fill='#64748b' text-anchor='middle'>1 s</text>
+<line x1='610.0' y1='64' x2='610.0' y2='212' stroke='#e2e8f0' stroke-width='1'/>
+<text x='610.0' y='228' font-size='11' fill='#64748b' text-anchor='middle'>10 s</text>
+<text x='140' y='86.5' font-size='12.5' font-weight='700' fill='#1e293b' text-anchor='end'>Fluree</text>
+<rect x='150' y='71.4' width='105.5' height='22.2' rx='3' fill='#0d9488'/>
+<text x='263.5' y='86.5' font-size='12' font-weight='700' fill='#1e293b'>994 ms  <tspan fill='#64748b'>1.0× · 94/105</tspan></text>
+<text x='140' y='123.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>QLever</text>
+<rect x='150' y='108.4' width='187.0' height='22.2' rx='3' fill='#94a3b8'/>
+<text x='345.0' y='123.5' font-size='12' font-weight='400' fill='#1e293b'>1.7 s  <tspan fill='#64748b'>1.7× · 91/105</tspan></text>
+<text x='140' y='160.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>MillenniumDB</text>
+<rect x='150' y='145.4' width='315.3' height='22.2' rx='3' fill='#94a3b8'/>
+<text x='473.3' y='160.5' font-size='12' font-weight='400' fill='#1e293b'>3.9 s  <tspan fill='#64748b'>3.9× · 63/105</tspan></text>
+<text x='140' y='197.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Virtuoso</text>
+<rect x='150' y='182.4' width='388.9' height='22.2' rx='3' fill='#94a3b8'/>
+<text x='546.9' y='197.5' font-size='12' font-weight='400' fill='#1e293b'>6.3 s  <tspan fill='#64748b'>6.3× · 80/105</tspan></text>
+</svg>

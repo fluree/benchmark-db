@@ -1,0 +1,2 @@
+# YEAR function
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(YEAR(?o)) AS ?sum) WHERE { ?s schema:dateModified ?o }

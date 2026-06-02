@@ -1,0 +1,2 @@
+# COUNT DISTINCT, for object but not sorted by object
+PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(DISTINCT ?o1) AS ?count) { ?s wdt:P13046 ?o1 . ?s schema:description ?o2 . }

@@ -1,0 +1,2 @@
+# Implicit GROUP BY with MIN on numeric predicate
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (MIN(?o) AS ?min) { ?s schema:version ?o. }

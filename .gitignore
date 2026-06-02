@@ -1,0 +1,28 @@
+# Downloaded datasets (matches data/ at any depth)
+data/
+*.ttl
+*.ttl.gz
+*.nt
+*.nt.gz
+*.tar
+
+# Benchmark run output (curated copies live in reports/<ds>/engines/)
+results/
+
+# Local Fluree project / server state
+.fluree/
+
+# Logs
+*.log
+
+# Internal analysis notes (not part of the published benchmark)
+db-team-regression-report.md
+fluree-slowspots-report.md
+
+# Python / OS cruft
+__pycache__/
+*.pyc
+.DS_Store
+
+# Local editor/agent state
+.claude/

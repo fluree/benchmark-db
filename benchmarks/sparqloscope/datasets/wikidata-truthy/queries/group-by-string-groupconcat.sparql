@@ -1,0 +1,2 @@
+# GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(STRLEN(?cat)) AS ?sum) { { SELECT (GROUP_CONCAT(?o; SEPARATOR=" ") AS ?cat) { ?s schema:description ?o. } GROUP BY ?s } }

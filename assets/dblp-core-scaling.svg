@@ -1,0 +1,33 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='760' height='380' viewBox='0 0 760 380' font-family='-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif'>
+<rect width='760' height='380' fill='white'/>
+<text x='20' y='26' font-size='17' font-weight='700' fill='#1e293b'>Fluree scales down 4× and still beats the field</text>
+<text x='20' y='46' font-size='12.5' fill='#64748b'>DBLP-core · arithmetic-mean query time · every config 105/105 · lower is better</text>
+<line x1='60' y1='310.0' x2='730' y2='310.0' stroke='#e2e8f0' stroke-width='1'/>
+<text x='52' y='314.0' font-size='10.5' fill='#64748b' text-anchor='end'>0</text>
+<line x1='60' y1='255.5' x2='730' y2='255.5' stroke='#e2e8f0' stroke-width='1'/>
+<text x='52' y='259.5' font-size='10.5' fill='#64748b' text-anchor='end'>500</text>
+<line x1='60' y1='200.9' x2='730' y2='200.9' stroke='#e2e8f0' stroke-width='1'/>
+<text x='52' y='204.9' font-size='10.5' fill='#64748b' text-anchor='end'>1000</text>
+<line x1='60' y1='146.4' x2='730' y2='146.4' stroke='#e2e8f0' stroke-width='1'/>
+<text x='52' y='150.4' font-size='10.5' fill='#64748b' text-anchor='end'>1500</text>
+<line x1='60' y1='91.8' x2='730' y2='91.8' stroke='#e2e8f0' stroke-width='1'/>
+<text x='52' y='95.8' font-size='10.5' fill='#64748b' text-anchor='end'>2000</text>
+<line x1='60' y1='93.3' x2='730' y2='93.3' stroke='#94a3b8' stroke-width='2' stroke-dasharray='7 4'/>
+<text x='730' y='86.3' font-size='11.5' fill='#64748b' text-anchor='end' font-weight='600'>QLever — 2nd place, full 16c/64 GB box (1,986 ms)</text>
+<rect x='93.5' y='203.0' width='67.0' height='107.0' rx='3' fill='#0d9488'/>
+<text x='127.0' y='195.0' font-size='12' font-weight='700' fill='#1e293b' text-anchor='middle'>981 ms</text>
+<text x='127.0' y='328.0' font-size='11.5' fill='#1e293b' text-anchor='middle'>16c / 64 GB</text>
+<rect x='227.5' y='196.2' width='67.0' height='113.8' rx='3' fill='#0d9488'/>
+<text x='261.0' y='188.2' font-size='12' font-weight='700' fill='#1e293b' text-anchor='middle'>1,043 ms</text>
+<text x='261.0' y='328.0' font-size='11.5' fill='#1e293b' text-anchor='middle'>16c / 32 GB</text>
+<rect x='361.5' y='197.9' width='67.0' height='112.1' rx='3' fill='#0d9488'/>
+<text x='395.0' y='189.9' font-size='12' font-weight='700' fill='#1e293b' text-anchor='middle'>1,028 ms</text>
+<text x='395.0' y='328.0' font-size='11.5' fill='#1e293b' text-anchor='middle'>8c / 32 GB</text>
+<rect x='495.5' y='196.1' width='67.0' height='113.9' rx='3' fill='#0d9488'/>
+<text x='529.0' y='188.1' font-size='12' font-weight='700' fill='#1e293b' text-anchor='middle'>1,044 ms</text>
+<text x='529.0' y='328.0' font-size='11.5' fill='#1e293b' text-anchor='middle'>8c / 16 GB</text>
+<rect x='629.5' y='194.1' width='67.0' height='115.9' rx='3' fill='#0d9488'/>
+<text x='663.0' y='186.1' font-size='12' font-weight='700' fill='#1e293b' text-anchor='middle'>1,062 ms</text>
+<text x='663.0' y='328.0' font-size='11.5' fill='#1e293b' text-anchor='middle'>4c / 16 GB</text>
+<text x='20' y='362' font-size='11.5' fill='#64748b'>Even at 1/4 the cores and RAM (4c/16 GB), Fluree (1,062 ms) is 1.9× faster than QLever on the full box.</text>
+</svg>

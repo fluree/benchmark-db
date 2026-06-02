@@ -1,0 +1,2 @@
+# Export 100K tuples
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT ?s ?o WHERE { ?s schema:description ?o } LIMIT 100000

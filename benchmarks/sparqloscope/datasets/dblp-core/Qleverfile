@@ -1,0 +1,30 @@
+# Qleverfile for the standard DBLP-core dataset (bibliography, no citations),
+# for use with qlever-control (https://github.com/ad-freiburg/qlever-control).
+#
+# This is the dataset the SPARQLoscope DBLP query set targets, minus the
+# OpenCitations data in the larger dblp-kg tar. Unlike that tar, this is a single
+# N-Triples file with no inline @prefix, so a PLAIN `qlever index` works:
+# parallel parsing is fine and merge memory is modest. Sized for a 64 GB box.
+
+[data]
+NAME         = dblp
+GET_DATA_URL = https://drops.dagstuhl.de/storage/artifacts/dblp/rdf/2026/dblp-2026-06-01.nt.gz
+GET_DATA_CMD = curl -LRC - -o dblp-2026-06-01.nt.gz ${GET_DATA_URL}
+DESCRIPTION  = DBLP-core bibliography, N-Triples 2026-06-01 (SPARQLoscope)
+
+[index]
+INPUT_FILES     = dblp-2026-06-01.nt.gz
+CAT_INPUT_FILES = zcat ${INPUT_FILES}
+SETTINGS_JSON   = { "num-triples-per-batch": 5000000, "group-by-hash-map-enabled" : true }
+VOCABULARY_TYPE = on-disk-compressed
+
+[server]
+PORT               = 7015
+ACCESS_TOKEN       = dblp_token
+MEMORY_FOR_QUERIES = 40G
+CACHE_MAX_SIZE     = 10G
+TIMEOUT            = 300s
+
+[runtime]
+SYSTEM = docker
+IMAGE  = docker.io/adfreiburg/qlever:latest

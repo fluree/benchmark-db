@@ -1,0 +1,2 @@
+# GROUP BY with COUNT, for object with low multiplicity
+PREFIX p: <http://www.wikidata.org/prop/> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT ?object (COUNT(?subject) AS ?count) { ?subject skos:prefLabel ?object . } GROUP BY ?object ORDER BY DESC(?count) LIMIT 10
