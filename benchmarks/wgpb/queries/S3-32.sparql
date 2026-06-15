@@ -1,0 +1,1 @@
+SELECT * WHERE { ?x1 <http://wikiba.se/ontology-beta#novalue> ?x2 . ?x2 <http://www.w3.org/2002/07/owl#complementOf> ?x3 . ?x3 <http://www.w3.org/2002/07/owl#onProperty> ?x4 . ?x1 <http://wikiba.se/ontology-beta#directClaim> ?x4 } LIMIT 1000

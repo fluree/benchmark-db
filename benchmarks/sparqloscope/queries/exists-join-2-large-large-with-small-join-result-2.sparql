@@ -1,0 +1,2 @@
+# EXISTS JOIN of two large predicates with a small join result
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (COUNT(*) AS ?count) WHERE { ?s dblp:publishedInJournalVolume ?o1 . FILTER EXISTS { ?s dblp:publishedAsPartOf ?o2 } }

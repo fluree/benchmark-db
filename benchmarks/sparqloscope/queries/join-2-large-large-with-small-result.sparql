@@ -1,0 +1,2 @@
+# JOIN of two large predicates with a small result
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (COUNT(*) AS ?count) WHERE { ?s dblp:publishedAsPartOf ?o1 . ?s dblp:publishedInJournalVolume ?o2 }

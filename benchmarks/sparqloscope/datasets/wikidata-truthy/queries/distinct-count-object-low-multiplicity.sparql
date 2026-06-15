@@ -1,0 +1,2 @@
+# COUNT DISTINCT, for object with low multiplicity
+PREFIX p: <http://www.wikidata.org/prop/> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> SELECT (COUNT(DISTINCT ?object) AS ?count) { ?subject skos:prefLabel ?object . }

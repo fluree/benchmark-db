@@ -1,0 +1,2 @@
+# Transitive path with a large join and plus
+PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) { ?s wdt:P921/wdt:P2293+ ?o }

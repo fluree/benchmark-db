@@ -1,0 +1,35 @@
+# Qleverfile for the Wikidata Truthy dataset, for use with qlever-control
+# (https://github.com/ad-freiburg/qlever-control).
+#
+# This is the dataset the SPARQLoscope Wikidata query set targets: the Wikidata
+# "truthy" dump (latest-truthy.nt.gz), a single gzipped N-Triples file with
+# fully-expanded IRIs (no per-shard @prefix), so a PLAIN parallel parse works.
+# At ~8B triples the index build needs a large sort/merge memory; sized for a
+# 512 GB box (r7a.16xlarge).
+#
+# NOTE: the standard Qleverfile sort memory (-m) is a CLI flag, not a field here.
+# For ~8B triples use a large -m (e.g. -m 350G on this box).
+# See ../../../../common/engine-setup/qlever.md.
+
+[data]
+NAME         = wikidata-truthy
+GET_DATA_URL = https://dumps.wikimedia.org/wikidatawiki/entities/latest-truthy.nt.gz
+GET_DATA_CMD = curl -LRC - -o latest-truthy.nt.gz ${GET_DATA_URL}
+DESCRIPTION  = Wikidata Truthy, N-Triples 2026-05-29 (SPARQLoscope)
+
+[index]
+INPUT_FILES     = latest-truthy.nt.gz
+CAT_INPUT_FILES = zcat ${INPUT_FILES}
+SETTINGS_JSON   = { "num-triples-per-batch": 10000000, "group-by-hash-map-enabled" : true }
+VOCABULARY_TYPE = on-disk-compressed
+
+[server]
+PORT               = 7015
+ACCESS_TOKEN       = wikidata_token
+MEMORY_FOR_QUERIES = 200G
+CACHE_MAX_SIZE     = 50G
+TIMEOUT            = 300s
+
+[runtime]
+SYSTEM = docker
+IMAGE  = docker.io/adfreiburg/qlever:latest

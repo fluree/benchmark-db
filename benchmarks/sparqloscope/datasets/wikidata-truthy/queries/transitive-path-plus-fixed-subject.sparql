@@ -1,0 +1,2 @@
+# Transitive path with plus and a fixed subject
+PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX wd: <http://www.wikidata.org/entity/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) { wd:Q81867 wdt:P2293+ ?o }

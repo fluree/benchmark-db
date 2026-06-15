@@ -1,0 +1,62 @@
+{
+  "status": "Run 2026-06-12 on Fluree v4.0.6. 850 WGPB graph-pattern queries against the full Wikidata all-dump (21.5B triples) on AWS r7a.8xlarge (32c/256GB). 100% completion: 0 timeouts, 0 errors. Geo 43 ms, median 33 ms; <100ms 73.8%, <1s 97.1%. 1 warmup + 3 runs, median (fractional-ms harness), 120s timeout.",
+  "benchmark": {
+    "name": "Wikidata Graph Pattern Benchmark (WGPB)",
+    "description": "850 basic graph pattern queries: 17 abstract join shapes x 50 instances, predicates sampled from Wikidata. Each query is SELECT * ... LIMIT 1000 over prop/direct truthy edges.",
+    "source": "Hogan, Riveros, Rojas, Soto: 'A Worst-Case Optimal Join Algorithm for SPARQL' (ISWC 2019); query set Zenodo 4035223",
+    "families": {
+      "J3/J4": "object-object joins on a shared variable (3/4 triple patterns)",
+      "P2/P3/P4": "directed paths of length 2/3/4",
+      "S1": "directed 4-cycle (square)",
+      "S2": "bipartite square: two subjects sharing two objects",
+      "S3": "mixed-direction 4-cycle",
+      "S4": "converging square: two paths meeting at both ends",
+      "T2/T3/T4": "subject out-stars: 2/3/4 patterns sharing a subject",
+      "TI2/TI3/TI4": "object in-stars: 2/3/4 patterns sharing an object",
+      "Tr1/Tr2": "triangles (directed variants)"
+    }
+  },
+  "dataset": {
+    "name": "Wikidata all-dump",
+    "description": "Full Wikidata RDF dump (latest-all.nt.gz), all statements",
+    "source_url": "https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.nt.gz",
+    "version": "snapshot dated 2026-06-04; pinned in S3 as wikidata-all/all-2026-06-04.nt.gz",
+    "size_source": "250,036,308,745 bytes compressed (~3 TB uncompressed N-Triples)",
+    "triples": 21512007172,
+    "unique_subjects": 2560000000,
+    "unique_predicates": 62901
+  },
+  "engine": {
+    "name": "Fluree",
+    "version": "v4.0.6",
+    "import": "6,785 gzip shards, --parallelism 32, wall 6h44m, 794 GB index",
+    "server": "fluree server, HTTP SPARQL endpoint, cache budget 35% of RAM"
+  },
+  "hardware": {
+    "instance": "AWS r7a.8xlarge",
+    "cpu": "AMD EPYC (Zen 4), no-SMT",
+    "cores": 32,
+    "ram_gb": 256,
+    "disk": "3 TB gp3 (16000 IOPS / 1000 MB/s)",
+    "os": "Ubuntu 24.04"
+  },
+  "methodology": {
+    "warmup": 1,
+    "runs": 3,
+    "metric": "median",
+    "timeout_s": 120,
+    "accept": "text/tab-separated-values",
+    "notes": "Index (794 GB) exceeds RAM (256 GB); the warmup run absorbs most cold-cache I/O. All 850 queries completed within the timeout."
+  },
+  "results": {
+    "completed": 850,
+    "timeouts": 0,
+    "errors": 0,
+    "geo_mean_ms": 43,
+    "median_ms": 33,
+    "arith_mean_ms": 182,
+    "max_ms": 18974,
+    "under_100ms": 627,
+    "under_1s": 825
+  }
+}

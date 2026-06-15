@@ -1,0 +1,48 @@
+engine	scale	usecase	clients	warmup	runs	qmph	timeouts	notes
+# Explore SELECT-subset (drops Q9 DESCRIBE + Q12 CONSTRUCT), deep-warm w200/r100 — 3-way apples-to-apples
+fluree	1m	explore-subset	1	200	100	41577.43	0
+virtuoso	1m	explore-subset	1	200	100	12092.84	0
+qlever	1m	explore-subset	1	200	100	2773.01	0
+fluree	100m	explore-subset	1	200	100	9756.91	0
+virtuoso	100m	explore-subset	1	200	100	6781.55	0
+qlever	100m	explore-subset	1	200	100	2145.39	0
+fluree	200m	explore-subset	1	200	100	6092.34	0
+virtuoso	200m	explore-subset	1	200	100	6477.97	0
+qlever	200m	explore-subset	1	200	100	2209.80	0
+fluree	100m	explore-subset	4	200	100	36868.55	0
+virtuoso	100m	explore-subset	4	200	100	15298.13	0
+qlever	100m	explore-subset	4	200	100	6345.20	0
+fluree	100m	explore-subset	8	200	100	69792.99	0
+virtuoso	100m	explore-subset	8	200	100	26238.46	0
+qlever	100m	explore-subset	8	200	100	9698.92	0
+fluree	100m	explore-subset	16	200	100	115903.00	0
+virtuoso	100m	explore-subset	16	200	100	47909.86	0
+qlever	100m	explore-subset	16	200	100	16399.45	0
+fluree	100m	explore-subset	32	200	100	115929.07	0
+virtuoso	100m	explore-subset	32	200	100	51338.52	0
+qlever	100m	explore-subset	32	200	100	22408.18	0
+# Explore FULL standard mix (12 templates), deep-warm w200/r100 — Fluree vs Virtuoso only (QLever has no RDF/XML for Q9/Q12)
+fluree	1m	explore-full	1	200	100	40301.25	0
+virtuoso	1m	explore-full	1	200	100	10898.26	0
+fluree	100m	explore-full	1	200	100	10204.43	0
+virtuoso	100m	explore-full	1	200	100	7415.46	0
+fluree	200m	explore-full	1	200	100	6090.31	0
+virtuoso	200m	explore-full	1	200	100	6781.41	0
+# Business Intelligence (8 analytic queries) — 3-way; BI 100m/200m is the -fc root-type artifact (all engines)
+fluree	1m	bi	1	2	20	2992.65	0
+virtuoso	1m	bi	1	2	20	323.06	0
+qlever	1m	bi	1	2	10	715.91	0
+fluree	1m	bi	32	2	20	24783.91	0
+virtuoso	1m	bi	32	2	20	2165.08	0
+qlever	1m	bi	16	2	10	1501.01	0	peak (c16)
+fluree	100m	bi	1	2	6	28.69	0
+virtuoso	100m	bi	1	2	6	26.47	6
+qlever	100m	bi	1	2	6	42.05	3
+fluree	200m	bi	1	1	3	12.28	1
+virtuoso	200m	bi	1	1	3	20.56	3
+qlever	200m	bi	1	1	3	35.16	2
+# Explore-and-Update (1M) — Fluree vs Virtuoso (QLever read-only, cannot run)
+fluree	1m	update	1	2	15	3337.96	0
+virtuoso	1m	update	1	2	15	3230.72	0
+fluree	1m	update	32	2	15	6519.83	0	plateau (serialized writes)
+virtuoso	1m	update	16	2	15	152472.28	0	peak; mix is read-heavy + MVCC

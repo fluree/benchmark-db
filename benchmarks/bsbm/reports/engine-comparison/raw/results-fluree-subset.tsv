@@ -1,0 +1,8 @@
+engine	scale	usecase	clients	warmup	runs	qmph	totalruntime	timeouts
+fluree	1m	exps	1	200	100	41577.43		0
+fluree	100m	exps	1	200	100	9756.91		0
+fluree	100m	exps	4	200	100	36868.55		0
+fluree	100m	exps	8	200	100	69792.99		0
+fluree	100m	exps	16	200	100	115903.00		0
+fluree	100m	exps	32	200	100	115929.07		0
+fluree	200m	exps	1	200	100	6092.34		0

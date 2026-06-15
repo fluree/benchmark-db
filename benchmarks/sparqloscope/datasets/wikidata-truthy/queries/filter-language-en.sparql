@@ -1,0 +1,2 @@
+# FILTER on string predicate for only English literals
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(?s) AS ?count) { ?s schema:description ?o . FILTER(LANG(?o) = "en") }

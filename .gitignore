@@ -1,0 +1,45 @@
+# Downloaded datasets (matches data/ at any depth)
+data/
+*.ttl
+*.ttl.gz
+*.nt
+*.nt.gz
+*.tar
+
+# LUBM generated instance data + build logs (regenerable via the UBA generator)
+benchmarks/lubm/datasets/*/build/owl/
+benchmarks/lubm/datasets/*/build/log.txt
+
+# Benchmark run output (curated copies live in reports/<ds>/engines/)
+results/
+
+# Local Fluree project / server state
+.fluree/
+
+# Logs
+*.log
+
+# Internal analysis notes (not part of the published benchmark)
+db-team-regression-report.md
+fluree-slowspots-report.md
+
+# LUBM reasoning benchmark — work in progress, held out of the published tree
+# (single-engine, results not yet validated; kept in git history only)
+benchmarks/lubm/
+
+# Internal AWS fleet-orchestration scripts (account-specific: SG/key/AMI/profile).
+# Reproduction uses the per-engine bootstrap scripts + engine-setup/*.md instead.
+common/launch_parallel_bench.sh
+common/launch_scaling_bench.sh
+common/launch_wikidata_truthy_bench.sh
+
+# Compiled artifacts
+*.class
+
+# Python / OS cruft
+__pycache__/
+*.pyc
+.DS_Store
+
+# Local editor/agent state
+.claude/

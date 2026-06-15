@@ -1,0 +1,1 @@
+SELECT * WHERE { ?x <http://wikiba.se/ontology-beta#novalue> ?y . ?x <http://wikiba.se/ontology-beta#directClaim> ?z } LIMIT 1000

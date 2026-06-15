@@ -1,0 +1,2 @@
+# Total number of literals
+SELECT (COUNT(?o) AS ?count) WHERE { ?s ?p ?o FILTER ISLITERAL(?o) }

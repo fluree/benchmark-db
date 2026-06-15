@@ -1,0 +1,2 @@
+# MINUS JOIN of a large and a small predicate
+PREFIX schema: <http://schema.org/> PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(*) AS ?count) WHERE { ?s schema:description ?o1 MINUS { ?s wdtn:P8024 ?o2 } }

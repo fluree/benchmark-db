@@ -1,0 +1,2 @@
+# COUNT DISTINCT, for object with high multiplicity
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT (COUNT(DISTINCT ?object) AS ?count) { ?subject rdf:type ?object . }

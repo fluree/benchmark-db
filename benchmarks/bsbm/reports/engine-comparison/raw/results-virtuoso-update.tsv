@@ -1,0 +1,6 @@
+engine	scale	usecase	clients	warmup	runs	qmph	totalruntime	timeouts
+virtuoso	1m	update	1	2	15	3230.72		0
+virtuoso	1m	update	4	2	15	43134.23		0
+virtuoso	1m	update	8	2	15	119751.90		0
+virtuoso	1m	update	16	2	15	152472.28		0
+virtuoso	1m	update	32	2	15	107201.00		0

@@ -1,0 +1,2 @@
+# Implicit GROUP BY with COUNT on numeric predicate as baseline
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(?o) AS ?count) { ?s schema:version ?o. }

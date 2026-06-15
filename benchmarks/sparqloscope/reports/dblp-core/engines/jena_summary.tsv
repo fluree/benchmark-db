@@ -1,0 +1,106 @@
+query_id	description	status	median_ms	min_ms	max_ms	result_size	error
+date-day	DAY function	200	1654.548	1562.495	1676.652	6	
+date-month	MONTH function	200	2476.803	2471.109	2496.2	6	
+date-year	YEAR function	200	2068.996	2040.569	2252.482	17	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	200	21884.479	21858.969	24596.18	10	
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	200	30052.918	29902.405	32333.494	9	
+exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	200	78987.7335	77165.489	80809.978	16	
+exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	200	13894.119	13865.806	13902.678	12	
+exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	200	14046.368	14040.954	14063.015	12	
+exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	200	170026.734	170026.734	170026.734	16	
+exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+exists-join-large-large	EXISTS JOIN of two large predicates	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+exists-join-large-small	EXISTS JOIN of a large and a small predicate	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	200	9.903	8.709	11.12	12	
+filter-few-results	FILTER that filters out most rows and has few results	200	10954.397	10947.081	11042.925	9	
+filter-language-en	FILTER on string predicate for only English literals	200	63744.9065	61071.855	66417.958	9	
+filter-many-results	FILTER that filters out few rows and has many results	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	200	2806.996	2775.805	3126.702	32	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	200	2646.333	2414.96	3052.353	15	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	200	2506.653	2498.031	2689.506	9	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	200	3048.493	2941.529	3060.989	7	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	200	2663.216	2633.433	3094.69	14	
+group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+join-2-large-large	JOIN of two large predicates	200	80370.6635	80210.008	80531.319	16	
+join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	200	93497.418	93497.418	93497.418	17	
+join-2-large-large-with-small-result	JOIN of two large predicates with a small result	200	12856.127	12639.929	12896.379	12	
+join-2-large-small	JOIN of a large and a small predicate	200	8.172	6.138	8.258	12	
+join-2-largest-result	JOIN of two predicates with the largest possible result	200	94826.725	94826.725	94826.725	17	
+join-2-small-large	JOIN of a small and a large predicate	200	7.798	6.047	8.076	12	
+join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	200	10.777	8.81	11.88	9	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	200	10.254	10.036	11.316	9	
+minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	200	103804.636	103804.636	103804.636	9	
+minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-large-large	MINUS JOIN of two large predicates	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-large-small	MINUS JOIN of a large and a small predicate	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+minus-join-small-large	MINUS JOIN of a small and a large predicate	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+multicolumn-join-large	Multicolumn JOIN large	200	69778.274	69675.638	69880.91	16	
+multicolumn-join-small	Multicolumn JOIN small	200	4.745	2.821	4.882	9	
+number-of-blank-nodes	Total number of blank nodes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+number-of-literals	Total number of literals	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+number-of-objects	Total number of distinct objects	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+number-of-predicates	Total number of distinct predicates	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+number-of-subjects	Total number of distinct subjects	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+number-of-triples	Total number of triples	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-abs	ABS function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-add	Addition	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-baseline	Baseline for numeric queries	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-ceil	CEIL function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-floor	FLOOR function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-greater	Greater than	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+numeric-round	ROUND function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-large-large	OPTIONAL JOIN of two large predicates	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	000	180001.159	180001.159	180001.159	0	
+regex-3	REGEX filter with expression of length 3	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+regex-3-contains	CONTAINS filter with fixed string of length 3	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+regex-3-fixed	REGEX filter with fixed string of length 3	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+regex-prefix-1	REGEX filter with prefix of length 1	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+regex-prefix-2	REGEX filter with prefix of length 2	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+regex-prefix-3	REGEX filter with prefix of length 3	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+result-size-large	Export 1M tuples	200	155530.259	155530.259	155530.259	89285346	
+result-size-medium	Export 100K tuples	200	6032.833	4784.707	10612.516	8928374	
+result-size-small	Export 1000 tuples	200	5.752	4.291	5.975	89281	
+result-size-tiny	Export 10 tuples	200	4.118	4.11	4.325	906	
+result-size-xlarge	Export 10M tuples	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+strafter	STRAFTER string function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+strbefore	STRBEFORE string function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+strends	STRENDS string function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+strlen	String length for large string predicate	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+strstarts	STRSTARTS string function	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+transitive-path-plus	Transitive path with plus	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	200	4.596	3.378	4.959	9	
+union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	200	13957.494	13458.299	14749.264	9	
+union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out
+union-no-constraint	UNION of two large predicates, no constraint	000	180000.0	180000.0	180000.0	0	early-abort: warmup timed out

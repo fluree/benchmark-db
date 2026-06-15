@@ -1,0 +1,48 @@
+{
+  "status": "RUN 2026-06-12. BSBM 100M (pc=284826) headline throughput matrix, Fluree v4.0.6. explore + businessIntelligence x {1,4,8,16,32} clients. Explore: 0 timeouts; BI: 0 timeouts.",
+  "benchmark": "bsbm",
+  "dataset": {
+    "name": "BSBM 100M (pc=284826, forward-chained)",
+    "description": "Berlin SPARQL Benchmark e-commerce dataset, canonical 100M scale point (headline). Deterministic generator (no seed); pin = toolkit SHA + -pc + flags.",
+    "generator": "bsbmtools v0.2 (SourceForge bsbmtools-v0.2.zip, sha256 40f5e59baadec3af0014b7647989d3e0fc0476af25e84a4bc9d7f8cd81520aaa)",
+    "generate_command": "./generate -fc -pc 284826 -s nt -dir td_100m -fn td_100m/dataset",
+    "scale_pc": 284826,
+    "triples": 100000748,
+    "sha256_dataset_nt": "9f72d493...",
+    "entities": "284,826 products (5 types, root ProductType1 matches all due to -fc forward chaining); ~5.7M offers; ~2.85M reviews"
+  },
+  "hardware": {
+    "instance": "AWS m7a.4xlarge (16c / 64 GB)",
+    "cpu": "AMD EPYC (Zen 4), no-SMT",
+    "cores": 16,
+    "ram_gb": 64,
+    "disk": "400 GB gp3 (6000 IOPS / 500 MB/s)",
+    "os": "Ubuntu 24.04"
+  },
+  "methodology": {
+    "tool": "bsbmtools v0.2 testdriver (java benchmark.testdriver.TestDriver)",
+    "metric": "QMpH (query mixes/hour), QpS, per-query AQET",
+    "use_cases": ["explore", "businessIntelligence"],
+    "clients_swept": [1, 4, 8, 16, 32],
+    "warmup_runs": {"explore": "w=3 runs=50", "bi": "w=2 runs=6"},
+    "timeout_ms": 120000,
+    "notes": "Update use case not run at 100M (only the 1M dataset was generated with -ud / dataset_update.nt). BI throughput is low because the driver's random param draw frequently hits root type ProductType1 (matches ALL products due to -fc forward chaining) -> full-scan analytic queries. This is a known generator/methodology artifact, not an engine ceiling; leaf-type BI queries are fast. See REPORT.md."
+  },
+  "engines": {
+    "fluree": {
+      "label": "Fluree",
+      "version": "4.0.6",
+      "commit": "",
+      "install": "release installer (fluree-db-cli-installer.sh); binary reports 'fluree 4.0.6'",
+      "config": "default server config; LeafletCache budget ~21.5 GiB",
+      "import": {
+        "notes": "fluree create bsbm100 --from td_100m/dataset.nt -> 100,000,748 flakes; prior session measured ~166 s (0.60M flakes/s, 12.8 GB peak)."
+      }
+    }
+  },
+  "caveats": [
+    "Real BSBM via bsbmtools-0.2 (randomized query mix, QMpH).",
+    "Absolute QMpH is comparable engine-vs-engine on this box, not across toolkit versions/scales.",
+    "BI@100M is dominated by the -fc root-type (ProductType1) draw; absolute BI QMpH understates engine capability on selective (leaf-type) analytic queries."
+  ]
+}

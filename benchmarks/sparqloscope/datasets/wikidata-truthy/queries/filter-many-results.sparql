@@ -1,0 +1,2 @@
+# FILTER that filters out few rows and has many results
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (COUNT(?s) AS ?count) { ?s schema:description ?o . FILTER (?s != ?o) }

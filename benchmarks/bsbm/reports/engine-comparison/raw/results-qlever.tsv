@@ -1,0 +1,15 @@
+engine	scale	usecase	clients	warmup	runs	qmph	totalruntime	timeouts
+qlever	1m	exps	1	200	100	2773.01	129.823	0
+qlever	1m	bi	1	2	10	715.91	50.286	0
+qlever	1m	bi	4	2	10	1356.51	54.386	0
+qlever	1m	bi	8	2	10	1415.40	55.573	0
+qlever	1m	bi	16	2	10	1501.01	54.613	0
+qlever	1m	bi	32	2	10	1497.93	54.608	0
+qlever	100m	exps	1	200	100	2145.39	167.802	0
+qlever	100m	exps	4	200	100	6345.20	226.420	0
+qlever	100m	exps	8	200	100	9698.92	285.738	0
+qlever	100m	exps	16	200	100	16399.45	321.262	0
+qlever	100m	exps	32	200	100	22408.18	438.433	0
+qlever	200m	exps	1	200	100	2209.80	162.911	0
+qlever	100m	bi	1	2	6	42.05		3
+qlever	200m	bi	1	1	3	35.16		2

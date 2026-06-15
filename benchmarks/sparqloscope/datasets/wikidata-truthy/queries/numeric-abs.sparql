@@ -1,0 +1,2 @@
+# ABS function
+PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT (SUM(ABS(?o)) AS ?sum) WHERE { ?s schema:version ?o }

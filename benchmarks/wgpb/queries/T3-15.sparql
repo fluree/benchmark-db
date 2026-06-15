@@ -1,0 +1,1 @@
+SELECT * WHERE { ?x <http://wikiba.se/ontology-beta#claim> ?y . ?x <http://www.wikidata.org/prop/direct/P276> ?z . ?x <http://www.wikidata.org/prop/direct/P1855> ?u } LIMIT 1000

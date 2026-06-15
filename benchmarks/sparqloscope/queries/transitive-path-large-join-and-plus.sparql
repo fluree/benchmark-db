@@ -1,0 +1,2 @@
+# Transitive path with a large join and plus
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (COUNT(*) AS ?count) { ?s dblp:publishedInStream/dblp:relatedStream+ ?o }

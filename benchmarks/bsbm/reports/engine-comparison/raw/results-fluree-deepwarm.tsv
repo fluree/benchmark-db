@@ -1,0 +1,4 @@
+engine	scale	usecase	clients	warmup	runs	qmph	totalruntime	timeouts
+fluree	1m	explore	1	200	100	40301.25	8.933	0
+fluree	100m	explore	1	200	100	10204.43	35.279	0
+fluree	200m	explore	1	200	100	6090.31	59.110	0

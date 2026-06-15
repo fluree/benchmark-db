@@ -1,0 +1,4 @@
+engine	scale	usecase	clients	warmup	runs	qmph	totalruntime	timeouts
+virtuoso	1m	explore	1	200	100	10898.26	33.033	0
+virtuoso	100m	explore	1	200	100	7415.46	48.547	0
+virtuoso	200m	explore	1	200	100	6781.41	53.086	0

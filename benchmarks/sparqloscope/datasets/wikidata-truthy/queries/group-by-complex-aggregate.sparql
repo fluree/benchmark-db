@@ -1,0 +1,2 @@
+# GROUP BY with COUNT and MIN and MAX and SAMPLE
+PREFIX wdt: <http://www.wikidata.org/prop/direct/> PREFIX schema: <http://schema.org/> PREFIX p: <http://www.wikidata.org/prop/> SELECT ?o1 (COUNT(?s) AS ?count) (MIN(?s) AS ?min) (MAX(?s) AS ?max) (SAMPLE(?s) AS ?sample) { ?s wdt:P13046 ?o1 . ?s schema:description ?o2 . } GROUP BY ?o1 ORDER BY DESC(?count) LIMIT 10

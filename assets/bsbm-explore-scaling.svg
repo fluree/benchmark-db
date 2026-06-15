@@ -1,0 +1,47 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='720' height='420' viewBox='0 0 720 420' font-family='-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif'>
+<rect width='720' height='420' fill='white'/>
+<text x='70' y='26' font-size='17' font-weight='700' fill='#1e293b'>BSBM Explore — throughput vs concurrency (100M)</text>
+<text x='70' y='44' font-size='12' fill='#64748b'>QMpH (query mixes/hour, higher is better) · SELECT-subset, deep-warm · one m7a.4xlarge box (16 cores)</text>
+<line x1='70' y1='370.0' x2='570' y2='370.0' stroke='#e2e8f0'/>
+<text x='62' y='374.0' font-size='11' fill='#64748b' text-anchor='end'>0k</text>
+<line x1='70' y1='307.2' x2='570' y2='307.2' stroke='#e2e8f0'/>
+<text x='62' y='311.2' font-size='11' fill='#64748b' text-anchor='end'>24k</text>
+<line x1='70' y1='244.4' x2='570' y2='244.4' stroke='#e2e8f0'/>
+<text x='62' y='248.4' font-size='11' fill='#64748b' text-anchor='end'>48k</text>
+<line x1='70' y1='181.6' x2='570' y2='181.6' stroke='#e2e8f0'/>
+<text x='62' y='185.6' font-size='11' fill='#64748b' text-anchor='end'>72k</text>
+<line x1='70' y1='118.8' x2='570' y2='118.8' stroke='#e2e8f0'/>
+<text x='62' y='122.8' font-size='11' fill='#64748b' text-anchor='end'>96k</text>
+<line x1='70' y1='56.0' x2='570' y2='56.0' stroke='#e2e8f0'/>
+<text x='62' y='60.0' font-size='11' fill='#64748b' text-anchor='end'>120k</text>
+<text x='70.0' y='390' font-size='11' fill='#64748b' text-anchor='middle'>1</text>
+<text x='195.0' y='390' font-size='11' fill='#64748b' text-anchor='middle'>4</text>
+<text x='320.0' y='390' font-size='11' fill='#64748b' text-anchor='middle'>8</text>
+<text x='445.0' y='390' font-size='11' fill='#64748b' text-anchor='middle'>16</text>
+<text x='570.0' y='390' font-size='11' fill='#64748b' text-anchor='middle'>32</text>
+<text x='320.0' y='412' font-size='12' fill='#1e293b' text-anchor='middle'>concurrent clients</text>
+<polyline points='70.0,344.5 195.0,273.5 320.0,187.4 445.0,66.7 570.0,66.7' fill='none' stroke='#0d9488' stroke-width='3.2'/>
+<circle cx='70.0' cy='344.5' r='3.4' fill='#0d9488'/>
+<circle cx='195.0' cy='273.5' r='3.4' fill='#0d9488'/>
+<circle cx='320.0' cy='187.4' r='3.4' fill='#0d9488'/>
+<circle cx='445.0' cy='66.7' r='3.4' fill='#0d9488'/>
+<circle cx='570.0' cy='66.7' r='3.4' fill='#0d9488'/>
+<text x='580' y='70.7' font-size='12' font-weight='700' fill='#0d9488'>Fluree v4.0.6</text>
+<text x='580' y='85.7' font-size='10' fill='#64748b'>115,929 @32</text>
+<polyline points='70.0,352.3 195.0,330.0 320.0,301.3 445.0,244.6 570.0,235.7' fill='none' stroke='#6366f1' stroke-width='2'/>
+<circle cx='70.0' cy='352.3' r='3.4' fill='#6366f1'/>
+<circle cx='195.0' cy='330.0' r='3.4' fill='#6366f1'/>
+<circle cx='320.0' cy='301.3' r='3.4' fill='#6366f1'/>
+<circle cx='445.0' cy='244.6' r='3.4' fill='#6366f1'/>
+<circle cx='570.0' cy='235.7' r='3.4' fill='#6366f1'/>
+<text x='580' y='239.7' font-size='12' font-weight='400' fill='#6366f1'>Virtuoso 7</text>
+<text x='580' y='254.7' font-size='10' fill='#64748b'>51,339 @32</text>
+<polyline points='70.0,364.4 195.0,353.4 320.0,344.6 445.0,327.1 570.0,311.4' fill='none' stroke='#f59e0b' stroke-width='2'/>
+<circle cx='70.0' cy='364.4' r='3.4' fill='#f59e0b'/>
+<circle cx='195.0' cy='353.4' r='3.4' fill='#f59e0b'/>
+<circle cx='320.0' cy='344.6' r='3.4' fill='#f59e0b'/>
+<circle cx='445.0' cy='327.1' r='3.4' fill='#f59e0b'/>
+<circle cx='570.0' cy='311.4' r='3.4' fill='#f59e0b'/>
+<text x='580' y='315.4' font-size='12' font-weight='400' fill='#f59e0b'>QLever</text>
+<text x='580' y='330.4' font-size='10' fill='#64748b'>22,408 @32</text>
+</svg>

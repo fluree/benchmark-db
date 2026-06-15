@@ -1,0 +1,1 @@
+SELECT * WHERE { ?y <http://www.wikidata.org/prop/direct/P2884> ?x . ?z <http://www.wikidata.org/prop/direct/P2547> ?x . ?u <http://www.wikidata.org/prop/direct/P1082> ?x } LIMIT 1000

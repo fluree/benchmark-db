@@ -1,0 +1,2 @@
+# YEAR function
+PREFIX dblp: <https://dblp.org/rdf/schema#> SELECT (SUM(YEAR(?o)) AS ?sum) WHERE { ?s dblp:yearOfPublication ?o }

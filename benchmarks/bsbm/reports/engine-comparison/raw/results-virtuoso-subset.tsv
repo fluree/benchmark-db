@@ -1,0 +1,8 @@
+engine	scale	usecase	clients	warmup	runs	qmph	totalruntime	timeouts
+virtuoso	1m	exps	1	200	100	12092.84		0
+virtuoso	100m	exps	1	200	100	6781.55		0
+virtuoso	100m	exps	4	200	100	15298.13		0
+virtuoso	100m	exps	8	200	100	26238.46		0
+virtuoso	100m	exps	16	200	100	47909.86		0
+virtuoso	100m	exps	32	200	100	51338.52		0
+virtuoso	200m	exps	1	200	100	6477.97		0

@@ -1,0 +1,7 @@
+cell	usecase	clients	cache	scalefactor	querymixruns	warmups	qmph	cqet_s	cqetg_s	totalruntime_s	timeouts
+bi__c1	bi	1		570000	3	1	12.28	293.20540	279.42736	879.616	1
+explore__c1	explore	1		570000	30	3	3729.67	0.96523	0.93858	28.957	0
+explore__c16	explore	16		570000	30	3	59900.65	0.78708	0.77113	23.612	0
+explore__c32	explore	32		570000	30	3	59899.41	1.40686	1.40402	42.206	0
+explore__c4	explore	4		570000	30	3	21142.98	0.63483	0.62513	19.045	0
+explore__c8	explore	8		570000	30	3	35912.06	0.67333	0.66184	20.200	0
