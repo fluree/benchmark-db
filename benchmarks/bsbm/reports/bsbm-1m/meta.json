@@ -1,5 +1,5 @@
 {
-  "status": "RUN 2026-06-12. BSBM 1M (pc=2785) full throughput matrix on the m7a.4xlarge box, Fluree v4.0.6. Real BSBM: bsbmtools-0.2 test driver (randomized query mix -> QMpH/QpS), NOT the SPARQLoscope latency harness. All three use cases (explore, businessIntelligence, exploreAndUpdate) x {1,4,8,16,32} clients, 0 timeouts.",
+  "status": "RUN 2026-07-04. BSBM 1M (pc=2785) throughput matrix on the m7a.4xlarge box, Fluree v4.1.2 (25d8c28f4). Real BSBM: bsbmtools-0.2 test driver (randomized query mix -> QMpH). All three use cases (explore, businessIntelligence, exploreAndUpdate) x {1,4,8,16,32} clients, 0 timeouts.",
   "benchmark": "bsbm",
   "dataset": {
     "name": "BSBM 1M (pc=2785, forward-chained)",
@@ -25,18 +25,32 @@
   "methodology": {
     "tool": "bsbmtools v0.2 testdriver (java benchmark.testdriver.TestDriver)",
     "metric": "QMpH (query mixes/hour), QpS, per-query AQET",
-    "use_cases": ["explore", "businessIntelligence", "exploreAndUpdate"],
-    "clients_swept": [1, 4, 8, 16, 32],
-    "warmup_runs": {"explore": "w=3 runs=50", "bi": "w=2 runs=20", "update": "w=2 runs=15"},
+    "use_cases": [
+      "explore",
+      "businessIntelligence",
+      "exploreAndUpdate"
+    ],
+    "clients_swept": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "warmup_runs": {
+      "explore": "w=3 runs=50",
+      "bi": "w=2 runs=20",
+      "update": "w=2 runs=15"
+    },
     "seed": 808080,
-    "notes": "BSBM randomizes query params per mix iteration, neutralizing result caches by design. Server stays up; ledgers pre-created and warmed. Query endpoint .../v1/fluree/query/<ledger>:main (sparql-results+xml); update .../v1/fluree/update/bsbm1mupd:main (form-encoded update=, driver -uqp update). Update use case runs against bsbm1mupd (carries ~14k extra triples from prior update runs)."
+    "notes": "BSBM randomizes query params per mix iteration, neutralizing result caches. Server stays up; explore/bi share one ledger. Update runs on a FRESH pristine ledger per client-count. reindex_min_bytes=2MB. Server = raw fluree-server (--indexing-enabled)."
   },
   "engines": {
     "fluree": {
       "label": "Fluree",
-      "version": "4.0.6",
-      "commit": "",
-      "install": "release installer (fluree-db-cli-installer.sh); binary reports 'fluree 4.0.6'",
+      "version": "4.1.2",
+      "commit": "25d8c28f4df719f8414f8f2507f955b5c41afd50",
+      "install": "Built from source, fluree/db branch feature/warm-on-write-reindex-cache (rebased with fix/filtered-delete-staging-hang). Binary reports 'fluree 4.1.1' (pre-release build of v4.1.2).",
       "config": "default server config; LeafletCache budget ~21.5 GiB",
       "import": {
         "notes": "fluree create <ledger> --from <dataset>.nt (N-Triples imported natively)."

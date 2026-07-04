@@ -1,5 +1,5 @@
 {
-  "status": "RUN 2026-06-12. BSBM 100M (pc=284826) headline throughput matrix, Fluree v4.0.6. explore + businessIntelligence x {1,4,8,16,32} clients. Explore: 0 timeouts; BI: 0 timeouts.",
+  "status": "RUN 2026-07-04. BSBM 100M (pc=284826) throughput matrix on the m7a.4xlarge box, Fluree v4.1.2 (25d8c28f4). Real BSBM: bsbmtools-0.2 test driver (randomized query mix -> QMpH). Explore + BusinessIntelligence (update omitted at scale) x {1,4,8,16,32} clients, 0 timeouts.",
   "benchmark": "bsbm",
   "dataset": {
     "name": "BSBM 100M (pc=284826, forward-chained)",
@@ -22,18 +22,30 @@
   "methodology": {
     "tool": "bsbmtools v0.2 testdriver (java benchmark.testdriver.TestDriver)",
     "metric": "QMpH (query mixes/hour), QpS, per-query AQET",
-    "use_cases": ["explore", "businessIntelligence"],
-    "clients_swept": [1, 4, 8, 16, 32],
-    "warmup_runs": {"explore": "w=3 runs=50", "bi": "w=2 runs=6"},
+    "use_cases": [
+      "explore",
+      "businessIntelligence"
+    ],
+    "clients_swept": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "warmup_runs": {
+      "explore": "w=3 runs=50",
+      "bi": "w=2 runs=6"
+    },
     "timeout_ms": 120000,
     "notes": "Update use case not run at 100M (only the 1M dataset was generated with -ud / dataset_update.nt). BI throughput is low because the driver's random param draw frequently hits root type ProductType1 (matches ALL products due to -fc forward chaining) -> full-scan analytic queries. This is a known generator/methodology artifact, not an engine ceiling; leaf-type BI queries are fast. See REPORT.md."
   },
   "engines": {
     "fluree": {
       "label": "Fluree",
-      "version": "4.0.6",
-      "commit": "",
-      "install": "release installer (fluree-db-cli-installer.sh); binary reports 'fluree 4.0.6'",
+      "version": "4.1.2",
+      "commit": "25d8c28f4df719f8414f8f2507f955b5c41afd50",
+      "install": "Built from source, fluree/db branch feature/warm-on-write-reindex-cache (rebased with fix/filtered-delete-staging-hang). Binary reports 'fluree 4.1.1' (pre-release build of v4.1.2).",
       "config": "default server config; LeafletCache budget ~21.5 GiB",
       "import": {
         "notes": "fluree create bsbm100 --from td_100m/dataset.nt -> 100,000,748 flakes; prior session measured ~166 s (0.60M flakes/s, 12.8 GB peak)."
