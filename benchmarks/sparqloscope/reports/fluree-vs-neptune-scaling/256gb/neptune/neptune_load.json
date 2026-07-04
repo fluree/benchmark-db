@@ -1,0 +1,1 @@
+{"engine":"neptune","instance":"db.r8g.8xlarge (32c/256GB)","load_time_s":null,"note":"resized from 128GB cluster in place — no reload (561.5M triples preserved); load not re-measured at this tier"}

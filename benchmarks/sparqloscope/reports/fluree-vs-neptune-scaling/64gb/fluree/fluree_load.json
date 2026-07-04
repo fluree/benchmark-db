@@ -1,0 +1,7 @@
+{
+  "engine": "fluree",
+  "instance": "r8g.2xlarge (8c/64GB)",
+  "load_time_s": 711,
+  "net_distinct_triples": 561544658,
+  "throughput_tr_s": 789795.6
+}

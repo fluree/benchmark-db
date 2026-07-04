@@ -1,0 +1,44 @@
+{
+  "status": "Run 2026-06-26. Fluree v4.1.0 vs Amazon Neptune 1.4.7.0 on matched AWS Graviton4 (r8g) instances at 4 sizes (32/64/128/256 GB). SPARQLoscope 105-query suite + dataset load. Fluree passes 105/105 at every size (16.6-26.7 ms geomean) and loads 9-15x faster; Neptune is non-functional below 128 GB (10-16/105), crosses over at 128 GB (81/105), and plateaus at 256 GB (84/105). RAM buys completion (fewer OOMs), not query speed. Neptune required skolemization of ~42% blank-node triples to load at all.",
+  "dataset": {
+    "name": "DBLP-core (bibliography only)",
+    "version": "2026-06-01 (stable DROPS monthly archive)",
+    "triples_raw_lines": 574218804,
+    "triples_distinct": 561544658,
+    "predicates": 90,
+    "neptune_preprocessing": "skolemized _:label -> IRI (Neptune bulk loader rejects blank nodes; ~42% of triples affected). Fluree loaded raw N-Triples natively."
+  },
+  "methodology": {
+    "harness": "common/run_benchmark.sh",
+    "warmup": 1, "runs": 3, "metric": "median", "timeout_s": 180,
+    "accept": "text/tab-separated-values",
+    "result_cache": "off (both engines)",
+    "neptune_query_timeout_ms": 180000,
+    "silicon": "AWS Graviton4 (r8g, 8 GB/vCPU) at all sizes",
+    "fluree": "v4.1.0 official installer (native, aarch64), on EC2 r8g.*",
+    "neptune": "1.4.7.0 on db.r8g.*, queried from in-VPC client (cheap t4g.medium for 256 GB)",
+    "notes": "Neptune default query timeout (120s) raised to 180s via custom cluster parameter group for parity. 256 GB Neptune cluster was resized in-place from 128 GB (data preserved, no reload). 32 GB Neptune pass-count is cache-state-sensitive (noisy 9-48); reported as 16/105 with caveat."
+  },
+  "tiers": [
+    {"instance": "r8g.xlarge", "vcpu": 4, "ram_gb": 32,
+     "fluree":  {"passed": "105/105", "load_s": 861, "throughput_tr_s": 652201, "geomean_ms": 26.7},
+     "neptune": {"passed": "16/105", "load_s": 13086, "throughput_tr_s": 42907, "geomean_passed_ms": 9895, "geomean_p2_ms": 208187}},
+    {"instance": "r8g.2xlarge", "vcpu": 8, "ram_gb": 64,
+     "fluree":  {"passed": "105/105", "load_s": 711, "throughput_tr_s": 789796, "geomean_ms": 21.7},
+     "neptune": {"passed": "10/105", "load_s": 6259, "throughput_tr_s": 89707, "geomean_passed_ms": 15133, "geomean_p2_ms": 266207}},
+    {"instance": "r8g.4xlarge", "vcpu": 16, "ram_gb": 128,
+     "fluree":  {"passed": "105/105", "load_s": 449, "throughput_tr_s": 1250656, "geomean_ms": 18.0},
+     "neptune": {"passed": "81/105", "load_s": 3893, "throughput_tr_s": 144257, "geomean_passed_ms": 6536, "geomean_p2_ms": 16341}},
+    {"instance": "r8g.8xlarge", "vcpu": 32, "ram_gb": 256,
+     "fluree":  {"passed": "105/105", "load_s": 421, "throughput_tr_s": 1333835, "geomean_ms": 16.6},
+     "neptune": {"passed": "84/105", "load_s": null, "load_note": "resized in-place from 128 GB cluster; no reload", "geomean_passed_ms": 7587, "geomean_p2_ms": 16417}}
+  ],
+  "caveats": [
+    "Not bit-comparable to the same-box dblp-core run (different hardware family, engine versions, skolemized Neptune input).",
+    "Neptune query latency is RAM-independent: completed queries run the same time at 32 GB and 256 GB; RAM only converts OOM/timeout to completion.",
+    "~21 queries (exists-join-3-*, exists-join-2-large-large-with-large-result, etc.) time out on Neptune at every size.",
+    "64 GB Neptune passes fewer than 32 GB (10 vs 16), reproduced across two runs (per-thread memory -> more OOMs on the 2xlarge).",
+    "Neptune required skolemization to load DBLP-core's blank nodes; Fluree did not."
+  ]
+}
+</content>

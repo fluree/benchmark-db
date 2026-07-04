@@ -1,0 +1,199 @@
+query_id	description	run	status	time_ms	result_size	error
+date-day	DAY function	1	200	20221.330	6	
+date-day	DAY function	2	200	19938.788	6	
+date-day	DAY function	3	200	19891.142	6	
+date-month	MONTH function	1	200	20156.093	6	
+date-month	MONTH function	2	200	20006.670	6	
+date-month	MONTH function	3	200	20048.799	6	
+date-year	YEAR function	1	200	19797.778	6	
+date-year	YEAR function	2	200	19518.239	6	
+date-year	YEAR function	3	200	19629.317	6	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	1	200	29.781	10	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	2	200	29.373	10	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	3	200	30.926	10	
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	1	200	10283.426	16	
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	2	200	10266.255	16	
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	3	200	10293.019	16	
+distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	1	500	120151.772	202	{"code":"TimeLimitExceededException","requestId":"2ccf8154-2201-ce95-d763-af7f31d843aa","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	1	500	120077.144	202	{"code":"TimeLimitExceededException","requestId":"00cf8155-f746-04b5-b30d-9b8672794d3d","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	1	500	120104.558	202	{"code":"TimeLimitExceededException","requestId":"84cf8157-cc65-a6ff-e954-c806135d4531","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	1	500	120053.303	202	{"code":"TimeLimitExceededException","requestId":"54cf8159-a18c-43f5-08a4-853aa4881340","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	1	500	120698.536	202	{"code":"TimeLimitExceededException","requestId":"9acf815b-7736-9070-8681-056b7b393ab6","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	1	500	120048.842	202	{"code":"TimeLimitExceededException","requestId":"58cf815d-4d74-7451-320e-bb1d847ea74b","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	1	500	123104.631	202	{"code":"TimeLimitExceededException","requestId":"76cf815f-2850-4c45-b9d4-885a0d4f55fe","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	1	500	123086.953	202	{"code":"TimeLimitExceededException","requestId":"c6cf8160-b4cc-71ba-4d3e-d7451be25fcc","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+exists-join-large-large	EXISTS JOIN of two large predicates	1	500	106084.901	196	{"code":"MemoryLimitExceededException","requestId":"f0cf8162-8395-1479-46ef-d5d897156bfd","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+exists-join-large-small	EXISTS JOIN of a large and a small predicate	1	500	50750.553	196	{"code":"MemoryLimitExceededException","requestId":"30cf8163-63fa-3713-a1ec-89ed84375336","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	1	200	49.687	12	
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	2	200	49.753	12	
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	3	200	45.770	12	
+filter-few-results	FILTER that filters out most rows and has few results	1	500	30311.731	196	{"code":"MemoryLimitExceededException","requestId":"e8cf8163-ce05-3c0a-9bf8-564f9a4a1ca7","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+filter-language-en	FILTER on string predicate for only English literals	1	500	123619.093	202	{"code":"TimeLimitExceededException","requestId":"88cf8164-f8db-1dae-5caa-a22661215c79","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+filter-many-results	FILTER that filters out few rows and has many results	1	500	2728.364	196	{"code":"MemoryLimitExceededException","requestId":"9acf8166-1c0b-59ab-07ce-e0844ca24ac2","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	1	500	120173.296	202	{"code":"TimeLimitExceededException","requestId":"92cf8167-0c0e-877d-eb22-e5c8ff716ef4","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	1	200	82649.229	529	
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	2	200	80997.153	529	
+group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	1	500	120045.419	202	{"code":"TimeLimitExceededException","requestId":"86cf816a-e314-e911-1841-40b3515ce22e","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	1	500	120335.294	202	{"code":"TimeLimitExceededException","requestId":"00cf816c-b859-0d93-662b-dd8fafdcf69d","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	1	200	13220.748	28	
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	2	200	13126.573	28	
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	3	200	13144.732	28	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	1	200	6532.318	15	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	2	200	6702.959	15	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	3	200	6531.705	15	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	1	200	13235.743	9	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	2	200	13116.464	9	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	3	200	13123.512	9	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	1	200	13194.007	7	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	2	200	13166.958	7	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	3	200	13219.510	7	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	1	200	13313.571	14	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	2	200	13181.535	14	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	3	200	13213.851	14	
+group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	1	500	5105.634	196	{"code":"MemoryLimitExceededException","requestId":"52cf816f-baa0-a5c4-4671-13301e0c0ba8","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	1	500	123746.653	202	{"code":"TimeLimitExceededException","requestId":"c8cf8170-b48d-2277-c24b-ec75e9e732e6","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	1	200	49839.640	36	
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	2	500	18202.649	196	{"code":"MemoryLimitExceededException","requestId":"76cf8172-7144-faf3-16ab-552fa7ebe975","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	1	500	128697.259	202	{"code":"TimeLimitExceededException","requestId":"38cf8173-8a90-5e11-8ec7-0cd86061c124","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	1	500	120144.291	202	{"code":"TimeLimitExceededException","requestId":"cccf8175-708c-3f5b-9975-247112fda340","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+join-2-large-large-with-small-result	JOIN of two large predicates with a small result	1	500	120379.796	202	{"code":"TimeLimitExceededException","requestId":"22cf8177-4639-07cc-375f-9a3daa51568b","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+join-2-large-large	JOIN of two large predicates	1	500	121418.669	202	{"code":"TimeLimitExceededException","requestId":"9ccf8179-1df5-9b1e-ef1a-2244fa6bff5b","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+join-2-large-small	JOIN of a large and a small predicate	1	200	33.714	12	
+join-2-large-small	JOIN of a large and a small predicate	2	200	32.755	12	
+join-2-large-small	JOIN of a large and a small predicate	3	200	32.354	12	
+join-2-largest-result	JOIN of two predicates with the largest possible result	1	500	120196.762	202	{"code":"TimeLimitExceededException","requestId":"48cf817a-f6a4-0e3b-1204-c1ad624473d9","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+join-2-small-large	JOIN of a small and a large predicate	1	200	34.308	12	
+join-2-small-large	JOIN of a small and a large predicate	2	200	32.131	12	
+join-2-small-large	JOIN of a small and a large predicate	3	200	33.756	12	
+join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	1	500	123311.832	202	{"code":"TimeLimitExceededException","requestId":"12cf817c-cf8c-9e70-5331-4bba91842c51","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	1	500	120145.023	202	{"code":"TimeLimitExceededException","requestId":"9ccf817e-ab0d-c861-8590-dfbce66d3bee","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	1	200	30.509	9	
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	2	200	30.798	9	
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	3	200	30.492	9	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	1	200	30.135	9	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	2	200	30.094	9	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	3	200	29.746	9	
+minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	1	500	120054.151	202	{"code":"TimeLimitExceededException","requestId":"bacf8180-810b-ced1-2eae-43eaff7accd6","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	1	500	120108.920	202	{"code":"TimeLimitExceededException","requestId":"a4cf8182-5646-8e71-ee66-8a90a2a8f89c","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	1	500	120056.862	202	{"code":"TimeLimitExceededException","requestId":"cecf8184-2b70-4f60-55c2-09f43d712211","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	1	500	120789.791	202	{"code":"TimeLimitExceededException","requestId":"54cf8186-0141-66b3-8fce-993a79fda33c","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	1	500	120050.579	202	{"code":"TimeLimitExceededException","requestId":"26cf8187-d7ac-df75-2794-cefd128de125","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	1	500	120385.715	202	{"code":"TimeLimitExceededException","requestId":"cecf8189-ad36-f064-7cbe-5a07de1a3cd8","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	1	500	123059.533	202	{"code":"TimeLimitExceededException","requestId":"f8cf818b-88e0-eaaa-97fd-79c5a7acfad8","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+minus-join-large-large	MINUS JOIN of two large predicates	1	500	4236.215	196	{"code":"MemoryLimitExceededException","requestId":"9ccf818c-a720-91fd-1e36-74318c067b88","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+minus-join-large-small	MINUS JOIN of a large and a small predicate	1	500	1588.078	196	{"code":"MemoryLimitExceededException","requestId":"42cf818c-d787-7cb7-bc9f-26ec6e85a026","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+minus-join-small-large	MINUS JOIN of a small and a large predicate	1	200	36.721	9	
+minus-join-small-large	MINUS JOIN of a small and a large predicate	2	200	37.939	9	
+minus-join-small-large	MINUS JOIN of a small and a large predicate	3	200	36.262	9	
+multicolumn-join-large	Multicolumn JOIN large	1	500	120135.735	202	{"code":"TimeLimitExceededException","requestId":"7ccf818d-c653-ca2e-5309-ae7ebeccf789","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+multicolumn-join-small	Multicolumn JOIN small	1	200	27.406	9	
+multicolumn-join-small	Multicolumn JOIN small	2	200	27.139	9	
+multicolumn-join-small	Multicolumn JOIN small	3	200	27.229	9	
+number-of-blank-nodes	Total number of blank nodes	1	500	120086.198	202	{"code":"TimeLimitExceededException","requestId":"1ecf818f-9bdd-2a94-323b-4cd2dab4a878","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+number-of-literals	Total number of literals	1	500	120040.083	202	{"code":"TimeLimitExceededException","requestId":"aacf8191-70e2-228e-24bc-2a280e76619f","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+number-of-objects	Total number of distinct objects	1	500	122345.165	202	{"code":"TimeLimitExceededException","requestId":"82cf8193-4e39-6305-f5ca-4b14fb6e7f65","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+number-of-predicates	Total number of distinct predicates	1	200	31.563	10	
+number-of-predicates	Total number of distinct predicates	2	200	28.338	10	
+number-of-predicates	Total number of distinct predicates	3	200	27.867	10	
+number-of-subjects	Total number of distinct subjects	1	500	120040.421	202	{"code":"TimeLimitExceededException","requestId":"aacf8195-282c-7f80-33d9-4926689dfb67","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+number-of-triples	Total number of triples	1	500	120074.326	202	{"code":"TimeLimitExceededException","requestId":"6ecf8196-fd25-f363-c7c6-cdf5302b935b","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+numeric-abs	ABS function	1	200	13274.956	14	
+numeric-abs	ABS function	2	200	13233.140	14	
+numeric-abs	ABS function	3	200	13266.486	14	
+numeric-add	Addition	1	500	12582.125	196	{"code":"MemoryLimitExceededException","requestId":"c2cf8198-6b8b-e0c8-7934-3757c025af58","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+numeric-baseline	Baseline for numeric queries	1	200	13328.372	14	
+numeric-baseline	Baseline for numeric queries	2	500	7157.687	196	{"code":"MemoryLimitExceededException","requestId":"3ccf8198-b841-06e4-37f4-623605ace056","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+numeric-ceil	CEIL function	1	500	11371.989	196	{"code":"MemoryLimitExceededException","requestId":"28cf8198-e056-af26-f86d-f623c4aafab4","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	1	200	11809.633	15	
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	2	200	11854.027	15	
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	3	500	11723.326	196	{"code":"MemoryLimitExceededException","requestId":"52cf8199-3bee-4979-374d-221146902b5f","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	1	200	864.353	14	
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	2	200	877.988	14	
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	3	200	888.393	14	
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	1	200	8319.344	15	
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	2	200	8239.269	15	
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	3	200	8321.394	15	
+numeric-floor	FLOOR function	1	200	13010.861	14	
+numeric-floor	FLOOR function	2	200	13032.252	14	
+numeric-floor	FLOOR function	3	200	13078.395	14	
+numeric-greater	Greater than	1	200	22066.767	6	
+numeric-greater	Greater than	2	200	21985.402	6	
+numeric-greater	Greater than	3	200	22130.070	6	
+numeric-round	ROUND function	1	500	13037.458	196	{"code":"MemoryLimitExceededException","requestId":"16cf819a-c6e1-e1db-515a-62157932aa97","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	1	500	120909.806	202	{"code":"TimeLimitExceededException","requestId":"54cf819b-cbc4-db0e-9ca9-a4a9d6b6f4b6","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	1	500	120525.364	202	{"code":"TimeLimitExceededException","requestId":"decf819d-a347-a78f-2364-356a35a23553","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	1	500	120469.341	202	{"code":"TimeLimitExceededException","requestId":"6acf819f-7971-c368-e1e8-701f3150e32c","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	1	500	120489.752	202	{"code":"TimeLimitExceededException","requestId":"aacf81a1-4fb0-2777-1138-40c9e35ebb09","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	1	500	120040.317	202	{"code":"TimeLimitExceededException","requestId":"3acf81a3-2581-28f0-c85d-daa5468b7ee8","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	1	500	120233.822	202	{"code":"TimeLimitExceededException","requestId":"80cf81a4-face-45a9-b31a-3bd0f27c6c76","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	1	500	123063.895	202	{"code":"TimeLimitExceededException","requestId":"44cf81a6-d5f8-a6e1-c1e0-8f914b49c7eb","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-large-large	OPTIONAL JOIN of two large predicates	1	500	120456.074	202	{"code":"TimeLimitExceededException","requestId":"eecf81a8-b179-141a-5f04-e35ce93707b8","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	1	500	120506.237	202	{"code":"TimeLimitExceededException","requestId":"52cf81aa-87fa-bffc-ebde-84bafa5f223d","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	1	200	34.969	12	
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	2	200	33.365	12	
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	3	200	32.114	12	
+regex-3-contains	CONTAINS filter with fixed string of length 3	1	500	121029.533	202	{"code":"TimeLimitExceededException","requestId":"fccf81ac-5ff9-17e8-434e-eb98fae8435b","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+regex-3-fixed	REGEX filter with fixed string of length 3	1	200	47545.149	14	
+regex-3-fixed	REGEX filter with fixed string of length 3	2	200	47574.017	14	
+regex-3-fixed	REGEX filter with fixed string of length 3	3	200	47677.559	14	
+regex-3	REGEX filter with expression of length 3	1	200	48810.767	14	
+regex-3	REGEX filter with expression of length 3	2	200	48313.651	14	
+regex-3	REGEX filter with expression of length 3	3	200	48322.860	14	
+regex-prefix-1	REGEX filter with prefix of length 1	1	200	47059.205	14	
+regex-prefix-1	REGEX filter with prefix of length 1	2	200	47156.391	14	
+regex-prefix-1	REGEX filter with prefix of length 1	3	200	47176.851	14	
+regex-prefix-2	REGEX filter with prefix of length 2	1	200	45873.170	13	
+regex-prefix-2	REGEX filter with prefix of length 2	2	200	45718.903	13	
+regex-prefix-2	REGEX filter with prefix of length 2	3	200	45884.099	13	
+regex-prefix-3	REGEX filter with prefix of length 3	1	200	45385.079	12	
+regex-prefix-3	REGEX filter with prefix of length 3	2	200	45489.919	12	
+regex-prefix-3	REGEX filter with prefix of length 3	3	200	45398.834	12	
+result-size-large	Export 1M tuples	1	200	3774.469	87100652	
+result-size-large	Export 1M tuples	2	200	3737.029	87100105	
+result-size-large	Export 1M tuples	3	200	3783.123	87099528	
+result-size-medium	Export 100K tuples	1	200	379.167	8729047	
+result-size-medium	Export 100K tuples	2	200	403.916	8728345	
+result-size-medium	Export 100K tuples	3	200	385.986	8730577	
+result-size-small	Export 1000 tuples	1	200	33.038	85011	
+result-size-small	Export 1000 tuples	2	200	31.213	85011	
+result-size-small	Export 1000 tuples	3	200	30.649	85011	
+result-size-tiny	Export 10 tuples	1	200	28.541	873	
+result-size-tiny	Export 10 tuples	2	200	27.936	873	
+result-size-tiny	Export 10 tuples	3	200	27.917	873	
+result-size-xlarge	Export 10M tuples	1	200	37954.375	924797198	
+result-size-xlarge	Export 10M tuples	2	200	37650.522	924797198	
+result-size-xlarge	Export 10M tuples	3	200	37731.695	924797198	
+strafter	STRAFTER string function	1	200	34197.150	20	
+strafter	STRAFTER string function	2	200	34284.304	20	
+strafter	STRAFTER string function	3	200	33985.579	20	
+strbefore	STRBEFORE string function	1	200	34365.333	19	
+strbefore	STRBEFORE string function	2	200	34257.584	19	
+strbefore	STRBEFORE string function	3	200	33957.765	19	
+strends	STRENDS string function	1	200	34292.398	14	
+strends	STRENDS string function	2	200	34379.625	14	
+strends	STRENDS string function	3	200	34175.024	14	
+strlen	String length for large string predicate	1	200	33851.906	21	
+strlen	String length for large string predicate	2	200	33823.717	21	
+strlen	String length for large string predicate	3	200	33898.089	21	
+strstarts	STRSTARTS string function	1	200	33994.290	10	
+strstarts	STRSTARTS string function	2	200	34027.574	10	
+strstarts	STRSTARTS string function	3	200	34344.755	10	
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	1	200	30.101	9	
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	2	200	29.490	9	
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	3	200	29.611	9	
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	1	200	29.773	9	
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	2	200	28.939	9	
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	3	200	29.023	9	
+transitive-path-plus	Transitive path with plus	1	200	28.534	9	
+transitive-path-plus	Transitive path with plus	2	200	28.662	9	
+transitive-path-plus	Transitive path with plus	3	200	29.086	9	
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	1	200	28.374	9	
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	2	200	28.559	9	
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	3	200	29.084	9	
+union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	1	500	7883.502	196	{"code":"MemoryLimitExceededException","requestId":"c0cf81bb-9b0a-ccb2-a3c1-067c197b67ec","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}
+union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	1	500	120131.156	202	{"code":"TimeLimitExceededException","requestId":"fecf81bc-9525-6096-c50f-2457f833a6a1","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	1	500	120193.975	202	{"code":"TimeLimitExceededException","requestId":"a8cf81be-6a6f-4129-628e-f09b51ed22fe","detailedMessage":"Operation terminated (deadline exceeded)","message":"Operation terminated (deadline exceeded)
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	1	200	58428.096	15	
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	2	200	23286.510	15	
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	3	200	23379.491	15	
+union-no-constraint	UNION of two large predicates, no constraint	1	500	20299.300	196	{"code":"MemoryLimitExceededException","requestId":"46cf81c1-48e4-71a2-93e4-1c4bc9635c8f","detailedMessage":"Operation terminated (out of memory)","message":"Operation terminated (out of memory)"}

@@ -1,0 +1,13 @@
+{
+  "engine": "neptune",
+  "instance": "db.r8g.xlarge (4c/32GB)",
+  "load_time_s": 13086,
+  "total_records": 561544658,
+  "duplicates": 67202,
+  "parse_errors": 0,
+  "net_distinct_triples": 561477456,
+  "status": "LOAD_COMPLETED",
+  "skolemize_stage_s": 912,
+  "upload_s": 12,
+  "note": "DBLP-core has ~42% blank-node triples that Neptune bulk loader rejects; skolemized _:label -> IRI as preprocessing (Fluree loaded natively, no preprocessing)."
+}

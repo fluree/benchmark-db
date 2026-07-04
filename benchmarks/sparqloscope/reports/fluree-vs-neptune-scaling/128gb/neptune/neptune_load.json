@@ -1,0 +1,12 @@
+{
+  "engine": "neptune",
+  "instance": "db.r8g.4xlarge (16c/128GB)",
+  "load_time_s": 3893,
+  "outer_wall_s": 3911,
+  "total_records": 561544658,
+  "duplicates": 67202,
+  "net_distinct_triples": 561477456,
+  "throughput_tr_s": 144227.4,
+  "parsing_errors": 0,
+  "insert_errors": 0
+}
