@@ -1,106 +1,106 @@
 query_id	description	status	median_ms	min_ms	max_ms	result_size	error
-date-day	DAY function	200	1.108	1.071	1.24	12	
-date-month	MONTH function	200	1.142	0.938	1.162	12	
-date-year	YEAR function	200	49.231	49.156	49.257	16	
-distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	200	0.787	0.747	0.855	9	
-distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	200	0.778	0.691	0.887	15	
-distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	200	1118.152	1102.998	1128.943	8	
-exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	200	25.96	23.552	28.239	15	
-exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	200	26.092	25.049	26.304	11	
-exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	200	25.869	25.868	25.904	11	
-exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	200	228.658	227.128	231.48	15	
-exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	200	2433.08	2426.107	2459.948	15	
-exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	200	1616.031	1615.316	1618.079	15	
-exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	200	75.838	75.794	78.8	15	
-exists-join-large-large	EXISTS JOIN of two large predicates	200	120.162	119.886	120.594	15	
-exists-join-large-small	EXISTS JOIN of a large and a small predicate	200	0.683	0.642	0.865	11	
-exists-join-small-large	EXISTS JOIN of a small and a large predicate	200	0.73	0.62	0.897	11	
-filter-few-results	FILTER that filters out most rows and has few results	200	146.789	146.641	147.103	8	
-filter-language-en	FILTER on string predicate for only English literals	200	2.322	2.122	2.548	8	
-filter-many-results	FILTER that filters out few rows and has many results	200	149.223	149.121	149.319	16	
-group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	200	386.925	386.461	387.971	1448	
-group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	200	16.269	16.074	20.558	507	
-group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	200	160.812	160.228	161.222	603	
-group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	200	368.544	368.304	368.803	436	
-group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	200	59.425	59.356	59.454	22	
-group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	200	0.634	0.468	0.637	14	
-group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	200	0.557	0.491	0.67	8	
-group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	200	0.627	0.447	0.778	6	
-group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	200	42.855	42.769	42.894	13	
-group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	200	0.509	0.508	0.651	15	
-group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	200	0.662	0.511	0.867	29	
-group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	200	0.734	0.466	0.839	31	
-group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	200	47.809	47.649	47.825	14	
-join-2-large-large	JOIN of two large predicates	200	0.526	0.518	0.711	15	
-join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	200	24.192	24.06	24.281	16	
-join-2-large-large-with-small-result	JOIN of two large predicates with a small result	200	58.514	58.391	58.562	11	
-join-2-large-small	JOIN of a large and a small predicate	200	0.551	0.413	0.693	11	
-join-2-largest-result	JOIN of two predicates with the largest possible result	200	24.519	24.473	25.144	16	
-join-2-small-large	JOIN of a small and a large predicate	200	0.595	0.477	0.764	11	
-join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	200	229.471	229.289	229.613	16	
-join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	200	128.763	127.994	128.951	15	
-join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	200	0.934	0.86	0.966	8	
-join-xlarge-star-on-small-predicates	JOIN star of many small predicates	200	1.305	1.209	1.539	8	
-minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	200	21.004	20.949	21.662	8	
-minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	200	27.143	26.197	27.224	14	
-minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	200	25.972	25.889	26.068	14	
-minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	200	222.949	222.635	223.065	8	
-minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	200	2442.916	2428.371	2450.649	8	
-minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	200	1706.544	1701.698	1713.789	8	
-minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	200	75.402	74.551	78.315	8	
-minus-join-large-large	MINUS JOIN of two large predicates	200	117.804	111.75	119.68	16	
-minus-join-large-small	MINUS JOIN of a large and a small predicate	200	0.743	0.637	0.843	16	
-minus-join-small-large	MINUS JOIN of a small and a large predicate	200	0.708	0.597	0.797	8	
-multicolumn-join-large	Multicolumn JOIN large	200	1138.278	1135.868	1138.515	15	
-multicolumn-join-small	Multicolumn JOIN small	200	0.586	0.549	0.749	8	
-number-of-blank-nodes	Total number of blank nodes	200	15.929	15.518	16.34	16	
-number-of-literals	Total number of literals	200	0.501	0.415	0.689	16	
-number-of-objects	Total number of distinct objects	200	1.483	1.419	1.488	16	
-number-of-predicates	Total number of distinct predicates	200	0.53	0.396	0.61	9	
-number-of-subjects	Total number of distinct subjects	200	1.559	1.27	1.598	15	
-number-of-triples	Total number of triples	200	0.469	0.37	0.609	16	
-numeric-abs	ABS function	200	44.975	44.934	45.089	13	
-numeric-add	Addition	200	45.266	44.923	45.275	13	
-numeric-baseline	Baseline for numeric queries	200	42.734	42.705	42.878	13	
-numeric-ceil	CEIL function	200	45.227	45.152	45.251	13	
-numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	200	1.079	0.954	1.215	14	
-numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	200	0.973	0.926	1.186	13	
-numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	200	1.081	0.902	1.19	14	
-numeric-floor	FLOOR function	200	45.189	45.16	45.205	13	
-numeric-greater	Greater than	200	1.07	1.026	1.181	12	
-numeric-round	ROUND function	200	45.279	45.266	45.305	13	
-optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	200	24.988	24.745	26.932	16	
-optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	200	65.925	65.841	66.466	14	
-optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	200	55.258	55.101	55.624	14	
-optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	200	229.66	229.468	230.505	16	
-optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	200	804.163	803.131	821.893	16	
-optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	200	143.371	143.045	144.252	15	
-optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	200	171.08	170.407	174.708	15	
-optional-join-large-large	OPTIONAL JOIN of two large predicates	200	142.473	142.353	143.171	16	
-optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	200	0.689	0.626	0.879	16	
-optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	200	0.693	0.586	0.891	11	
-regex-3	REGEX filter with expression of length 3	200	569.615	491.201	586.231	13	
-regex-3-contains	CONTAINS filter with fixed string of length 3	200	110.014	109.705	110.181	13	
-regex-3-fixed	REGEX filter with fixed string of length 3	200	422.763	362.84	445.541	13	
-regex-prefix-1	REGEX filter with prefix of length 1	200	167.617	152.457	201.233	13	
-regex-prefix-2	REGEX filter with prefix of length 2	200	28.721	28.594	29.396	12	
-regex-prefix-3	REGEX filter with prefix of length 3	200	10.518	10.153	12.953	11	
-result-size-large	Export 1M tuples	200	712.955	694.147	757.796	98482036	
-result-size-medium	Export 100K tuples	200	73.834	60.369	73.984	9896852	
-result-size-small	Export 1000 tuples	200	7.035	5.955	7.699	98996	
-result-size-tiny	Export 10 tuples	200	2.692	2.5	7.363	994	
-result-size-xlarge	Export 10M tuples	200	7115.497	7033.777	7677.504	992652973	
-strafter	STRAFTER string function	200	129.804	128.831	129.933	19	
-strbefore	STRBEFORE string function	200	117.53	117.309	117.538	18	
-strends	STRENDS string function	200	97.209	96.729	97.369	13	
-strlen	String length for large string predicate	200	104.807	104.697	105.291	20	
-strstarts	STRSTARTS string function	200	42.336	41.336	45.959	9	
-transitive-path-large-join-and-plus	Transitive path with a large join and plus	200	0.445	0.396	0.748	8	
-transitive-path-plus	Transitive path with plus	200	0.542	0.517	0.706	8	
-transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	200	0.593	0.478	0.726	8	
-transitive-path-small-join-and-plus	Transitive path with a small join and plus	200	0.562	0.502	0.728	8	
-union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	200	1296.668	1284.535	1298.328	8	
-union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	200	119.44	116.813	121.331	15	
-union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	200	202.833	201.413	205.303	16	
-union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	200	21.561	21.514	21.912	14	
-union-no-constraint	UNION of two large predicates, no constraint	200	0.659	0.557	0.686	16	
+date-day	DAY function	200	0.813	0.727	0.978	12	
+date-month	MONTH function	200	0.694	0.579	0.85	12	
+date-year	YEAR function	200	45.766	45.609	45.817	16	
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	200	0.814	0.719	0.97	9	
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	200	0.814	0.658	0.83	15	
+distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	200	1049.93	1039.666	1053.972	8	
+exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	200	25.919	25.184	27.022	15	
+exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	200	26.0	25.858	26.146	11	
+exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	200	25.726	25.657	25.777	11	
+exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	200	217.498	217.09	217.956	15	
+exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	200	2372.346	2369.822	2422.144	15	
+exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	200	1610.636	1601.411	1612.388	15	
+exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	200	75.855	75.844	76.804	15	
+exists-join-large-large	EXISTS JOIN of two large predicates	200	118.059	112.99	120.543	15	
+exists-join-large-small	EXISTS JOIN of a large and a small predicate	200	0.683	0.683	0.771	11	
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	200	0.596	0.499	0.796	11	
+filter-few-results	FILTER that filters out most rows and has few results	200	143.088	142.729	143.169	8	
+filter-language-en	FILTER on string predicate for only English literals	200	1.133	1.078	1.487	8	
+filter-many-results	FILTER that filters out few rows and has many results	200	145.394	144.812	145.395	16	
+group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	200	374.423	373.216	388.271	1448	
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	200	4.216	4.098	4.644	507	
+group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	200	138.82	138.792	138.829	603	
+group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	200	359.436	359.003	370.373	436	
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	200	58.311	58.106	58.378	22	
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	200	0.6	0.519	0.701	14	
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	200	0.545	0.467	0.729	8	
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	200	0.569	0.4	0.74	6	
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	200	40.585	40.477	40.593	13	
+group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	200	0.616	0.491	0.713	15	
+group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	200	0.746	0.612	0.846	29	
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	200	0.673	0.636	0.818	31	
+group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	200	48.074	47.617	48.268	14	
+join-2-large-large	JOIN of two large predicates	200	0.604	0.535	0.699	15	
+join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	200	23.66	23.147	24.154	16	
+join-2-large-large-with-small-result	JOIN of two large predicates with a small result	200	58.311	58.295	58.467	11	
+join-2-large-small	JOIN of a large and a small predicate	200	0.574	0.534	0.669	11	
+join-2-largest-result	JOIN of two predicates with the largest possible result	200	23.4	23.116	23.499	16	
+join-2-small-large	JOIN of a small and a large predicate	200	0.638	0.559	0.745	11	
+join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	200	220.593	218.939	221.338	16	
+join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	200	127.886	127.781	149.515	15	
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	200	0.841	0.819	1.089	8	
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	200	1.2	1.174	1.245	8	
+minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	200	21.024	20.716	21.079	8	
+minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	200	26.006	25.839	26.073	14	
+minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	200	25.811	25.711	25.833	14	
+minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	200	210.085	207.158	210.399	8	
+minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	200	2396.404	2387.84	2399.79	8	
+minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	200	1692.829	1690.157	1694.881	8	
+minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	200	75.238	73.166	77.433	8	
+minus-join-large-large	MINUS JOIN of two large predicates	200	114.281	112.196	114.51	16	
+minus-join-large-small	MINUS JOIN of a large and a small predicate	200	0.68	0.626	0.814	16	
+minus-join-small-large	MINUS JOIN of a small and a large predicate	200	0.604	0.529	0.804	8	
+multicolumn-join-large	Multicolumn JOIN large	200	1112.338	1112.278	1121.37	15	
+multicolumn-join-small	Multicolumn JOIN small	200	0.626	0.521	0.643	8	
+number-of-blank-nodes	Total number of blank nodes	200	6.532	5.995	6.919	16	
+number-of-literals	Total number of literals	200	0.6	0.498	0.687	16	
+number-of-objects	Total number of distinct objects	200	1.462	1.445	1.571	16	
+number-of-predicates	Total number of distinct predicates	200	2.266	1.97	3.319	9	
+number-of-subjects	Total number of distinct subjects	200	1.494	1.438	1.5	15	
+number-of-triples	Total number of triples	200	0.568	0.446	0.672	16	
+numeric-abs	ABS function	200	42.522	42.486	42.637	13	
+numeric-add	Addition	200	41.778	41.752	41.784	13	
+numeric-baseline	Baseline for numeric queries	200	40.634	40.605	40.677	13	
+numeric-ceil	CEIL function	200	42.591	42.57	42.866	13	
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	200	0.845	0.737	0.923	14	
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	200	0.922	0.782	1.054	13	
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	200	0.766	0.737	0.972	14	
+numeric-floor	FLOOR function	200	42.603	42.597	42.612	13	
+numeric-greater	Greater than	200	0.898	0.871	0.988	12	
+numeric-round	ROUND function	200	42.594	42.57	42.679	13	
+optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	200	24.817	24.732	24.853	16	
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	200	65.337	65.275	65.456	14	
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	200	54.713	54.703	54.819	14	
+optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	200	221.016	220.683	221.077	16	
+optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	200	839.725	839.067	844.531	16	
+optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	200	140.893	140.606	141.884	15	
+optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	200	167.719	167.554	167.91	15	
+optional-join-large-large	OPTIONAL JOIN of two large predicates	200	144.384	140.862	144.483	16	
+optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	200	0.679	0.64	0.816	16	
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	200	0.612	0.524	0.763	11	
+regex-3	REGEX filter with expression of length 3	200	481.565	473.495	482.359	13	
+regex-3-contains	CONTAINS filter with fixed string of length 3	200	109.643	109.49	109.827	13	
+regex-3-fixed	REGEX filter with fixed string of length 3	200	407.169	405.825	439.365	13	
+regex-prefix-1	REGEX filter with prefix of length 1	200	180.968	176.928	247.871	13	
+regex-prefix-2	REGEX filter with prefix of length 2	200	26.57	25.449	27.125	12	
+regex-prefix-3	REGEX filter with prefix of length 3	200	10.212	10.186	10.234	11	
+result-size-large	Export 1M tuples	200	715.501	696.174	732.092	98482036	
+result-size-medium	Export 100K tuples	200	61.802	61.219	62.0	9896852	
+result-size-small	Export 1000 tuples	200	3.551	3.222	7.726	98996	
+result-size-tiny	Export 10 tuples	200	2.681	2.492	8.733	994	
+result-size-xlarge	Export 10M tuples	200	7288.644	7244.757	7498.993	992652973	
+strafter	STRAFTER string function	200	129.707	129.528	129.734	19	
+strbefore	STRBEFORE string function	200	118.485	118.131	118.541	18	
+strends	STRENDS string function	200	96.98	96.716	97.901	13	
+strlen	String length for large string predicate	200	104.88	104.722	105.1	20	
+strstarts	STRSTARTS string function	200	41.922	39.252	60.386	9	
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	200	0.556	0.544	0.648	8	
+transitive-path-plus	Transitive path with plus	200	0.552	0.489	0.734	8	
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	200	0.5	0.449	0.593	8	
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	200	0.588	0.464	0.724	8	
+union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	200	1282.988	1281.854	1324.42	8	
+union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	200	120.491	118.837	120.796	15	
+union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	200	203.544	198.02	207.407	16	
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	200	22.094	21.259	22.118	14	
+union-no-constraint	UNION of two large predicates, no constraint	200	0.615	0.543	0.82	16	

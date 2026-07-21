@@ -71,9 +71,11 @@ def load_categories(dataset_dir):
     return {}, None
 
 def geomean(vals):
-    # sub-millisecond (0 ms) results are floored to 1 ms so they count as "fast"
-    # rather than being dropped (geomean is sensitive to near-zero values).
-    vals = [max(v, 1) for v in vals if v is not None]
+    # Near-zero results are floored to 0.001 ms (matches run_benchmark.sh's
+    # math.log(max(t, 0.001))) so a genuinely sub-millisecond query counts as
+    # "fast" rather than being dropped (geomean is sensitive to near-zero values)
+    # or inflated to a whole millisecond it never took.
+    vals = [max(v, 0.001) for v in vals if v is not None]
     if not vals:
         return None
     return math.exp(sum(math.log(v) for v in vals) / len(vals))
@@ -95,17 +97,26 @@ def load_summary(path):
             try:
                 # median_ms can be a float string (e.g. "4262.0") when a query ran
                 # an even number of timed runs (the per-query budget can stop at 2).
-                out[r["query_id"]] = None if r.get("status") != "200" else round(float(r["median_ms"]))
+                # Keep it fractional (do NOT round to whole ms): sub-millisecond
+                # fast-path queries must retain their true value so aggregates match
+                # run_benchmark.sh's 0.001 ms floor rather than collapsing to 0/1 ms.
+                out[r["query_id"]] = None if r.get("status") != "200" else float(r["median_ms"])
             except (ValueError, KeyError):
                 out[r["query_id"]] = None
     return out
 
 def fmt_ms(ms):
+    # Tiered precision so genuinely fast times keep their sub-millisecond detail
+    # (a 0.5 ms fast-path query must not collapse to "0 ms"/"1 ms"), while large
+    # times where sub-ms precision is noise stay whole. Matches the fractional-ms
+    # resolution captured by run_benchmark.sh (curl %{time_total}).
     if ms is None:
         return "—"
     if ms >= 10000:
         return f"{ms/1000:.1f} s"
-    return f"{round(ms):,} ms"
+    if ms >= 10:
+        return f"{ms:,.1f} ms"
+    return f"{ms:.2f} ms"
 
 def cell(ms, best, bold):
     """`abs (×best)`; floor-guarded; leader bolded."""

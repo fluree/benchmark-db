@@ -2,7 +2,7 @@
 <defs><pattern id='offscale' width='6' height='6' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'><rect width='6' height='6' fill='#94a3b8'/><line x1='0' y1='0' x2='0' y2='6' stroke='white' stroke-width='2'/></pattern></defs>
 <rect width='760' height='367' fill='white'/>
 <text x='20' y='26' font-size='17' font-weight='700' fill='#1e293b'>DBLP-core · geometric-mean query time (penalized, P=2)</text>
-<text x='20' y='46' font-size='12.5' fill='#64748b'>561M triples · 7 engines, one box (m7a.4xlarge 16c/64GB) · Fluree v4.0.6 · failed query = 2× the 180 s timeout · linear, lower is better</text>
+<text x='20' y='46' font-size='12.5' fill='#64748b'>561M triples · 7 engines, one box (m7a.4xlarge 16c/64GB) · Fluree v4.1.2 · failed query = 2× the 180 s timeout · linear, lower is better</text>
 <line x1='150.0' y1='64' x2='150.0' y2='323' stroke='#e2e8f0' stroke-width='1'/>
 <text x='150.0' y='339' font-size='11' fill='#64748b' text-anchor='middle'>0 ms</text>
 <line x1='294.5' y1='64' x2='294.5' y2='323' stroke='#e2e8f0' stroke-width='1'/>
@@ -14,24 +14,24 @@
 <line x1='728.0' y1='64' x2='728.0' y2='323' stroke='#e2e8f0' stroke-width='1'/>
 <text x='728.0' y='339' font-size='11' fill='#64748b' text-anchor='middle'>2 s</text>
 <text x='140' y='86.5' font-size='12.5' font-weight='700' fill='#1e293b' text-anchor='end'>Fluree</text>
-<rect x='150' y='71.4' width='5.6' height='22.2' rx='2' fill='#0d9488'/>
-<text x='163.6' y='86.5' font-size='12' font-weight='700' fill='#1e293b'>19.4 ms  <tspan fill='#64748b'>1.0× · 105/105</tspan></text>
+<rect x='150' y='71.4' width='5.1' height='22.2' rx='2' fill='#0d9488'/>
+<text x='163.1' y='86.5' font-size='12' font-weight='700' fill='#1e293b'>17.5 ms  <tspan fill='#64748b'>1.0× · 105/105</tspan></text>
 <text x='140' y='123.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>QLever</text>
 <rect x='150' y='108.4' width='58.4' height='22.2' rx='2' fill='#94a3b8'/>
-<text x='216.4' y='123.5' font-size='12' font-weight='400' fill='#1e293b'>202 ms  <tspan fill='#64748b'>10.4× · 105/105</tspan></text>
+<text x='216.4' y='123.5' font-size='12' font-weight='400' fill='#1e293b'>202 ms  <tspan fill='#64748b'>11.5× · 105/105</tspan></text>
 <text x='140' y='160.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Virtuoso</text>
 <rect x='150' y='145.4' width='86.7' height='22.2' rx='2' fill='#94a3b8'/>
-<text x='244.7' y='160.5' font-size='12' font-weight='400' fill='#1e293b'>300 ms  <tspan fill='#64748b'>15.4× · 103/105</tspan></text>
+<text x='244.7' y='160.5' font-size='12' font-weight='400' fill='#1e293b'>300 ms  <tspan fill='#64748b'>17.1× · 103/105</tspan></text>
 <text x='140' y='197.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>MillenniumDB</text>
 <rect x='150' y='182.4' width='480.9' height='22.2' rx='2' fill='#94a3b8'/>
-<text x='622.9' y='197.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>1.7 s   86× · 103/105</text>
+<text x='622.9' y='197.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>1.7 s   95× · 103/105</text>
 <text x='140' y='234.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Jena</text>
 <rect x='150' y='219.4' width='578.0' height='22.2' rx='2' fill='url(#offscale)'/>
-<text x='720.0' y='234.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>67.7 s   3487× · 34/105  ▶ off-scale</text>
+<text x='720.0' y='234.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>67.7 s   3856× · 34/105  ▶ off-scale</text>
 <text x='140' y='271.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Oxigraph</text>
 <rect x='150' y='256.4' width='578.0' height='22.2' rx='2' fill='url(#offscale)'/>
-<text x='720.0' y='271.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>87.0 s   4486× · 39/105  ▶ off-scale</text>
+<text x='720.0' y='271.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>87.0 s   4961× · 39/105  ▶ off-scale</text>
 <text x='140' y='308.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Blazegraph</text>
 <rect x='150' y='293.4' width='578.0' height='22.2' rx='2' fill='url(#offscale)'/>
-<text x='720.0' y='308.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>333.0 s   17158× · 3/105  ▶ off-scale</text>
+<text x='720.0' y='308.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>333.0 s   18971× · 3/105  ▶ off-scale</text>
 </svg>

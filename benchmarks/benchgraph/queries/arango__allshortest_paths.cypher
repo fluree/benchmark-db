@@ -1,0 +1,3 @@
+MATCH (n:User {id: $from}), (m:User {id: $to}) WITH n, m
+MATCH p = allShortestPaths((n)-[*..2]->(m))
+RETURN [node in nodes(p) | node.id] AS path

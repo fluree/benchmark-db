@@ -1,6 +1,0 @@
-config_label=16gb-4c
-version=v4.0.6
-commit=
-import_seconds=952
-memory_budget_mb=auto
-count=561544658

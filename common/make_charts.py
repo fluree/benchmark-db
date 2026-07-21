@@ -5,12 +5,10 @@ output renders as plain <img> on GitHub's markdown viewer).
 
   python3 common/make_charts.py
   # -> assets/dblp-core-geomean.svg
-  #    assets/dblp-core-scaling.svg
   #    assets/wikidata-truthy-geomean.svg
 
 Numbers are the published aggregates from
-benchmarks/sparqloscope/reports/{dblp-core,wikidata-truthy}/ (REPORT.md /
-fluree-scaling/README.md).
+benchmarks/sparqloscope/reports/{dblp-core,wikidata-truthy}/ (REPORT.md / meta.json).
 """
 import math
 import os
@@ -96,93 +94,36 @@ def geomean_chart(rows, title, subtitle, hi, nticks=5, cap=None):
     return "\n".join(s)
 
 
-def scaling_chart():
-    # Fluree v4.0.6 geo-mean (ms) as the box shrinks 4×; all 105/105.
-    rows = [
-        ("16c / 64 GB", 19),
-        ("8c / 32 GB", 20),
-        ("4c / 16 GB", 25),
-    ]
-    qlever_full = 202  # 2nd-best engine geo mean, on the FULL 16c/64GB box
-    W, H = 760, 380
-    L, R, T, B = 60, 30, 70, 70
-    pw = W - L - R
-    ph = H - T - B
-    ymax = 220.0
-    n = len(rows)
-    slot = pw / n
-    bw = slot * 0.5
-
-    def y(v):
-        return T + ph - (v / ymax) * ph
-
-    s = [f"<svg xmlns='http://www.w3.org/2000/svg' width='{W}' height='{H}' "
-         f"viewBox='0 0 {W} {H}' {FONT}>"]
-    s.append(f"<rect width='{W}' height='{H}' fill='white'/>")
-    s.append(f"<text x='20' y='26' font-size='17' font-weight='700' fill='{INK}'>"
-             "Fluree scales down 4× — performance virtually unchanged</text>")
-    s.append(f"<text x='20' y='46' font-size='12.5' fill='{MUTED}'>"
-             "DBLP-core · geometric-mean query time · every config 105/105 · lower is better</text>")
-    for gv in (0, 50, 100, 150, 200):
-        gy = y(gv)
-        s.append(f"<line x1='{L}' y1='{gy:.1f}' x2='{W-R}' y2='{gy:.1f}' "
-                 f"stroke='{GRID}' stroke-width='1'/>")
-        s.append(f"<text x='{L-8}' y='{gy+4:.1f}' font-size='10.5' fill='{MUTED}' "
-                 f"text-anchor='end'>{gv}</text>")
-    ry = y(qlever_full)
-    s.append(f"<line x1='{L}' y1='{ry:.1f}' x2='{W-R}' y2='{ry:.1f}' "
-             f"stroke='{OTHER}' stroke-width='2' stroke-dasharray='7 4'/>")
-    s.append(f"<text x='{W-R}' y='{ry-7:.1f}' font-size='11.5' fill='{MUTED}' "
-             f"text-anchor='end' font-weight='600'>QLever — next fastest engine, on the full 16c/64 GB box (202 ms)</text>")
-    for i, (label, v) in enumerate(rows):
-        cx = L + i * slot + slot / 2
-        bx = cx - bw / 2
-        by = y(v)
-        s.append(f"<rect x='{bx:.1f}' y='{by:.1f}' width='{bw:.1f}' height='{T+ph-by:.1f}' "
-                 f"rx='3' fill='{FLUREE}'/>")
-        s.append(f"<text x='{cx:.1f}' y='{by-8:.1f}' font-size='12' font-weight='700' "
-                 f"fill='{INK}' text-anchor='middle'>{v} ms</text>")
-        s.append(f"<text x='{cx:.1f}' y='{H-B+18:.1f}' font-size='11' fill='{INK}' "
-                 f"text-anchor='middle'>{esc(label)}</text>")
-    s.append(f"<text x='20' y='{H-18}' font-size='11.5' fill='{MUTED}'>"
-             "Geo mean moves just 19 → 20 → 25 ms as the box shrinks 4× — and the 1/4-box result "
-             "is still 8× faster than the next fastest engine on the full box.</text>")
-    s.append("</svg>")
-    return "\n".join(s)
-
-
 def main():
     os.makedirs(OUT, exist_ok=True)
 
     # Penalized geo mean per the SPARQLoscope paper: a failed/timed-out query
     # counts as 2x the 180 s timeout (P=2).
     dblp_rows = [
-        ("Fluree",          19.4,   "1.0×",   "105/105"),
-        ("QLever",         202,    "10.4×",   "105/105"),
-        ("Virtuoso",       300,    "15.4×",   "103/105"),
-        ("MillenniumDB",  1664,      "86×",   "103/105"),
-        ("Jena",         67700,    "3487×",    "34/105"),
-        ("Oxigraph",     87000,    "4486×",    "39/105"),
-        ("Blazegraph",  333000,   "17158×",     "3/105"),
+        ("Fluree",          17.5,   "1.0×",   "105/105"),
+        ("QLever",         202,    "11.5×",   "105/105"),
+        ("Virtuoso",       300,    "17.1×",   "103/105"),
+        ("MillenniumDB",  1664,      "95×",   "103/105"),
+        ("Jena",         67700,    "3856×",    "34/105"),
+        ("Oxigraph",     87000,    "4961×",    "39/105"),
+        ("Blazegraph",  333000,   "18971×",     "3/105"),
     ]
     open(os.path.join(OUT, "dblp-core-geomean.svg"), "w").write(
         geomean_chart(
             dblp_rows,
             "DBLP-core · geometric-mean query time (penalized, P=2)",
-            "561M triples · 7 engines, one box (m7a.4xlarge 16c/64GB) · Fluree v4.0.6 · "
+            "561M triples · 7 engines, one box (m7a.4xlarge 16c/64GB) · Fluree v4.1.2 · "
             "failed query = 2× the 180 s timeout · linear, lower is better",
             hi=2000, nticks=4, cap=2000))
-
-    open(os.path.join(OUT, "dblp-core-scaling.svg"), "w").write(scaling_chart())
 
     # Penalized geo mean per the SPARQLoscope paper: a failed/timed-out query
     # counts as 2x the 300 s timeout (P=2).
     wd_rows = [
-        ("Fluree",          363,  "1.0×", "105/105"),
-        ("QLever",         3821, "10.5×",  "91/105"),
-        ("Virtuoso",      13000, "35.8×",  "81/105"),
-        ("MillenniumDB",  28800, "79.2×",  "67/105"),
-        ("Jena",         151500,  "417×",  "31/105"),
+        ("Fluree",          367,  "1.0×", "105/105"),
+        ("QLever",         3833, "10.4×",  "91/105"),
+        ("Virtuoso",      12900, "35.1×",  "81/105"),
+        ("MillenniumDB",  28700, "78.1×",  "67/105"),
+        ("Jena",         151500,  "412×",  "31/105"),
     ]
     open(os.path.join(OUT, "wikidata-truthy-geomean.svg"), "w").write(
         geomean_chart(
@@ -192,8 +133,7 @@ def main():
             "failed query = 2× the 300 s timeout · linear, lower is better",
             hi=30000, nticks=6, cap=30000))
 
-    print("wrote assets/dblp-core-geomean.svg, assets/dblp-core-scaling.svg, "
-          "assets/wikidata-truthy-geomean.svg")
+    print("wrote assets/dblp-core-geomean.svg, assets/wikidata-truthy-geomean.svg")
 
 
 if __name__ == "__main__":

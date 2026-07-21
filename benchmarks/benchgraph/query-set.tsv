@@ -1,0 +1,36 @@
+query_id	kind	params	description
+aggregation__count	read	none	count(n) + count(n.age) over all nodes
+aggregation__min_max_avg	read	none	min/max/avg age over all nodes
+arango__aggregate	read	none	age histogram (implicit GROUP BY)
+arango__aggregate_with_distinct	read	none	COUNT(DISTINCT n.age)
+arango__aggregate_with_filter	read	none	age histogram with age >= 18 filter
+arango__allshortest_paths	read	from_to	allShortestPaths up to 2 hops
+arango__expansion_1	read	id	1-hop expansion
+arango__expansion_1_with_filter	read	id	1-hop expansion + age filter
+arango__expansion_2	read	id	2-hop expansion, DISTINCT
+arango__expansion_2_with_filter	read	id	2-hop expansion + age filter
+arango__expansion_3	read	id	3-hop expansion, DISTINCT
+arango__expansion_3_with_filter	read	id	3-hop expansion + age filter
+arango__expansion_4	read	id	4-hop expansion, DISTINCT
+arango__expansion_4_with_filter	read	id	4-hop expansion + age filter
+arango__neighbours_2	read	id	var-length *1..2, DISTINCT endpoints
+arango__neighbours_2_with_data	read	id	var-length *1..2 returning whole nodes
+arango__neighbours_2_with_data_and_filter	read	id	var-length *1..2 + filter, whole nodes
+arango__neighbours_2_with_filter	read	id	var-length *1..2 + age filter
+arango__shortest_path	read	from_to	shortestPath up to 15 hops
+arango__shortest_path_with_filter	read	from_to	shortestPath + all() node filter
+arango__single_edge_write	write	from_to	CREATE edge between two matched users
+arango__single_vertex_read	read	id	point lookup by id
+arango__single_vertex_write	write	id10x	CREATE UserTemp node
+arango__unwind_range_vertex_write	write	none	UNWIND range(1,100) batch insert
+create__edge	write	from_to	CREATE TempEdge between matched users
+create__pattern	write	none	CREATE ()-[:TempEdge]->()
+create__vertex	write	none	CREATE () bare node
+create__vertex_big	write	none	CREATE node with 7 labels + 7 props
+match__pattern_cycle	read	id	cyclic pattern, returns edges
+match__pattern_long	read	id	4-hop mixed-direction chain, LIMIT 1
+match__pattern_short	read	id	1-hop with bound edge, LIMIT 1
+match__vertex_on_label_property	read	id	label scan + WITH/WHERE (index-hostile)
+match__vertex_on_label_property_index	read	id	label+property index seek
+match__vertex_on_property	read	id	label+property seek (same text as index)
+update__vertex_on_property	write	id	SET n.property = -1 (label-less match)

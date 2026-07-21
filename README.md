@@ -1,17 +1,22 @@
 # benchmark-db
 
-Reproducible RDF / SPARQL benchmarks for [Fluree](https://labs.flur.ee), run head-to-head
-against other engines on **identical data and hardware**. Every benchmark is
-self-contained under [`benchmarks/`](benchmarks/); they share one query runner and one
-report generator under [`common/`](common/). All engines run **natively** (no Docker,
-matching the SPARQLoscope paper's recommendation), with each engine's result cache
-disabled or cleared per query so every run actually re-executes.
+Reproducible benchmarks for [Fluree](https://labs.flur.ee), run head-to-head against other
+engines on **identical data and hardware**. Every benchmark is self-contained under
+[`benchmarks/`](benchmarks/). Most share one SPARQL query runner and report generator under
+[`common/`](common/); the property-graph suite has its own multi-engine Cypher runner. All
+engines run **natively** (no Docker, matching the SPARQLoscope paper's recommendation), with
+each engine's result cache disabled or cleared per query so every run actually re-executes.
 
-The current suite is **[SPARQLoscope](https://github.com/ad-freiburg/sparqloscope)** —
-105 SPARQL 1.1 queries probing joins, aggregates, property paths, filters, string
-functions, and large result sets — run at two dataset scales (561 M → 8.19 B triples),
-plus the **[Wikidata Graph Pattern Benchmark](benchmarks/wgpb/)** (WGPB, 850 basic
-graph pattern queries) on the full 21.5 B-triple Wikidata all-dump.
+Two families:
+
+- **RDF / SPARQL** — **[SPARQLoscope](https://github.com/ad-freiburg/sparqloscope)**
+  (105 SPARQL 1.1 queries probing joins, aggregates, property paths, filters, string
+  functions, large result sets) at two scales (561 M → 8.19 B triples), plus the
+  **[Wikidata Graph Pattern Benchmark](benchmarks/wgpb/)** (WGPB, 850 basic graph pattern
+  queries) on the full 21.5 B-triple Wikidata all-dump.
+- **Property graph / Cypher** — **[benchgraph / Pokec](benchmarks/benchgraph/)**
+  (Memgraph's published Neo4j-comparison suite) run through Fluree's **Cypher / Bolt**
+  surface vs native Memgraph, Neo4j, and FalkorDB.
 
 ---
 
@@ -27,9 +32,9 @@ only two engines (with QLever) to answer all 105 queries.
 | metric (lower = faster) | **Fluree** | QLever | Virtuoso | MillenniumDB | Jena | Oxigraph | Blazegraph |
 |---|---|---|---|---|---|---|---|
 | **queries passed** | **105/105** | 105/105 | 103/105 | 103/105 | 34/105 | 39/105 | 3/105 |
-| **geo mean (P=2)** | **19.4 ms (1.0×)** | 202 ms (10.4×) | 300 ms (15.4×) | 1,664 ms (86×) | 67.7 s (3487×) | 87.0 s (4486×) | 333 s (17158×) |
-| **geo mean (P=10)** | **19.4 ms (1.0×)** | 202 ms (10.4×) | 309 ms (15.9×) | 1,716 ms (88×) | 200.9 s (10355×) | 239.4 s (12338×) | 1,590 s (81934×) |
-| **median (passed only)** | **41 ms (1.0×)** | 310 ms (7.6×) | 326 ms (7.9×) | 3,894 ms (95×) | 6,033 ms (147×) | 5,090 ms (124×) | 23.0 s (562×) |
+| **geo mean (P=2)** | **17.5 ms (1.0×)** | 202.4 ms (11.5×) | 299.7 ms (17.1×) | 1,664.2 ms (95×) | 67.7 s (3856×) | 87.0 s (4961×) | 332.9 s (18971×) |
+| **geo mean (P=10)** | **17.5 ms (1.0×)** | 202.4 ms (11.5×) | 309.1 ms (17.6×) | 1,716.0 ms (98×) | 200.9 s (11449×) | 239.4 s (13642×) | 1,589.5 s (90593×) |
+| **median (passed only)** | **26.6 ms (1.0×)** | 310.3 ms (11.7×) | 326.0 ms (12.3×) | 3,894.5 ms (147×) | 4,540.7 ms (171×) | 5,089.9 ms (192×) | 23.2 s (871×) |
 
 _The geo means follow the [SPARQLoscope paper](https://ad-publications.cs.uni-freiburg.de/ISWC_sparqloscope_BKTU_2025.pdf)'s
 official aggregate: a failed or timed-out query counts as 2× (P=2) or 10× (P=10) the
@@ -39,45 +44,89 @@ official aggregate: a failed or timed-out query counts as 2× (P=2) or 10× (P=1
 [per-engine raw TSVs](benchmarks/sparqloscope/reports/dblp-core/engines/) ·
 [run metadata & setup facts](benchmarks/sparqloscope/reports/dblp-core/meta.json)
 
-> Fluree is **v4.0.6** (native source build). The other six engines were
+> Fluree is **v4.1.2** (native source build). The other six engines were
 > measured on the same box; the small box-to-box variance does not change the ranking —
 > see the report caveats.
 
 ---
 
-## Fluree scales down 4× — performance virtually unchanged
+## Property graph — Pokec: Fluree Cypher vs Memgraph, Neo4j & FalkorDB
 
-We then re-ran Fluree alone (same **v4.0.6** build) on progressively smaller boxes,
-and the headline is how little the numbers move: **geo mean 19 → 20 → 25 ms and median
-41 → 44 → 49 ms from the full 16 c / 64 GB box down to one-quarter the cores and RAM
-(4 c / 16 GB), with all 105 queries passing at every size.** And that ¼-box result is
-still **8.1× faster on geo mean** than the next fastest engine (QLever) running on the
-full box — 5.6× arith, 6.3× median.
+Fluree also speaks **Cypher**, so we ran Memgraph's own
+**[benchgraph](https://memgraph.com/benchgraph)** suite (35 Cypher queries over the Pokec
+social network) head-to-head against native **Memgraph 3.11.0**, **Neo4j 5.26.28**, and
+**FalkorDB 4.18.11** on one `r8a.4xlarge`. Each engine is measured over the transport its
+users actually use — Fluree over HTTP, Memgraph and Neo4j over Bolt, FalkorDB over native
+RESP. It is a **read _and_ write** benchmark, so writes come first. All four engines answer
+**35/35 at every scale**, return **byte-identical result sets**, and are held to the **same
+per-commit durability contract** — every commit is fsynced. (Memgraph's *published*
+sub-millisecond writes come from a non-durable mode that acks a commit before it hits disk;
+that is not a contract a real database of record would run on, so we hold all four to durable
+writes.)
 
-![Fluree scaling ramp vs QLever's full-box result](assets/dblp-core-scaling.svg)
+Geometric mean, ms — lower is faster. The last three columns state how much faster (or
+slower) Fluree is than each engine. **Bold = fastest in the row.**
 
-| Fluree config | cores | RAM | passed | arith | median | geo |
-|---|---|---|---|---|---|---|
-| 16c / 64 GB (full) | 16 | 64 GB | 105/105 | 251 ms | 41 ms | 19 ms |
-| 8c / 32 GB (½ box) | 8 | 32 GB | 105/105 | 265 ms | 44 ms | 20 ms |
-| **4c / 16 GB (¼ box)** | **4** | **16 GB** | **105/105** | **338 ms** | **49 ms** | **25 ms** |
-| _QLever, full 16c/64 GB (for reference)_ | 16 | 64 GB | 105/105 | _1,904 ms_ | _310 ms_ | _202 ms_ |
+**Durable writes** (the headline — Fluree wins outright at every scale):
 
-→ **[Resource-scaling bench](benchmarks/sparqloscope/reports/dblp-core/fluree-scaling/)**
-(per-config raw TSVs + findings)
+| scale (nodes / edges) | Fluree v4.1.2 | Memgraph | Neo4j | FalkorDB | vs Memgraph | vs Neo4j | vs FalkorDB |
+|---|---|---|---|---|--:|--:|--:|
+| small — 10 k / 122 k | **1.32 ms** | 3.03 ms | 1.76 ms | 2.93 ms | 2.30× faster | 1.33× faster | 2.22× faster |
+| medium — 100 k / 1.8 M | **1.27 ms** | 3.39 ms | 2.94 ms | 3.36 ms | 2.66× faster | 2.31× faster | 2.64× faster |
+| large — 1.6 M / 30.6 M | **1.73 ms** | 4.46 ms | 4.07 ms | 4.57 ms | 2.57× faster | 2.35× faster | 2.63× faster |
+
+**Read-only** (Fluree fastest at every scale):
+
+| scale (nodes / edges) | Fluree v4.1.2 | Memgraph | Neo4j | FalkorDB | vs Memgraph | vs Neo4j | vs FalkorDB |
+|---|---|---|---|---|--:|--:|--:|
+| small — 10 k / 122 k | **0.60 ms** | 0.93 ms | 1.43 ms | 0.61 ms | 1.56× faster | 2.39× faster | 1.02× faster |
+| medium — 100 k / 1.8 M | **1.23 ms** | 2.36 ms | 4.99 ms | 1.75 ms | 1.92× faster | 4.05× faster | 1.42× faster |
+| large — 1.6 M / 30.6 M | **1.47 ms** | 4.41 ms | 6.80 ms | 4.57 ms | 3.01× faster | 4.64× faster | 3.12× faster |
+
+**Writes:** with every engine fsync-durable, Fluree's per-commit write path is **2.3–2.7×
+faster than Memgraph and FalkorDB and 1.3–2.4× faster than Neo4j** at every scale.
+**Reads:** Fluree is the **fastest engine at every scale** — **1.6–3.0× faster** than
+Memgraph, **2.4–4.6×** than Neo4j, and **1.0–3.1×** than FalkorDB (tied with FalkorDB on the
+tiny small graph, pulling away with scale). The blend still hides a clean **division of
+strengths**: **Fluree owns the analytical half** — whole-graph aggregates stay ~O(1) via
+index directories and are **100–720× faster than the scanners at large** — while **FalkorDB
+keeps a narrow edge in raw traversal** (fixed-hop expansions and neighbourhoods **~1.2–1.5×
+faster** on the category geo-mean, down from ~2–3× in prior builds), though **Fluree now
+overtakes it on the deepest hops** (`expansion_3`, `expansion_4`) at large. Memgraph is the
+balanced in-memory generalist (and shortest-path leader at small/medium scales); Neo4j is
+consistently slowest.
+
+> **Note — this is a big-box run; the real differentiator is memory.** FalkorDB and Memgraph
+> hold the entire graph in RAM (FalkorDB is compact — 1.29 GB for large — but there is no
+> disk paging: an over-sized graph OOMs). Fluree is disk-backed with an on-disk index, so it
+> degrades gracefully where the in-memory engines hit a cliff. On smaller machines, where the
+> graph approaches or exceeds RAM, that architectural gap — not these on-par big-box read
+> numbers — is where the engines diverge. A smaller-machine run is the natural next step.
+
+→ **[Full Pokec report](benchmarks/benchgraph/reports/pokec/REPORT.md)** ·
+[per-engine raw TSVs](benchmarks/benchgraph/reports/pokec/engines/) ·
+[per-query medians](benchmarks/benchgraph/reports/pokec/summary.tsv) ·
+[run metadata](benchmarks/benchgraph/reports/pokec/meta.json)
+
+> Fluree is the imminent **v4.1.2** release (build `13a78d2a`), measured through its Cypher
+> surface over HTTP end to end. All four engines run **natively** on the one box (FalkorDB as
+> `redis-server` + module, not the Docker image), each over its real-world client transport
+> (Fluree HTTP, Memgraph/Neo4j Bolt, FalkorDB native RESP), and all held to per-commit fsync
+> durability. All three scales were measured together with shared params (fresh pristine load
+> each). See the report's division-of-strengths analysis and caveats.
 
 ---
 
 ## All runs at a glance
 
 Fluree leads every aggregate at both scales. On the SPARQLoscope penalized geo mean
-(P=2), the v4.0.6 build is **10.4× faster than the next fastest engine (QLever) on
-DBLP-core (561 M) and 10.5× on Wikidata-Truthy (8.19 B)**.
+(P=2), Fluree is **11.5× faster than the next fastest engine (QLever) on
+DBLP-core (561 M) and 10.4× on Wikidata-Truthy (8.19 B)**.
 
 | benchmark | triples | engines | box | Fluree passed | Fluree geo P=2 (vs next fastest) | report |
 |---|---|---|---|---|---|---|
-| **DBLP-core** | 561 M | 7 | `m7a.4xlarge` 16c/64 GB | **105/105** | **19.4 ms** (QLever 10.4×) | [report](benchmarks/sparqloscope/reports/dblp-core/REPORT.md) |
-| **Wikidata-truthy** | 8.19 B | 5 | `r7a.16xlarge` 64c/512 GB | **105/105** | **363 ms** (QLever 10.5×) | [report](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) |
+| **DBLP-core** | 561 M | 7 | `m7a.4xlarge` 16c/64 GB | **105/105** | **17.5 ms** (QLever 11.5×) | [report](benchmarks/sparqloscope/reports/dblp-core/REPORT.md) |
+| **Wikidata-truthy** | 8.19 B | 5 | `r7a.16xlarge` 64c/512 GB | **105/105** | **367.4 ms** (QLever 10.4×) | [report](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) |
 | **WGPB** (Wikidata all-dump) | 21.5 B | 1 (Fluree only) | `r7a.8xlarge` 32c/256 GB | **850/850** | **43 ms** | [report](benchmarks/wgpb/reports/wikidata-all/REPORT.md) |
 
 _Wikidata-truthy is the hardest SPARQLoscope scale (8.19 B triples); passed-counts fall
@@ -99,7 +148,7 @@ the per-dataset notes under [`benchmarks/sparqloscope/datasets/`](benchmarks/spa
 record exact sources, versions, and checksums.
 
 ```bash
-# 1. install Fluree (official v4.0.6 release — native binary, no source build).
+# 1. install Fluree (official release, v4.1.2 or later — native binary, no source build).
 
 curl --proto '=https' --tlsv1.2 -LsSf \
   https://github.com/fluree/db/releases/latest/download/fluree-db-cli-installer.sh | sh
@@ -145,13 +194,19 @@ benchmarks/
     queries/            105 SPARQL 1.1 query files
     datasets/           per-dataset source/version/checksum notes
     reports/
-      dblp-core/        7-engine same-box run (REPORT.md, meta.json, engines/*.tsv,
-                        fluree-scaling/)
+      dblp-core/        7-engine same-box run (REPORT.md, meta.json, engines/*.tsv)
       wikidata-truthy/  8.19 B-triple 5-engine run (Blazegraph excluded)
   wgpb/
     queries/            850 WGPB basic-graph-pattern queries (17 shapes x 50)
     reports/
       wikidata-all/     21.5 B-triple full all-dump run (Fluree)
+  benchgraph/           property-graph / Cypher (Memgraph's Pokec suite)
+    queries/            35 Neo4j-portable Cypher queries (pokec.py)
+    bench_runner.py     multi-engine Cypher runner (fluree HTTP / memgraph / neo4j Bolt / falkordb RESP)
+    queries-falkordb/   FalkorDB path-query overrides (shortestPath in WITH/RETURN)
+    reports/
+      pokec/            3-scale Fluree-vs-Memgraph-vs-Neo4j-vs-FalkorDB run (REPORT.md,
+                        meta.json, summary.tsv, engines/*.tsv)
 common/
   run_benchmark.sh      generic SPARQL benchmark runner
   generate_report.py    meta.json + engines/*.tsv -> REPORT.md

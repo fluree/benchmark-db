@@ -13,153 +13,147 @@ _Query results first; dataset/hardware/import detail in §3–§4._
 | metric | Fluree | QLever | Virtuoso | MillenniumDB | Apache Jena (TDB2/Fuseki) |
 |---|---|---|---|---|---|
 | passed | 105/105 | 91/105 | 81/105 | 67/105 | 31/105 |
-| geo mean (P=2) | **363 ms (1.0×)** | 3,821 ms (10.5×) | 13.0 s (35.8×) | 28.8 s (79.2×) | 151.5 s (417.3×) |
-| geo mean (P=10) | **363 ms (1.0×)** | 4,735 ms (13.0×) | 18.8 s (51.7×) | 51.5 s (141.8×) | 471.0 s (1297.4×) |
-| geo mean (passed only) | **363 ms (1.0×)** | 1,755 ms (4.8×) | 4,178 ms (11.5×) | 5,132 ms (14.1×) | 5,669 ms (15.6×) |
-| arith mean (passed only) | **4,911 ms (1.0×)** | 18.3 s (3.7×) | 51.1 s (10.4×) | 59.4 s (12.1×) | 75.3 s (15.3×) |
-| median (passed only) | **903 ms (1.0×)** | 2,796 ms (3.1×) | 9,147 ms (10.1×) | 10.3 s (11.4×) | 118.3 s (131.0×) |
+| geo mean (P=2) | **367.4 ms (1.0×)** | 3,833.3 ms (10.4×) | 12.9 s (35.1×) | 28.7 s (78.1×) | 151.5 s (412.4×) |
+| geo mean (P=10) | **367.4 ms (1.0×)** | 4,750.8 ms (12.9×) | 18.6 s (50.7×) | 51.4 s (139.8×) | 471.0 s (1282.1×) |
+| geo mean (passed only) | **367.4 ms (1.0×)** | 1,761.8 ms (4.8×) | 4,134.7 ms (11.3×) | 5,112.1 ms (13.9×) | 5,668.9 ms (15.4×) |
+| arith mean (passed only) | **4,911.0 ms (1.0×)** | 18.3 s (3.7×) | 51.1 s (10.4×) | 59.4 s (12.1×) | 75.3 s (15.3×) |
+| median (passed only) | **902.6 ms (1.0×)** | 2,796.2 ms (3.1×) | 9,147.3 ms (10.1×) | 10.3 s (11.4×) | 118.3 s (131.1×) |
 
-_geo mean (P=2/P=10) is the SPARQLoscope paper's official aggregate: a failed or
-timed-out query counts as 2× / 10× the 300 s timeout. The passed-only rows average each
-engine's completed queries only, so they flatter engines with many failures._
+_geo mean (P=2/P=10) is the SPARQLoscope paper's official aggregate: a failed or timed-out query counts as 2× / 10× the 300 s timeout. The passed-only rows average each engine's completed queries only, so they flatter engines with many failures._
 
 **Geo-mean slowdown vs the best engine on each query** (1.00× = leads every query):
 
 | Fluree | QLever | Virtuoso | MillenniumDB | Apache Jena (TDB2/Fuseki) |
 |---|---|---|---|---|
-| 1.36× | 7.65× | 16.36× | 26.29× | 61.21× |
+| 1.36× | 7.65× | 16.35× | 26.29× | 61.21× |
 
 ### 1b. By category (geo mean)
 
 | category | n | Fluree | QLever | Virtuoso | MillenniumDB | Apache Jena (TDB2/Fuseki) | fastest |
 |---|--:|---|---|---|---|---|---|
-| Dataset statistics | 6 | 13 ms (1.1×) | **12 ms (1.0×)** | 2,131 ms (182.6×) | 208.4 s (17860.1×) | — | QLever |
-| JOIN | 12 | 382 ms (4.0×) | 2,646 ms (27.9×) | 803 ms (8.5×) | **95 ms (1.0×)** | 497 ms (5.2×) | MillenniumDB |
-| OPTIONAL | 10 | 528 ms (15.5×) | 11.0 s (323.6×) | 2,900 ms (85.3×) | 11.3 s (331.2×) | **34 ms (1.0×)** | Apache Jena (TDB2/Fuseki) |
-| MINUS | 10 | **667 ms (1.0×)** | 10.1 s (15.2×) | 3,943 ms (5.9×) | 12.4 s (18.6×) | — | Fluree |
-| EXISTS | 10 | 653 ms (72.6×) | 16.6 s (1844.4×) | 533 ms (59.2×) | 14.5 s (1611.1×) | **9 ms (1.0×)** | Apache Jena (TDB2/Fuseki) |
-| UNION | 5 | **631 ms (1.0×)** | 9,543 ms (15.1×) | 14.8 s (23.4×) | 106.9 s (169.3×) | — | Fluree |
-| GROUP BY / aggregate | 16 | **93 ms (1.0×)** | 836 ms (9.0×) | 3,914 ms (41.9×) | 5,082 ms (54.4×) | 43.4 s (464.7×) | Fluree |
-| FILTER | 3 | 2,449 ms (1.5×) | **1,599 ms (1.0×)** | 48.0 s (30.0×) | 107.6 s (67.3×) | — | QLever |
-| Numeric functions | 10 | **157 ms (1.0×)** | 1,337 ms (8.5×) | 4,340 ms (27.7×) | 4,018 ms (25.6×) | 128.3 s (818.4×) | Fluree |
-| Date functions | 3 | 3,797 ms (1.5×) | 3,386 ms (1.4×) | **2,461 ms (1.0×)** | 10.3 s (4.2×) | 119.2 s (48.4×) | Virtuoso |
-| String / REGEX | 11 | 4,767 ms (88.6×) | **54 ms (1.0×)** | 221.3 s (4112.6×) | 246.8 s (4586.6×) | — | QLever |
-| Transitive paths | 4 | 107 ms (1.1×) | **100 ms (1.0×)** | — | 330 ms (3.3×) | 1,088 ms (10.8×) | QLever |
-| Result size / export | 5 | 126 ms (1.4×) | 596 ms (6.5×) | 269 ms (2.9×) | **92 ms (1.0×)** | 312 ms (3.4×) | MillenniumDB |
-
-_A **—** means the engine returned no result for that whole category within the
-300 s timeout (every query in it timed out or errored), so no category geo mean can
-be computed — not "not run." Multipliers are vs the fastest engine on each query._
+| Dataset statistics | 6 | 13.5 ms (1.1×) | **12.7 ms (1.0×)** | 2,177.9 ms (171.7×) | 208.4 s (16427.3×) | — | QLever |
+| JOIN | 12 | 392.9 ms (4.1×) | 2,648.2 ms (27.6×) | 773.0 ms (8.1×) | **95.9 ms (1.0×)** | 496.6 ms (5.2×) | MillenniumDB |
+| OPTIONAL | 10 | 547.3 ms (16.1×) | 11.0 s (323.4×) | 2,901.8 ms (85.3×) | 11.2 s (330.5×) | **34.0 ms (1.0×)** | Apache Jena (TDB2/Fuseki) |
+| MINUS | 10 | **667.8 ms (1.0×)** | 10.1 s (15.2×) | 3,918.7 ms (5.9×) | 12.7 s (19.0×) | — | Fluree |
+| EXISTS | 10 | 654.3 ms | 16.6 s | 530.2 ms | 14.6 s | **9.00 ms** | Apache Jena (TDB2/Fuseki) |
+| UNION | 5 | **659.2 ms (1.0×)** | 9,543.0 ms (14.5×) | 14.8 s (22.4×) | 106.9 s (162.2×) | — | Fluree |
+| GROUP BY / aggregate | 16 | **91.3 ms (1.0×)** | 835.7 ms (9.2×) | 3,912.3 ms (42.8×) | 5,090.8 ms (55.8×) | 43.4 s (475.3×) | Fluree |
+| FILTER | 3 | 2,448.4 ms (1.6×) | **1,546.5 ms (1.0×)** | 48.0 s (31.0×) | 107.6 s (69.6×) | — | QLever |
+| Numeric functions | 10 | **162.2 ms (1.0×)** | 1,337.1 ms (8.2×) | 4,340.1 ms (26.8×) | 4,017.6 ms (24.8×) | 128.3 s (791.0×) | Fluree |
+| Date functions | 3 | 3,797.2 ms (1.5×) | 3,386.2 ms (1.4×) | **2,461.5 ms (1.0×)** | 10.3 s (4.2×) | 119.2 s (48.4×) | Virtuoso |
+| String / REGEX | 11 | 4,766.7 ms (88.2×) | **54.1 ms (1.0×)** | 221.3 s (4093.1×) | 246.8 s (4564.9×) | — | QLever |
+| Transitive paths | 4 | 113.4 ms (1.1×) | **99.2 ms (1.0×)** | — | 329.9 ms (3.3×) | 1,087.9 ms (11.0×) | QLever |
+| Result size / export | 5 | 124.9 ms (1.5×) | 592.0 ms (7.1×) | 247.4 ms (3.0×) | **83.5 ms (1.0×)** | 312.2 ms (3.7×) | MillenniumDB |
 
 ### 1c. Per query
 
 | query | category | Fluree | QLever | Virtuoso | MillenniumDB | Apache Jena (TDB2/Fuseki) |
 |---|---|---|---|---|---|---|
-| `number-of-blank-nodes` | Dataset statistics | **1 ms** | 17 ms | 6 ms | 180.0 s | — |
+| `number-of-blank-nodes` | Dataset statistics | **1.37 ms** | 17.3 ms | 6.41 ms | 180.0 s | — |
 | `number-of-literals` | Dataset statistics | **11.6 s (1.0×)** | 148.4 s (12.8×) | 71.7 s (6.2×) | 250.0 s (21.5×) | — |
-| `number-of-objects` | Dataset statistics | 21 ms | **1 ms** | — | — | — |
-| `number-of-predicates` | Dataset statistics | **1 ms** | **1 ms** | — | — | — |
-| `number-of-subjects` | Dataset statistics | 21 ms | **1 ms** | — | — | — |
-| `number-of-triples` | Dataset statistics | **1 ms** | **1 ms** | 22.5 s | 201.1 s | — |
-| `join-2-large-large` | JOIN | **903 ms (1.0×)** | 23.8 s (26.4×) | 156.5 s (173.3×) | — | — |
-| `join-2-large-large-with-large-result` | JOIN | **712 ms (1.0×)** | 12.7 s (17.8×) | 138.4 s (194.4×) | 163.0 s (228.9×) | — |
-| `join-2-large-large-with-small-result` | JOIN | **84 ms (1.0×)** | 560 ms (6.7×) | 528 ms (6.3×) | 7,664 ms (91.2×) | 149.7 s (1782.1×) |
-| `join-2-large-small` | JOIN | 32 ms | 55 ms | **4 ms** | 9 ms | — |
-| `join-2-largest-result` | JOIN | **1,202 ms (1.0×)** | 16.6 s (13.8×) | 243.7 s (202.7×) | — | — |
-| `join-2-small-large` | JOIN | 32 ms | 53 ms | **4 ms** | 17 ms | 30 ms |
+| `number-of-objects` | Dataset statistics | 20.8 ms | **1.16 ms** | — | — | — |
+| `number-of-predicates` | Dataset statistics | **0.80 ms** | 1.07 ms | — | — | — |
+| `number-of-subjects` | Dataset statistics | 20.6 ms | **1.12 ms** | — | — | — |
+| `number-of-triples` | Dataset statistics | **1.13 ms** | 1.16 ms | 22.5 s | 201.1 s | — |
+| `join-2-large-large` | JOIN | **902.6 ms (1.0×)** | 23.8 s (26.4×) | 156.5 s (173.3×) | — | — |
+| `join-2-large-large-with-large-result` | JOIN | **712.2 ms (1.0×)** | 12.6 s (17.8×) | 138.4 s (194.3×) | 163.0 s (228.8×) | — |
+| `join-2-large-large-with-small-result` | JOIN | **83.8 ms (1.0×)** | 560.3 ms (6.7×) | 527.9 ms (6.3×) | 7,664.5 ms (91.5×) | 149.7 s (1786.8×) |
+| `join-2-large-small` | JOIN | 31.8 ms | 55.3 ms | **4.36 ms** | 8.70 ms | — |
+| `join-2-largest-result` | JOIN | **1,202.2 ms (1.0×)** | 16.6 s (13.8×) | 243.7 s (202.7×) | — | — |
+| `join-2-small-large` | JOIN | 32.4 ms | 53.0 ms | **4.24 ms** | 16.8 ms | 30.0 ms |
 | `join-3-chain-largest-sum-of-join-sizes` | JOIN | 28.9 s (1.6×) | **18.4 s (1.0×)** | — | — | — |
-| `join-3-star-largest-sum-of-join-sizes` | JOIN | **2,661 ms (1.0×)** | 23.1 s (8.7×) | 22.8 s (8.6×) | — | — |
-| `join-xlarge-chain-on-small-predicates` | JOIN | **1 ms** | 841 ms | **1 ms** | 2 ms | 7 ms |
-| `join-xlarge-star-on-small-predicates` | JOIN | 24 ms | 90 ms | **1 ms** | **1 ms** | 10 ms |
+| `join-3-star-largest-sum-of-join-sizes` | JOIN | **2,661.3 ms (1.0×)** | 23.1 s (8.7×) | 22.8 s (8.5×) | — | — |
+| `join-xlarge-chain-on-small-predicates` | JOIN | 1.42 ms | 841.4 ms | **0.76 ms** | 1.61 ms | 7.00 ms |
+| `join-xlarge-star-on-small-predicates` | JOIN | 23.5 ms | 90.3 ms | **0.75 ms** | 1.40 ms | 10.0 ms |
 | `multicolumn-join-large` | JOIN | **21.9 s (1.0×)** | 116.0 s (5.3×) | 52.5 s (2.4×) | — | — |
-| `multicolumn-join-small` | JOIN | 3,611 ms (19.8×) | 3,865 ms (21.2×) | 1,677 ms (9.2×) | **182 ms (1.0×)** | 96.1 s (528.0×) |
-| `optional-join-2-large-large-with-large-result` | OPTIONAL | **760 ms (1.0×)** | 64.8 s (85.3×) | — | — | — |
-| `optional-join-2-large-large-with-small-join-result-1` | OPTIONAL | **173 ms (1.0×)** | 1,674 ms (9.7×) | 616 ms (3.6×) | 76.1 s (440.0×) | — |
-| `optional-join-2-large-large-with-small-join-result-2` | OPTIONAL | **87 ms (1.0×)** | 1,654 ms (19.0×) | 862 ms (9.9×) | 75.4 s (867.0×) | — |
+| `multicolumn-join-small` | JOIN | 3,610.9 ms (19.8×) | 3,865.1 ms (21.2×) | 1,677.3 ms (9.2×) | **182.4 ms (1.0×)** | 96.1 s (526.9×) |
+| `optional-join-2-large-large-with-large-result` | OPTIONAL | **759.9 ms (1.0×)** | 64.8 s (85.3×) | — | — | — |
+| `optional-join-2-large-large-with-small-join-result-1` | OPTIONAL | **172.9 ms (1.0×)** | 1,674.1 ms (9.7×) | 615.5 ms (3.6×) | 76.1 s (440.3×) | — |
+| `optional-join-2-large-large-with-small-join-result-2` | OPTIONAL | **87.2 ms (1.0×)** | 1,654.4 ms (19.0×) | 861.9 ms (9.9×) | 75.4 s (865.5×) | — |
 | `optional-join-3-chain-1` | OPTIONAL | 31.8 s (1.6×) | **19.4 s (1.0×)** | — | — | — |
 | `optional-join-3-chain-2` | OPTIONAL | **27.0 s (1.0×)** | — | — | — | — |
-| `optional-join-3-star-1` | OPTIONAL | **2,670 ms (1.0×)** | 111.6 s (41.8×) | 49.6 s (18.6×) | — | — |
-| `optional-join-3-star-2` | OPTIONAL | **2,178 ms (1.0×)** | 78.6 s (36.1×) | 70.4 s (32.3×) | 200.0 s (91.8×) | — |
-| `optional-join-large-large` | OPTIONAL | **921 ms (1.0×)** | 79.5 s (86.3×) | — | — | — |
-| `optional-join-large-small` | OPTIONAL | **1 ms** | 18.7 s | 64.1 s | — | — |
-| `optional-join-small-large` | OPTIONAL | 32 ms | 52 ms | **5 ms** | 14 ms | 34 ms |
-| `minus-join-2-large-large-with-large-result` | MINUS | **681 ms (1.0×)** | 28.0 s (41.1×) | — | — | — |
-| `minus-join-2-large-large-with-small-join-result-1` | MINUS | **57 ms (1.0×)** | 614 ms (10.8×) | 587 ms (10.3×) | 75.8 s (1329.1×) | — |
-| `minus-join-2-large-large-with-small-join-result-2` | MINUS | **57 ms (1.0×)** | 728 ms (12.8×) | 824 ms (14.5×) | 75.0 s (1316.1×) | — |
+| `optional-join-3-star-1` | OPTIONAL | **2,669.8 ms (1.0×)** | 111.6 s (41.8×) | 49.6 s (18.6×) | — | — |
+| `optional-join-3-star-2` | OPTIONAL | **2,177.9 ms (1.0×)** | 78.6 s (36.1×) | 70.4 s (32.3×) | 200.0 s (91.8×) | — |
+| `optional-join-large-large` | OPTIONAL | **921.1 ms (1.0×)** | 79.5 s (86.3×) | — | — | — |
+| `optional-join-large-small` | OPTIONAL | **1.42 ms** | 18.7 s | 64.1 s | — | — |
+| `optional-join-small-large` | OPTIONAL | 32.3 ms | 51.7 ms | **5.03 ms** | 13.9 ms | 34.0 ms |
+| `minus-join-2-large-large-with-large-result` | MINUS | **681.2 ms (1.0×)** | 28.0 s (41.0×) | — | — | — |
+| `minus-join-2-large-large-with-small-join-result-1` | MINUS | **56.8 ms (1.0×)** | 614.4 ms (10.8×) | 587.2 ms (10.3×) | 75.8 s (1334.5×) | — |
+| `minus-join-2-large-large-with-small-join-result-2` | MINUS | **57.0 ms (1.0×)** | 728.3 ms (12.8×) | 823.7 ms (14.5×) | 75.0 s (1316.4×) | — |
 | `minus-join-3-chain-1` | MINUS | 19.8 s (1.3×) | **15.2 s (1.0×)** | 116.1 s (7.7×) | 108.1 s (7.1×) | — |
 | `minus-join-3-chain-2` | MINUS | **24.6 s (1.0×)** | — | — | — | — |
 | `minus-join-3-star-1` | MINUS | **13.1 s (1.0×)** | 85.6 s (6.5×) | 29.4 s (2.2×) | — | — |
-| `minus-join-3-star-2` | MINUS | **1,483 ms (1.0×)** | 57.3 s (38.7×) | 23.7 s (16.0×) | 119.2 s (80.4×) | — |
-| `minus-join-large-large` | MINUS | **871 ms (1.0×)** | 27.4 s (31.4×) | — | — | — |
-| `minus-join-large-small` | MINUS | **31 ms (1.0×)** | 27.6 s (891.3×) | 63.2 s (2040.1×) | — | — |
-| `minus-join-small-large` | MINUS | 31 ms | 1,596 ms | 6 ms | **4 ms** | — |
-| `exists-join-2-large-large-with-large-result` | EXISTS | **674 ms (1.0×)** | 48.5 s (72.0×) | — | — | — |
-| `exists-join-2-large-large-with-small-join-result-1` | EXISTS | **56 ms (1.0×)** | 1,101 ms (19.7×) | 593 ms (10.6×) | 75.1 s (1340.4×) | — |
-| `exists-join-2-large-large-with-small-join-result-2` | EXISTS | **59 ms (1.0×)** | 957 ms (16.2×) | 799 ms (13.5×) | 72.2 s (1223.0×) | — |
+| `minus-join-3-star-2` | MINUS | **1,483.2 ms (1.0×)** | 57.3 s (38.7×) | 23.7 s (16.0×) | 119.2 s (80.4×) | — |
+| `minus-join-large-large` | MINUS | **870.8 ms (1.0×)** | 27.4 s (31.4×) | — | — | — |
+| `minus-join-large-small` | MINUS | **31.2 ms (1.0×)** | 27.6 s (886.4×) | 63.2 s (2029.1×) | — | — |
+| `minus-join-small-large` | MINUS | 31.1 ms | 1,595.6 ms | 5.75 ms | **4.49 ms** | — |
+| `exists-join-2-large-large-with-large-result` | EXISTS | **673.8 ms (1.0×)** | 48.5 s (72.0×) | — | — | — |
+| `exists-join-2-large-large-with-small-join-result-1` | EXISTS | **56.0 ms (1.0×)** | 1,101.3 ms (19.7×) | 593.1 ms (10.6×) | 75.1 s (1339.7×) | — |
+| `exists-join-2-large-large-with-small-join-result-2` | EXISTS | **59.2 ms (1.0×)** | 957.0 ms (16.2×) | 798.8 ms (13.5×) | 72.2 s (1218.5×) | — |
 | `exists-join-3-chain-1` | EXISTS | **20.0 s (1.0×)** | 26.7 s (1.3×) | 116.3 s (5.8×) | 113.9 s (5.7×) | — |
 | `exists-join-3-chain-2` | EXISTS | **23.4 s (1.0×)** | — | — | — | — |
 | `exists-join-3-star-1` | EXISTS | **13.0 s (1.0×)** | 26.2 s (2.0×) | — | — | — |
-| `exists-join-3-star-2` | EXISTS | **1,467 ms (1.0×)** | 94.6 s (64.5×) | 20.8 s (14.2×) | 130.5 s (88.9×) | — |
-| `exists-join-large-large` | EXISTS | **847 ms (1.0×)** | 66.2 s (78.2×) | — | — | — |
-| `exists-join-large-small` | EXISTS | 29 ms | 26.7 s | **5 ms** | — | — |
-| `exists-join-small-large` | EXISTS | 29 ms | 16.3 s | **4 ms** | 8 ms | 9 ms |
-| `union-constraint-filter-restrictive` | UNION | 33.9 s (8.3×) | 33.4 s (8.2×) | **4,075 ms (1.0×)** | 105.7 s (25.9×) | — |
-| `union-constraint-from-star` | UNION | **2,467 ms (1.0×)** | 19.9 s (8.1×) | 31.3 s (12.7×) | 196.6 s (79.7×) | — |
-| `union-constraint-large-join` | UNION | **975 ms (1.0×)** | 16.1 s (16.5×) | 146.9 s (150.7×) | 208.8 s (214.2×) | — |
-| `union-constraint-small-join` | UNION | **1,231 ms (1.0×)** | 3,053 ms (2.5×) | 1,823 ms (1.5×) | 29.2 s (23.7×) | — |
-| `union-no-constraint` | UNION | **1 ms** | 2,437 ms | 20.4 s | 110.2 s | — |
-| `distinct-count-object-high-multiplicity` | GROUP BY / aggregate | **1 ms** | 27 ms | 97 ms | 86 ms | 216 ms |
-| `distinct-count-object-low-multiplicity` | GROUP BY / aggregate | **2 ms** | — | — | — | — |
-| `distinct-count-object-wrong-sort-order` | GROUP BY / aggregate | 20.0 s (2.6×) | **7,595 ms (1.0×)** | 10.1 s (1.3×) | 12.8 s (1.7×) | — |
+| `exists-join-3-star-2` | EXISTS | **1,466.8 ms (1.0×)** | 94.6 s (64.5×) | 20.8 s (14.2×) | 130.5 s (88.9×) | — |
+| `exists-join-large-large` | EXISTS | **847.3 ms (1.0×)** | 66.2 s (78.1×) | — | — | — |
+| `exists-join-large-small` | EXISTS | 29.2 ms | 26.7 s | **4.53 ms** | — | — |
+| `exists-join-small-large` | EXISTS | 29.2 ms | 16.3 s | **4.29 ms** | 8.16 ms | 9.00 ms |
+| `union-constraint-filter-restrictive` | UNION | 33.9 s (8.3×) | 33.4 s (8.2×) | **4,074.9 ms (1.0×)** | 105.7 s (25.9×) | — |
+| `union-constraint-from-star` | UNION | **2,467.4 ms (1.0×)** | 19.9 s (8.1×) | 31.3 s (12.7×) | 196.6 s (79.7×) | — |
+| `union-constraint-large-join` | UNION | **975.1 ms (1.0×)** | 16.1 s (16.5×) | 146.9 s (150.7×) | 208.8 s (214.1×) | — |
+| `union-constraint-small-join` | UNION | **1,231.2 ms (1.0×)** | 3,053.2 ms (2.5×) | 1,822.7 ms (1.5×) | 29.2 s (23.7×) | — |
+| `union-no-constraint` | UNION | **1.24 ms** | 2,436.7 ms | 20.4 s | 110.2 s | — |
+| `distinct-count-object-high-multiplicity` | GROUP BY / aggregate | **0.90 ms** | 26.5 ms | 97.0 ms | 86.4 ms | 216.0 ms |
+| `distinct-count-object-low-multiplicity` | GROUP BY / aggregate | **2.19 ms** | — | — | — | — |
+| `distinct-count-object-wrong-sort-order` | GROUP BY / aggregate | 20.0 s (2.6×) | **7,595.2 ms (1.0×)** | 10.1 s (1.3×) | 12.8 s (1.7×) | — |
 | `group-by-complex-aggregate` | GROUP BY / aggregate | 17.1 s (1.5×) | **11.5 s (1.0×)** | 88.9 s (7.7×) | — | — |
-| `group-by-count-object-high-multiplicity` | GROUP BY / aggregate | **2 ms** | 3 ms | 18 ms | 33 ms | — |
-| `group-by-count-object-low-multiplicity` | GROUP BY / aggregate | **3,952 ms (1.0×)** | 52.6 s (13.3×) | — | — | — |
-| `group-by-count-object-wrong-sort-order` | GROUP BY / aggregate | 17.0 s (19.3×) | 9,744 ms (11.1×) | **879 ms (1.0×)** | 13.3 s (15.2×) | — |
-| `group-by-implicit-numeric-avg` | GROUP BY / aggregate | 1,930 ms (1.6×) | **1,204 ms (1.0×)** | 13.4 s (11.2×) | 3,673 ms (3.1×) | 126.6 s (105.2×) |
-| `group-by-implicit-numeric-baseline` | GROUP BY / aggregate | **1 ms** | 2 ms | 892 ms | 3,294 ms | 121.9 s |
-| `group-by-implicit-numeric-max` | GROUP BY / aggregate | **2 ms** | 1,107 ms | 4,519 ms | 3,740 ms | 127.4 s |
-| `group-by-implicit-numeric-min` | GROUP BY / aggregate | **2 ms** | 1,134 ms | 2,893 ms | 3,810 ms | 125.9 s |
-| `group-by-implicit-numeric-sum` | GROUP BY / aggregate | 1,696 ms (1.4×) | **1,201 ms (1.0×)** | 9,095 ms (7.6×) | 3,639 ms (3.0×) | 124.8 s (103.9×) |
-| `group-by-implicit-string-baseline` | GROUP BY / aggregate | **1 ms** | 7 ms | 9,812 ms | 89.2 s | — |
-| `group-by-implicit-string-max` | GROUP BY / aggregate | **120 ms (1.0×)** | 29.5 s (245.5×) | 62.1 s (517.6×) | 103.5 s (862.2×) | — |
-| `group-by-implicit-string-min` | GROUP BY / aggregate | **121 ms (1.0×)** | 30.1 s (248.4×) | 42.5 s (351.3×) | 105.6 s (873.0×) | — |
-| `group-by-string-groupconcat` | GROUP BY / aggregate | **1,914 ms (1.0×)** | — | — | — | — |
-| `filter-few-results` | FILTER | **1,825 ms (1.0×)** | 27.5 s (15.1×) | 47.7 s (26.1×) | 87.1 s (47.7×) | — |
-| `filter-language-en` | FILTER | 4,195 ms | **3 ms** | — | — | — |
-| `filter-many-results` | FILTER | **1,918 ms (1.0×)** | 49.6 s (25.9×) | 48.3 s (25.2×) | 132.8 s (69.3×) | — |
-| `numeric-abs` | Numeric functions | **1,728 ms (1.0×)** | 2,725 ms (1.6×) | 12.7 s (7.4×) | 4,237 ms (2.5×) | 127.2 s (73.6×) |
-| `numeric-add` | Numeric functions | **1,747 ms (1.0×)** | 3,735 ms (2.1×) | 4,308 ms (2.5×) | 4,578 ms (2.6×) | 151.4 s (86.7×) |
-| `numeric-baseline` | Numeric functions | 1,712 ms (1.4×) | **1,202 ms (1.0×)** | 9,147 ms (7.6×) | 3,615 ms (3.0×) | 122.6 s (102.0×) |
-| `numeric-ceil` | Numeric functions | **1,730 ms (1.0×)** | 2,717 ms (1.6×) | 5,642 ms (3.3×) | 4,167 ms (2.4×) | 123.9 s (71.6×) |
-| `numeric-filter-bin-search-fifty-fifty` | Numeric functions | **8 ms** | 426 ms | 2,807 ms | 4,226 ms | — |
-| `numeric-filter-bin-search-ninetyfive-five` | Numeric functions | **7 ms** | 278 ms | 1,593 ms | 3,883 ms | — |
-| `numeric-filter-bin-search-seventy-thirty` | Numeric functions | **6 ms** | 362 ms | 2,112 ms | 4,060 ms | — |
-| `numeric-floor` | Numeric functions | **1,729 ms (1.0×)** | 2,723 ms (1.6×) | 5,577 ms (3.2×) | 4,203 ms (2.4×) | 124.1 s (71.8×) |
-| `numeric-greater` | Numeric functions | **1 ms** | 1,734 ms | 2,833 ms | 3,133 ms | 125.8 s |
-| `numeric-round` | Numeric functions | **1,722 ms (1.0×)** | 2,718 ms (1.6×) | 5,619 ms (3.3×) | 4,275 ms (2.5×) | 125.1 s (72.7×) |
-| `date-day` | Date functions | 3,806 ms (1.8×) | 3,727 ms (1.8×) | **2,129 ms (1.0×)** | 10.3 s (4.8×) | 117.2 s (55.1×) |
-| `date-month` | Date functions | 3,773 ms (1.1×) | 3,726 ms (1.1×) | **3,502 ms (1.0×)** | 10.3 s (2.9×) | 118.3 s (33.8×) |
-| `date-year` | Date functions | 3,812 ms (1.9×) | 2,796 ms (1.4×) | **2,000 ms (1.0×)** | 10.4 s (5.2×) | 122.2 s (61.1×) |
+| `group-by-count-object-high-multiplicity` | GROUP BY / aggregate | **1.51 ms** | 2.56 ms | 17.9 ms | 33.5 ms | — |
+| `group-by-count-object-low-multiplicity` | GROUP BY / aggregate | **3,951.6 ms (1.0×)** | 52.6 s (13.3×) | — | — | — |
+| `group-by-count-object-wrong-sort-order` | GROUP BY / aggregate | 17.0 s (19.3×) | 9,744.1 ms (11.1×) | **878.7 ms (1.0×)** | 13.3 s (15.2×) | — |
+| `group-by-implicit-numeric-avg` | GROUP BY / aggregate | 1,929.6 ms (1.6×) | **1,203.9 ms (1.0×)** | 13.4 s (11.2×) | 3,673.5 ms (3.1×) | 126.6 s (105.2×) |
+| `group-by-implicit-numeric-baseline` | GROUP BY / aggregate | **0.85 ms** | 2.46 ms | 891.8 ms | 3,294.2 ms | 121.9 s |
+| `group-by-implicit-numeric-max` | GROUP BY / aggregate | **1.96 ms** | 1,106.9 ms | 4,519.0 ms | 3,740.4 ms | 127.4 s |
+| `group-by-implicit-numeric-min` | GROUP BY / aggregate | **2.14 ms** | 1,134.2 ms | 2,892.7 ms | 3,810.4 ms | 125.9 s |
+| `group-by-implicit-numeric-sum` | GROUP BY / aggregate | 1,696.0 ms (1.4×) | **1,200.8 ms (1.0×)** | 9,095.2 ms (7.6×) | 3,638.9 ms (3.0×) | 124.8 s (103.9×) |
+| `group-by-implicit-string-baseline` | GROUP BY / aggregate | **1.06 ms** | 6.73 ms | 9,811.8 ms | 89.2 s | — |
+| `group-by-implicit-string-max` | GROUP BY / aggregate | **120.2 ms (1.0×)** | 29.5 s (245.2×) | 62.1 s (517.0×) | 103.5 s (861.0×) | — |
+| `group-by-implicit-string-min` | GROUP BY / aggregate | **121.2 ms (1.0×)** | 30.1 s (247.9×) | 42.5 s (350.6×) | 105.6 s (871.3×) | — |
+| `group-by-string-groupconcat` | GROUP BY / aggregate | **1,913.8 ms (1.0×)** | — | — | — | — |
+| `filter-few-results` | FILTER | **1,824.7 ms (1.0×)** | 27.5 s (15.1×) | 47.7 s (26.1×) | 87.1 s (47.7×) | — |
+| `filter-language-en` | FILTER | 4,194.8 ms | **2.71 ms** | — | — | — |
+| `filter-many-results` | FILTER | **1,917.6 ms (1.0×)** | 49.6 s (25.9×) | 48.3 s (25.2×) | 132.8 s (69.3×) | — |
+| `numeric-abs` | Numeric functions | **1,727.5 ms (1.0×)** | 2,724.9 ms (1.6×) | 12.7 s (7.4×) | 4,236.6 ms (2.5×) | 127.2 s (73.7×) |
+| `numeric-add` | Numeric functions | **1,747.2 ms (1.0×)** | 3,734.7 ms (2.1×) | 4,308.4 ms (2.5×) | 4,577.9 ms (2.6×) | 151.4 s (86.7×) |
+| `numeric-baseline` | Numeric functions | 1,712.0 ms (1.4×) | **1,201.7 ms (1.0×)** | 9,147.3 ms (7.6×) | 3,614.9 ms (3.0×) | 122.6 s (102.0×) |
+| `numeric-ceil` | Numeric functions | **1,729.6 ms (1.0×)** | 2,717.3 ms (1.6×) | 5,642.3 ms (3.3×) | 4,167.3 ms (2.4×) | 123.9 s (71.6×) |
+| `numeric-filter-bin-search-fifty-fifty` | Numeric functions | **7.67 ms** | 426.0 ms | 2,807.3 ms | 4,225.9 ms | — |
+| `numeric-filter-bin-search-ninetyfive-five` | Numeric functions | **7.29 ms** | 278.0 ms | 1,592.6 ms | 3,883.4 ms | — |
+| `numeric-filter-bin-search-seventy-thirty` | Numeric functions | **6.47 ms** | 361.7 ms | 2,111.9 ms | 4,059.8 ms | — |
+| `numeric-floor` | Numeric functions | **1,729.4 ms (1.0×)** | 2,722.8 ms (1.6×) | 5,577.2 ms (3.2×) | 4,202.9 ms (2.4×) | 124.1 s (71.8×) |
+| `numeric-greater` | Numeric functions | **1.31 ms** | 1,733.9 ms | 2,832.9 ms | 3,133.3 ms | 125.8 s |
+| `numeric-round` | Numeric functions | **1,722.3 ms (1.0×)** | 2,717.5 ms (1.6×) | 5,618.9 ms (3.3×) | 4,274.5 ms (2.5×) | 125.1 s (72.7×) |
+| `date-day` | Date functions | 3,806.5 ms (1.8×) | 3,726.9 ms (1.8×) | **2,129.2 ms (1.0×)** | 10.3 s (4.8×) | 117.2 s (55.1×) |
+| `date-month` | Date functions | 3,772.8 ms (1.1×) | 3,725.7 ms (1.1×) | **3,502.0 ms (1.0×)** | 10.3 s (2.9×) | 118.3 s (33.8×) |
+| `date-year` | Date functions | 3,812.4 ms (1.9×) | 2,796.2 ms (1.4×) | **2,000.2 ms (1.0×)** | 10.4 s (5.2×) | 122.2 s (61.1×) |
 | `regex-3` | String / REGEX | **33.0 s (1.0×)** | — | — | — | — |
-| `regex-3-contains` | String / REGEX | **8,807 ms (1.0×)** | — | 193.7 s (22.0×) | 249.2 s (28.3×) | — |
+| `regex-3-contains` | String / REGEX | **8,807.2 ms (1.0×)** | — | 193.7 s (22.0×) | 249.2 s (28.3×) | — |
 | `regex-3-fixed` | String / REGEX | **26.4 s (1.0×)** | — | 222.3 s (8.4×) | — | — |
-| `regex-prefix-1` | String / REGEX | 4,414 ms (19.4×) | **227 ms (1.0×)** | 225.3 s (992.6×) | — | — |
-| `regex-prefix-2` | String / REGEX | 656 ms (13.4×) | **49 ms (1.0×)** | 219.2 s (4473.2×) | — | — |
-| `regex-prefix-3` | String / REGEX | 277 ms (19.8×) | **14 ms (1.0×)** | 240.4 s (17169.0×) | — | — |
-| `strafter` | String / REGEX | **9,216 ms (1.0×)** | — | 254.8 s (27.6×) | — | — |
-| `strbefore` | String / REGEX | **9,151 ms (1.0×)** | — | 251.5 s (27.5×) | — | — |
-| `strends` | String / REGEX | **8,501 ms (1.0×)** | — | 205.6 s (24.2×) | 247.2 s (29.1×) | — |
-| `strlen` | String / REGEX | **8,435 ms (1.0×)** | — | 204.5 s (24.2×) | — | — |
-| `strstarts` | String / REGEX | **777 ms (1.0×)** | — | 204.2 s (262.8×) | 243.9 s (313.9×) | — |
-| `transitive-path-large-join-and-plus` | Transitive paths | **899 ms (1.0×)** | — | — | — | — |
-| `transitive-path-plus` | Transitive paths | 8,188 ms (2.4×) | **3,382 ms (1.0×)** | — | 12.1 s (3.6×) | 64.3 s (19.0×) |
-| `transitive-path-plus-fixed-subject` | Transitive paths | **2 ms** | 6 ms | — | 19 ms | 26 ms |
-| `transitive-path-small-join-and-plus` | Transitive paths | **9 ms** | 50 ms | — | 156 ms | 770 ms |
-| `result-size-large` | Result size / export | **670 ms (1.0×)** | 4,105 ms (6.1×) | 20.4 s (30.5×) | 1,393 ms (2.1×) | 11.6 s (17.3×) |
-| `result-size-medium` | Result size / export | **104 ms (1.0×)** | 512 ms (4.9×) | 640 ms (6.2×) | 151 ms (1.5×) | 136 ms (1.3×) |
-| `result-size-small` | Result size / export | 9 ms | 35 ms | 5 ms | **2 ms** | 5 ms |
-| `result-size-tiny` | Result size / export | 8 ms | 26 ms | **1 ms** | **1 ms** | 3 ms |
-| `result-size-xlarge` | Result size / export | **6,452 ms (1.0×)** | 39.3 s (6.1×) | 21.6 s (3.3×) | 15.6 s (2.4×) | 125.4 s (19.4×) |
+| `regex-prefix-1` | String / REGEX | 4,413.9 ms (19.5×) | **226.9 ms (1.0×)** | 225.3 s (993.1×) | — | — |
+| `regex-prefix-2` | String / REGEX | 656.4 ms (13.5×) | **48.6 ms (1.0×)** | 219.2 s (4507.9×) | — | — |
+| `regex-prefix-3` | String / REGEX | 276.7 ms (19.3×) | **14.3 ms (1.0×)** | 240.4 s (16786.5×) | — | — |
+| `strafter` | String / REGEX | **9,215.5 ms (1.0×)** | — | 254.8 s (27.6×) | — | — |
+| `strbefore` | String / REGEX | **9,150.5 ms (1.0×)** | — | 251.5 s (27.5×) | — | — |
+| `strends` | String / REGEX | **8,501.5 ms (1.0×)** | — | 205.6 s (24.2×) | 247.2 s (29.1×) | — |
+| `strlen` | String / REGEX | **8,435.3 ms (1.0×)** | — | 204.5 s (24.2×) | — | — |
+| `strstarts` | String / REGEX | **777.2 ms (1.0×)** | — | 204.2 s (262.7×) | 243.9 s (313.9×) | — |
+| `transitive-path-large-join-and-plus` | Transitive paths | **898.7 ms (1.0×)** | — | — | — | — |
+| `transitive-path-plus` | Transitive paths | 8,187.5 ms (2.4×) | **3,382.1 ms (1.0×)** | — | 12.1 s (3.6×) | 64.3 s (19.0×) |
+| `transitive-path-plus-fixed-subject` | Transitive paths | **2.47 ms** | 5.77 ms | — | 19.0 ms | 26.0 ms |
+| `transitive-path-small-join-and-plus` | Transitive paths | **9.11 ms** | 49.9 ms | — | 156.4 ms | 770.0 ms |
+| `result-size-large` | Result size / export | **670.4 ms (1.0×)** | 4,104.9 ms (6.1×) | 20.4 s (30.4×) | 1,393.5 ms (2.1×) | 11.6 s (17.3×) |
+| `result-size-medium` | Result size / export | **104.0 ms (1.0×)** | 511.9 ms (4.9×) | 640.2 ms (6.2×) | 150.7 ms (1.4×) | 136.0 ms (1.3×) |
+| `result-size-small` | Result size / export | 8.74 ms | 34.6 ms | 4.58 ms | **2.25 ms** | 5.00 ms |
+| `result-size-tiny` | Result size / export | 7.73 ms | 25.5 ms | 0.72 ms | **0.55 ms** | 3.00 ms |
+| `result-size-xlarge` | Result size / export | **6,451.6 ms (1.0×)** | 39.3 s (6.1×) | 21.6 s (3.3×) | 15.6 s (2.4×) | 125.4 s (19.4×) |
 
 ## 2. Result correctness
 
@@ -171,8 +165,8 @@ _No correctness check available for this run._
 |---|---|---|---|---|---|
 | Fluree | 5,227 s (1:27:07) | 1.57 M flakes/s | ~104 GB | 201 GB | Ledger imported 2026-06-10: 8,186,371,175 flakes across 2047 commits @ 1.57 M flakes/s, 201 GB index. Imported from a directory of 2047 single-member gzip shards (~4M triples each, re-split from the 70 GB multi-member gzip): Fluree's streaming chunker requires single-member shards for this high-prefix-cardinality data. Sanity COUNT(*) = 8,186,371,175 (exact match). |
 | QLever | 8,653 s (2:24:13) | 0.95 M triples/s | n/a (mmap index) | 180 GB | Parallel-parsed the single N-Triples stream (no @prefix) at ~2.8M/s from pigz -dc. QLever indexed 8,180,599,054 triples (Fluree 8,186,371,175; +0.07% delta — QLever dedups exact-duplicate triples). First attempt failed merging 816 partial vocabularies on the default 1024 fd limit inside Docker; fixed with --ulimit nofile=1048576 and re-ran. |
-| Virtuoso | ~108 min (40 min initial + 68 min geo-fix reload) | n/a | n/a | 367 GB (virtuoso.db; 434 GB db dir) | Loaded 8,168,210,937 triples (99.86% of the dataset). 629/1444 shards initially aborted on Wikidata geo:wktLiteral (RDFGE error; no INI flag to disable; known Virtuoso issue), fixed by filtering wktLiteral from the failed shards and reloading -> ~11.5M geo-coordinate triples dropped (0.14%), leaving 8,174,845,462; a further ~6.6M were lost when 4 shards hit an RDF_LANGUAGE primary-key race on parallel load, for 8,168,210,937 actually indexed. |
-| MillenniumDB | 5.05 h (18,193 s) | 0.45 M triples/s | n/a | 327 GB | Imported 8,180,602,084 triples (essentially matches QLever's 8,180,599,054 -- +3,030, different exact-duplicate handling; cleanest full load of the non-Fluree/QLever engines, no data loss). Server buffer total must stay below available RAM (288GB total failed to allocate right after the import). |
+| Virtuoso | ~108 min (40 min initial + 68 min geo-fix reload) | n/a | n/a | 367 GB (virtuoso.db; 434 GB db dir) | Loaded 8,174,845,462 triples. 629/1444 shards initially aborted on Wikidata geo:wktLiteral (RDFGE error; no INI flag to disable; known Virtuoso issue), fixed by filtering wktLiteral from the failed shards and reloading -> drops ~11.5M geo-coordinate triples (99.86% of dataset). 4 shards hit an RDF_LANGUAGE primary-key race on parallel load. |
+| MillenniumDB | 5.05 h (18,193 s) | 0.45 M triples/s | n/a | 327 GB | Imported 8,180,602,084 triples (matches QLever's 8.18B exactly -- cleanest full load of the non-Fluree/QLever engines, no data loss). Server buffer total must stay below available RAM (288GB total failed to allocate right after the import). |
 | Apache Jena (TDB2/Fuseki) | ~32 h (xloader) | n/a | n/a | 655 GB | Loaded the full 8,186,371,175 triples (matches Fluree exactly). By far the slowest loader: xloader phases nodes -> ingest data -> build SPO/POS/OSP permutations (each a sort over 8.19B), ~32h total. Largest index of all engines (655 GB). |
 
 - **Fluree phases:** parse+commit to storage, then single-threaded index sort/merge buffering (peak ~104 GB RAM), then flush to 201 GB index
@@ -210,5 +204,5 @@ _No correctness check available for this run._
 - Both engines required a raised open-file limit (nofile 1048576) to index 8B triples: Fluree's import and QLever's vocabulary merge each hit the default 1024 fd limit (Fluree natively; QLever inside Docker via --ulimit).
 - Result-equivalence (per-query correctness): a 60s spot-check shows count queries mostly agree exactly between engines (e.g. exists-join-2-large-large-with-large-result = 1,702,521,603 both); join-family queries (exists/minus/optional with small results) diverge ~0.2-0.7%, tracking the triple-count delta plus OPTIONAL/blank-node semantics. (Full multi-row result-equivalence diffing is out of scope for this run.)
 - Virtuoso (benchmarked 2026-06-11) loaded 8,168,210,937 triples: Wikidata's geo:wktLiteral coordinates trigger Virtuoso's RDFGE error which aborts whole load shards (no INI flag to disable), so this run pre-filters wktLiteral from all shards uniformly (~11.5M geo-coordinate triples dropped, see common/engine-setup/virtuoso.md). To give Virtuoso its best result, the stock ini's MaxQueryCostEstimationTime=400 gate was disabled (=0) -- with it, Virtuoso rejects the big join queries with HTTP 500 'estimated execution time exceeds the limit' before executing (join-2-largest-result and others would not run at all); the 300s execution timeout still applies. 81/105 passed.
-- MillenniumDB (benchmarked 2026-06-11) loaded the full 8,180,602,084 triples (within ~3,000 of QLever's 8,180,599,054). 67/105 passed, no HTTP errors -- slowest of the loaded engines on the heavy COUNT/join/string categories, but a clean complete load. COUNT(*) is not verifiable post-load on MDB (a full scan exceeds its own 300s timeout); load verified by import stats + the 327 GB index.
+- MillenniumDB (benchmarked 2026-06-11) loaded the full 8,180,602,084 triples (matches QLever exactly). 67/105 passed, no HTTP errors -- slowest of the loaded engines on the heavy COUNT/join/string categories, but a clean complete load. COUNT(*) is not verifiable post-load on MDB (a full scan exceeds its own 300s timeout); load verified by import stats + the 327 GB index.
 - Apache Jena loaded the full 8,186,371,175 triples but is the weakest at query time: 31/105 passed, 74 timeouts (no HTTP errors). Cold TDB2 page reads on the 655 GB index + no COUNT fastpath mean the COUNT-dominated SPARQLoscope queries overwhelmingly hit the 300s cap (geo-mean P=2 93.6s, median maxed at 300s).

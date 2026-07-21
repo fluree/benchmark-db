@@ -57,6 +57,7 @@ DRY_RUN=false
 POST_MODE="body"
 DEFAULT_GRAPH=""
 SAVE_OUTPUTS=""
+AUTH_TOKEN=""
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -77,6 +78,7 @@ while [[ $# -gt 0 ]]; do
         --post-form)  POST_MODE="form"; shift ;;
         --default-graph) DEFAULT_GRAPH="$2"; shift 2 ;;
         --save-outputs)  SAVE_OUTPUTS="$2"; shift 2 ;;
+        --auth-token) AUTH_TOKEN="$2"; shift 2 ;;
         --dry-run)    DRY_RUN=true; shift ;;
         *)            echo "Unknown option: $1"; exit 1 ;;
     esac
@@ -114,6 +116,11 @@ echo "  Output:      $OUTPUT"
 echo "  Start at:    $START"
 echo "  Pattern:     $QUERY_PATTERN"
 echo ""
+
+# Bearer token (e.g. for a deployed Fluree Solo stack behind CloudFront). Empty
+# for a local server. Injected into every curl call below.
+AUTH_ARGS=()
+[[ -n "$AUTH_TOKEN" ]] && AUTH_ARGS=(-H "Authorization: Bearer $AUTH_TOKEN")
 
 # Build the curl POST data args for one query (raw body vs url-encoded form).
 post_args() {
@@ -190,6 +197,7 @@ for idx in "${!QUERY_FILES[@]}"; do
             --max-time "$TIMEOUT" \
             -X POST "$QUERY_URL" \
             -H "Accept: $ACCEPT" \
+            "${AUTH_ARGS[@]}" \
             "${POST_ARGS[@]}" 2>/dev/null) || warmup_code="000"
     done
 
@@ -246,6 +254,7 @@ for idx in "${!QUERY_FILES[@]}"; do
             --max-time "$TIMEOUT" \
             -X POST "$QUERY_URL" \
             -H "Accept: $ACCEPT" \
+            "${AUTH_ARGS[@]}" \
             "${POST_ARGS[@]}" 2>/dev/null) || { http_code="000"; time_total="0"; }
 
         elapsed_ms=$(awk -v t="$time_total" 'BEGIN { printf "%.3f", t * 1000 }')

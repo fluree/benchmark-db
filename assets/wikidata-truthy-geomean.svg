@@ -18,18 +18,18 @@
 <line x1='728.0' y1='64' x2='728.0' y2='249' stroke='#e2e8f0' stroke-width='1'/>
 <text x='728.0' y='265' font-size='11' fill='#64748b' text-anchor='middle'>30 s</text>
 <text x='140' y='86.5' font-size='12.5' font-weight='700' fill='#1e293b' text-anchor='end'>Fluree</text>
-<rect x='150' y='71.4' width='7.0' height='22.2' rx='2' fill='#0d9488'/>
-<text x='165.0' y='86.5' font-size='12' font-weight='700' fill='#1e293b'>363 ms  <tspan fill='#64748b'>1.0× · 105/105</tspan></text>
+<rect x='150' y='71.4' width='7.1' height='22.2' rx='2' fill='#0d9488'/>
+<text x='165.1' y='86.5' font-size='12' font-weight='700' fill='#1e293b'>367 ms  <tspan fill='#64748b'>1.0× · 105/105</tspan></text>
 <text x='140' y='123.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>QLever</text>
-<rect x='150' y='108.4' width='73.6' height='22.2' rx='2' fill='#94a3b8'/>
-<text x='231.6' y='123.5' font-size='12' font-weight='400' fill='#1e293b'>3.8 s  <tspan fill='#64748b'>10.5× · 91/105</tspan></text>
+<rect x='150' y='108.4' width='73.8' height='22.2' rx='2' fill='#94a3b8'/>
+<text x='231.8' y='123.5' font-size='12' font-weight='400' fill='#1e293b'>3.8 s  <tspan fill='#64748b'>10.4× · 91/105</tspan></text>
 <text x='140' y='160.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Virtuoso</text>
-<rect x='150' y='145.4' width='250.5' height='22.2' rx='2' fill='#94a3b8'/>
-<text x='408.5' y='160.5' font-size='12' font-weight='400' fill='#1e293b'>13.0 s  <tspan fill='#64748b'>35.8× · 81/105</tspan></text>
+<rect x='150' y='145.4' width='248.5' height='22.2' rx='2' fill='#94a3b8'/>
+<text x='406.5' y='160.5' font-size='12' font-weight='400' fill='#1e293b'>12.9 s  <tspan fill='#64748b'>35.1× · 81/105</tspan></text>
 <text x='140' y='197.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>MillenniumDB</text>
-<rect x='150' y='182.4' width='554.9' height='22.2' rx='2' fill='#94a3b8'/>
-<text x='696.9' y='197.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>28.8 s   79.2× · 67/105</text>
+<rect x='150' y='182.4' width='553.0' height='22.2' rx='2' fill='#94a3b8'/>
+<text x='695.0' y='197.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>28.7 s   78.1× · 67/105</text>
 <text x='140' y='234.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Jena</text>
 <rect x='150' y='219.4' width='578.0' height='22.2' rx='2' fill='url(#offscale)'/>
-<text x='720.0' y='234.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>151.5 s   417× · 31/105  ▶ off-scale</text>
+<text x='720.0' y='234.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>151.5 s   412× · 31/105  ▶ off-scale</text>
 </svg>

@@ -3,7 +3,7 @@
 Fluree is a **Rust** workspace (github.com/fluree/db, public). The engine CLI is
 the `fluree` binary (crate `fluree-db-cli`).
 
-## Install (v4.0.6 release — recommended)
+## Install (v4.1.2 release — recommended)
 
 Install the prebuilt native `fluree` binary straight from the GitHub release with
 the official shell installer (no Rust toolchain, no source build, no repo access):
@@ -18,18 +18,18 @@ and confirm the version:
 
 ```bash
 source "$HOME/bin/env"      # or restart the shell
-fluree --version           # -> fluree 4.0.6
+fluree --version           # -> fluree 4.1.2
 ```
 
 Notes:
 - This gives the **same native binary** we benchmark — run it directly, not the
   Docker image, to match the other engines.
 - Pin a specific version instead of `latest` by swapping the URL path, e.g.
-  `.../releases/download/v4.0.6/fluree-db-cli-installer.sh`.
+  `.../releases/download/v4.1.2/fluree-db-cli-installer.sh`.
 - Other install channels (Docker, Homebrew, Windows) are listed at
   **<https://labs.flur.ee>**.
 
-The published benchmarks were run on **Fluree v4.0.6**.
+The published benchmarks were run on **Fluree v4.1.2**.
 
 ## Build from source (optional — for a specific branch/commit)
 

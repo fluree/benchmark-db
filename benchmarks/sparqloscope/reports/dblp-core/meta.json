@@ -1,5 +1,5 @@
 {
-  "status": "Run 2026-06-11 (run dblp-core-20260610-204013); all 7 engines on dedicated m7a.4xlarge boxes, fractional ms precision. Geo mean (P=2, the SPARQLoscope paper's official aggregate; failed query = 2x the 180 s timeout): Fluree v4.1.2 18.5 ms, 105/105. QLever: 202 ms, 105/105. Virtuoso: 300 ms, 103/105 (chunked TTLP loading). MillenniumDB: 1664 ms, 103/105. Jena: 67.7 s, 34/105 (cold TDB cache). Oxigraph: 87.0 s, 39/105. Blazegraph: 333 s, 3/105. Standard DBLP-core (bibliography only, no OpenCitations), stable DROPS archive 2026-06-01 (~561.5M distinct triples). All engines NATIVE (no Docker).",
+  "status": "Run 2026-06-11 (run dblp-core-20260610-204013); all 7 engines on dedicated m7a.4xlarge boxes, fractional ms precision. Geo mean (P=2, the SPARQLoscope paper's official aggregate; failed query = 2x the 180 s timeout): Fluree v4.1.2 17.5 ms, 105/105. QLever: 202 ms, 105/105. Virtuoso: 300 ms, 103/105 (chunked TTLP loading). MillenniumDB: 1664 ms, 103/105. Jena: 67.7 s, 34/105 (cold TDB cache). Oxigraph: 87.0 s, 39/105. Blazegraph: 333 s, 3/105. Standard DBLP-core (bibliography only, no OpenCitations), stable DROPS archive 2026-06-01 (~561.5M distinct triples). All engines NATIVE (no Docker).",
   "dataset": {
     "name": "DBLP-core (bibliography only)",
     "description": "Standard DBLP RDF bibliography, no OpenCitations citations \u2014 DROPS monthly archive 2026-06-01",
@@ -34,11 +34,11 @@
     "fluree": {
       "label": "Fluree",
       "version": "v4.1.2",
-      "config": "Server cache auto (~31.5 GB); inline-indexed ledger. Built from source (branch feature/warm-on-write-reindex-cache @ 25d8c28f \u2014 warm-on-write read cache + filtered-DELETE staging fix; binary reports 'fluree 4.1.1', pre-release v4.1.2). Retains the v4.0.6 metadata-driven fast paths (literals, subjects, objects, MIN/MAX string, COUNT DISTINCT) and algebraic aggregate identities. Query perf flat-to-better vs v4.0.6 (geo 18.5 vs 19.4 ms, 105/105).",
+      "config": "Server cache auto (~31.5 GB); inline-indexed ledger. Built from source (branch feature/cypher-import @ d9f36463, pre-release v4.1.2 \u2014 carries the warm-on-write read cache + filtered-DELETE staging fix). Uses the metadata-driven fast paths (literals, subjects, objects, MIN/MAX string, COUNT DISTINCT) and algebraic aggregate identities. Query geo mean 17.5 ms, 105/105 \u2014 best of all measured Fluree versions.",
       "import": {
-        "time": "681 s",
-        "throughput": "0.82 M tr/s",
-        "notes": "fluree create dblp --from dblp.nt on the m7a.4xlarge box; 561,544,658 distinct triples. Import is ~25-33% slower than the v4.0.6 baseline (512 s / 1.10 M tr/s) \u2014 a known carried regression since v4.0.7, in the import path only; query latency is unaffected (see status). Peak RAM / index size not re-measured for v4.1.2 (v4.0.6: 20.1 GB peak, 27 GB index)."
+        "time": "672 s",
+        "throughput": "0.835 M tr/s",
+        "notes": "fluree create dblp --from dblp.nt on the m7a.4xlarge box; 561,544,658 distinct triples in 672 s (0.835 M tr/s). Import is single-threaded and I/O-bound; query latency is unaffected (see status). Peak RAM / index size not separately captured for this run."
       }
     },
     "qlever": {

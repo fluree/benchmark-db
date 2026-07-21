@@ -1,0 +1,176 @@
+query_id	description	run	status	time_ms	result_size	error
+aggregation__count	count(n) + count(n.age) over all nodes	run1	200	8.263	1	
+aggregation__count	count(n) + count(n.age) over all nodes	run2	200	8.253	1	
+aggregation__count	count(n) + count(n.age) over all nodes	run3	200	8.274	1	
+aggregation__count	count(n) + count(n.age) over all nodes	run4	200	8.246	1	
+aggregation__count	count(n) + count(n.age) over all nodes	run5	200	8.270	1	
+aggregation__min_max_avg	min/max/avg age over all nodes	run1	200	23.530	1	
+aggregation__min_max_avg	min/max/avg age over all nodes	run2	200	23.490	1	
+aggregation__min_max_avg	min/max/avg age over all nodes	run3	200	23.509	1	
+aggregation__min_max_avg	min/max/avg age over all nodes	run4	200	23.640	1	
+aggregation__min_max_avg	min/max/avg age over all nodes	run5	200	23.527	1	
+arango__aggregate	age histogram (implicit GROUP BY)	run1	200	13.084	94	
+arango__aggregate	age histogram (implicit GROUP BY)	run2	200	11.498	94	
+arango__aggregate	age histogram (implicit GROUP BY)	run3	200	11.255	94	
+arango__aggregate	age histogram (implicit GROUP BY)	run4	200	11.357	94	
+arango__aggregate	age histogram (implicit GROUP BY)	run5	200	11.195	94	
+arango__aggregate_with_distinct	COUNT(DISTINCT n.age)	run1	200	10.552	1	
+arango__aggregate_with_distinct	COUNT(DISTINCT n.age)	run2	200	10.482	1	
+arango__aggregate_with_distinct	COUNT(DISTINCT n.age)	run3	200	10.508	1	
+arango__aggregate_with_distinct	COUNT(DISTINCT n.age)	run4	200	10.781	1	
+arango__aggregate_with_distinct	COUNT(DISTINCT n.age)	run5	200	10.523	1	
+arango__aggregate_with_filter	age histogram with age >= 18 filter	run1	200	15.521	75	
+arango__aggregate_with_filter	age histogram with age >= 18 filter	run2	200	15.560	75	
+arango__aggregate_with_filter	age histogram with age >= 18 filter	run3	200	15.573	75	
+arango__aggregate_with_filter	age histogram with age >= 18 filter	run4	200	15.507	75	
+arango__aggregate_with_filter	age histogram with age >= 18 filter	run5	200	15.377	75	
+arango__allshortest_paths	allShortestPaths up to 2 hops	run1	200	1.101	0	
+arango__allshortest_paths	allShortestPaths up to 2 hops	run2	200	0.351	0	
+arango__allshortest_paths	allShortestPaths up to 2 hops	run3	200	0.597	0	
+arango__allshortest_paths	allShortestPaths up to 2 hops	run4	200	0.633	0	
+arango__allshortest_paths	allShortestPaths up to 2 hops	run5	200	0.380	0	
+arango__expansion_1	1-hop expansion	run1	200	0.170	8	
+arango__expansion_1	1-hop expansion	run2	200	0.150	6	
+arango__expansion_1	1-hop expansion	run3	200	0.146	3	
+arango__expansion_1	1-hop expansion	run4	200	0.142	3	
+arango__expansion_1	1-hop expansion	run5	200	0.121	1	
+arango__expansion_1_with_filter	1-hop expansion + age filter	run1	200	0.116	0	
+arango__expansion_1_with_filter	1-hop expansion + age filter	run2	200	0.127	3	
+arango__expansion_1_with_filter	1-hop expansion + age filter	run3	200	0.145	6	
+arango__expansion_1_with_filter	1-hop expansion + age filter	run4	200	0.199	14	
+arango__expansion_1_with_filter	1-hop expansion + age filter	run5	200	0.124	2	
+arango__expansion_2	2-hop expansion, DISTINCT	run1	200	2.246	278	
+arango__expansion_2	2-hop expansion, DISTINCT	run2	200	0.485	27	
+arango__expansion_2	2-hop expansion, DISTINCT	run3	200	3.078	431	
+arango__expansion_2	2-hop expansion, DISTINCT	run4	200	7.855	1120	
+arango__expansion_2	2-hop expansion, DISTINCT	run5	200	16.504	2398	
+arango__expansion_2_with_filter	2-hop expansion + age filter	run1	200	0.542	56	
+arango__expansion_2_with_filter	2-hop expansion + age filter	run2	200	2.710	365	
+arango__expansion_2_with_filter	2-hop expansion + age filter	run3	200	11.286	1488	
+arango__expansion_2_with_filter	2-hop expansion + age filter	run4	200	1.556	143	
+arango__expansion_2_with_filter	2-hop expansion + age filter	run5	200	19.037	1697	
+arango__expansion_3	3-hop expansion, DISTINCT	run1	200	17.666	2355	
+arango__expansion_3	3-hop expansion, DISTINCT	run2	200	21.683	3040	
+arango__expansion_3	3-hop expansion, DISTINCT	run3	200	0.220	0	
+arango__expansion_3	3-hop expansion, DISTINCT	run4	200	27.105	4048	
+arango__expansion_3	3-hop expansion, DISTINCT	run5	200	18.457	2705	
+arango__expansion_3_with_filter	3-hop expansion + age filter	run1	200	129.673	14364	
+arango__expansion_3_with_filter	3-hop expansion + age filter	run2	200	55.273	6864	
+arango__expansion_3_with_filter	3-hop expansion + age filter	run3	200	146.145	15068	
+arango__expansion_3_with_filter	3-hop expansion + age filter	run4	200	1.044	88	
+arango__expansion_3_with_filter	3-hop expansion + age filter	run5	200	36.036	4884	
+arango__expansion_4	4-hop expansion, DISTINCT	run1	200	948.946	63236	
+arango__expansion_4	4-hop expansion, DISTINCT	run2	200	749.802	59501	
+arango__expansion_4	4-hop expansion, DISTINCT	run3	200	962.831	64576	
+arango__expansion_4	4-hop expansion, DISTINCT	run4	200	2336.492	83786	
+arango__expansion_4	4-hop expansion, DISTINCT	run5	200	639.302	70046	
+arango__expansion_4_with_filter	4-hop expansion + age filter	run1	200	397.125	31327	
+arango__expansion_4_with_filter	4-hop expansion + age filter	run2	200	170.216	20007	
+arango__expansion_4_with_filter	4-hop expansion + age filter	run3	200	595.205	35069	
+arango__expansion_4_with_filter	4-hop expansion + age filter	run4	200	184.981	21449	
+arango__expansion_4_with_filter	4-hop expansion + age filter	run5	200	767.506	30600	
+arango__neighbours_2	var-length *1..2, DISTINCT endpoints	run1	200	2.958	420	
+arango__neighbours_2	var-length *1..2, DISTINCT endpoints	run2	200	1.590	197	
+arango__neighbours_2	var-length *1..2, DISTINCT endpoints	run3	200	2.512	338	
+arango__neighbours_2	var-length *1..2, DISTINCT endpoints	run4	200	2.027	284	
+arango__neighbours_2	var-length *1..2, DISTINCT endpoints	run5	200	1.760	232	
+arango__neighbours_2_with_data	var-length *1..2 returning whole nodes	run1	200	4.392	263	
+arango__neighbours_2_with_data	var-length *1..2 returning whole nodes	run2	200	19.354	1151	
+arango__neighbours_2_with_data	var-length *1..2 returning whole nodes	run3	200	0.525	15	
+arango__neighbours_2_with_data	var-length *1..2 returning whole nodes	run4	200	40.909	2157	
+arango__neighbours_2_with_data	var-length *1..2 returning whole nodes	run5	200	3.663	192	
+arango__neighbours_2_with_data_and_filter	var-length *1..2 + filter, whole nodes	run1	200	28.728	1650	
+arango__neighbours_2_with_data_and_filter	var-length *1..2 + filter, whole nodes	run2	200	0.908	35	
+arango__neighbours_2_with_data_and_filter	var-length *1..2 + filter, whole nodes	run3	200	4.456	252	
+arango__neighbours_2_with_data_and_filter	var-length *1..2 + filter, whole nodes	run4	200	0.217	0	
+arango__neighbours_2_with_data_and_filter	var-length *1..2 + filter, whole nodes	run5	200	9.851	595	
+arango__neighbours_2_with_filter	var-length *1..2 + age filter	run1	200	0.784	82	
+arango__neighbours_2_with_filter	var-length *1..2 + age filter	run2	200	4.926	657	
+arango__neighbours_2_with_filter	var-length *1..2 + age filter	run3	200	1.364	167	
+arango__neighbours_2_with_filter	var-length *1..2 + age filter	run4	200	6.695	770	
+arango__neighbours_2_with_filter	var-length *1..2 + age filter	run5	200	0.705	61	
+arango__shortest_path	shortestPath up to 15 hops	run1	200	0.272	1	
+arango__shortest_path	shortestPath up to 15 hops	run2	200	0.276	1	
+arango__shortest_path	shortestPath up to 15 hops	run3	200	0.630	1	
+arango__shortest_path	shortestPath up to 15 hops	run4	200	0.302	1	
+arango__shortest_path	shortestPath up to 15 hops	run5	200	1.074	1	
+arango__shortest_path_with_filter	shortestPath + all() node filter	run1	200	0.131	0	
+arango__shortest_path_with_filter	shortestPath + all() node filter	run2	200	1.859	1	
+arango__shortest_path_with_filter	shortestPath + all() node filter	run3	200	0.242	1	
+arango__shortest_path_with_filter	shortestPath + all() node filter	run4	200	0.294	1	
+arango__shortest_path_with_filter	shortestPath + all() node filter	run5	200	0.224	0	
+arango__single_edge_write	CREATE edge between two matched users	run1	200	2.864	1	
+arango__single_edge_write	CREATE edge between two matched users	run2	200	2.750	1	
+arango__single_edge_write	CREATE edge between two matched users	run3	200	2.724	1	
+arango__single_edge_write	CREATE edge between two matched users	run4	200	2.774	1	
+arango__single_edge_write	CREATE edge between two matched users	run5	200	2.717	1	
+arango__single_vertex_read	point lookup by id	run1	200	0.135	1	
+arango__single_vertex_read	point lookup by id	run2	200	0.133	1	
+arango__single_vertex_read	point lookup by id	run3	200	0.215	1	
+arango__single_vertex_read	point lookup by id	run4	200	0.151	1	
+arango__single_vertex_read	point lookup by id	run5	200	0.131	1	
+arango__single_vertex_write	CREATE UserTemp node	run1	200	2.715	1	
+arango__single_vertex_write	CREATE UserTemp node	run2	200	2.777	1	
+arango__single_vertex_write	CREATE UserTemp node	run3	200	2.781	1	
+arango__single_vertex_write	CREATE UserTemp node	run4	200	2.772	1	
+arango__single_vertex_write	CREATE UserTemp node	run5	200	2.892	1	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run1	200	3.903	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run2	200	4.134	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run3	200	4.396	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run4	200	3.905	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run5	200	3.790	0	
+create__edge	CREATE TempEdge between matched users	run1	200	2.645	0	
+create__edge	CREATE TempEdge between matched users	run2	200	2.735	0	
+create__edge	CREATE TempEdge between matched users	run3	200	2.814	0	
+create__edge	CREATE TempEdge between matched users	run4	200	2.722	0	
+create__edge	CREATE TempEdge between matched users	run5	200	2.715	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run1	200	2.715	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run2	200	2.838	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run3	200	2.744	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run4	200	2.801	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run5	200	2.726	0	
+create__vertex	CREATE () bare node	run1	200	2.786	0	
+create__vertex	CREATE () bare node	run2	200	2.786	0	
+create__vertex	CREATE () bare node	run3	200	2.668	0	
+create__vertex	CREATE () bare node	run4	200	3.038	0	
+create__vertex	CREATE () bare node	run5	200	2.843	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run1	200	2.738	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run2	200	2.830	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run3	200	2.814	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run4	200	2.774	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run5	200	2.982	0	
+match__pattern_cycle	cyclic pattern, returns edges	run1	200	1.084	30	
+match__pattern_cycle	cyclic pattern, returns edges	run2	200	0.314	2	
+match__pattern_cycle	cyclic pattern, returns edges	run3	200	0.429	6	
+match__pattern_cycle	cyclic pattern, returns edges	run4	200	0.520	12	
+match__pattern_cycle	cyclic pattern, returns edges	run5	200	0.175	1	
+match__pattern_long	4-hop mixed-direction chain, LIMIT 1	run1	200	0.143	1	
+match__pattern_long	4-hop mixed-direction chain, LIMIT 1	run2	200	0.140	1	
+match__pattern_long	4-hop mixed-direction chain, LIMIT 1	run3	200	0.138	1	
+match__pattern_long	4-hop mixed-direction chain, LIMIT 1	run4	200	0.219	1	
+match__pattern_long	4-hop mixed-direction chain, LIMIT 1	run5	200	0.144	1	
+match__pattern_short	1-hop with bound edge, LIMIT 1	run1	200	0.131	1	
+match__pattern_short	1-hop with bound edge, LIMIT 1	run2	200	0.130	1	
+match__pattern_short	1-hop with bound edge, LIMIT 1	run3	200	0.129	1	
+match__pattern_short	1-hop with bound edge, LIMIT 1	run4	200	0.138	1	
+match__pattern_short	1-hop with bound edge, LIMIT 1	run5	200	0.130	1	
+match__vertex_on_label_property	label scan + WITH/WHERE (index-hostile)	run1	200	10.888	1	
+match__vertex_on_label_property	label scan + WITH/WHERE (index-hostile)	run2	200	11.017	1	
+match__vertex_on_label_property	label scan + WITH/WHERE (index-hostile)	run3	200	11.149	1	
+match__vertex_on_label_property	label scan + WITH/WHERE (index-hostile)	run4	200	11.054	1	
+match__vertex_on_label_property	label scan + WITH/WHERE (index-hostile)	run5	200	11.001	1	
+match__vertex_on_label_property_index	label+property index seek	run1	200	0.239	1	
+match__vertex_on_label_property_index	label+property index seek	run2	200	0.160	1	
+match__vertex_on_label_property_index	label+property index seek	run3	200	0.144	1	
+match__vertex_on_label_property_index	label+property index seek	run4	200	0.135	1	
+match__vertex_on_label_property_index	label+property index seek	run5	200	0.132	1	
+match__vertex_on_property	label+property seek (same text as index)	run1	200	0.128	1	
+match__vertex_on_property	label+property seek (same text as index)	run2	200	0.138	1	
+match__vertex_on_property	label+property seek (same text as index)	run3	200	0.208	1	
+match__vertex_on_property	label+property seek (same text as index)	run4	200	0.137	1	
+match__vertex_on_property	label+property seek (same text as index)	run5	200	0.130	1	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run1	200	10.008	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run2	200	9.998	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run3	200	9.945	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run4	200	9.983	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run5	200	10.133	0	

@@ -1,0 +1,1 @@
+MATCH (n:User) RETURN COUNT(DISTINCT n.age)
