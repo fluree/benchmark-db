@@ -64,6 +64,8 @@ sub-millisecond writes come from a non-durable mode that acks a commit before it
 that is not a contract a real database of record would run on, so we hold all four to durable
 writes.)
 
+![Pokec large-scale geometric-mean latency, 4 engines on one box](assets/pokec-large-geomean.svg)
+
 Geometric mean, ms — lower is faster. The last three columns state how much faster (or
 slower) Fluree is than each engine. **Bold = fastest in the row.**
 
@@ -119,20 +121,25 @@ consistently slowest.
 
 ## All runs at a glance
 
-Fluree leads every aggregate at both scales. On the SPARQLoscope penalized geo mean
+Fluree leads every aggregate on every run. On the SPARQLoscope penalized geo mean
 (P=2), Fluree is **11.5× faster than the next fastest engine (QLever) on
-DBLP-core (561 M) and 10.4× on Wikidata-Truthy (8.19 B)**.
+DBLP-core (561 M) and 10.4× on Wikidata-Truthy (8.19 B)**; on Pokec it is the
+**fastest engine on both reads and durable writes at every scale**.
 
-| benchmark | triples | engines | box | Fluree passed | Fluree geo P=2 (vs next fastest) | report |
+| benchmark | data | engines | box | Fluree passed | Fluree geo mean (vs next fastest) | report |
 |---|---|---|---|---|---|---|
-| **DBLP-core** | 561 M | 7 | `m7a.4xlarge` 16c/64 GB | **105/105** | **17.5 ms** (QLever 11.5×) | [report](benchmarks/sparqloscope/reports/dblp-core/REPORT.md) |
-| **Wikidata-truthy** | 8.19 B | 5 | `r7a.16xlarge` 64c/512 GB | **105/105** | **367.4 ms** (QLever 10.4×) | [report](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) |
-| **WGPB** (Wikidata all-dump) | 21.5 B | 1 (Fluree only) | `r7a.8xlarge` 32c/256 GB | **850/850** | **43 ms** | [report](benchmarks/wgpb/reports/wikidata-all/REPORT.md) |
+| **DBLP-core** | 561 M triples | 7 | `m7a.4xlarge` 16c/64 GB | **105/105** | **17.5 ms** (QLever 11.5×) | [report](benchmarks/sparqloscope/reports/dblp-core/REPORT.md) |
+| **Wikidata-truthy** | 8.19 B triples | 5 | `r7a.16xlarge` 64c/512 GB | **105/105** | **367.4 ms** (QLever 10.4×) | [report](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) |
+| **WGPB** (Wikidata all-dump) | 21.5 B triples | 1 (Fluree only) | `r7a.8xlarge` 32c/256 GB | **850/850** | **43 ms** | [report](benchmarks/wgpb/reports/wikidata-all/REPORT.md) |
+| **Pokec** (benchgraph, Cypher) | 30.6 M edges | 4 | `r8a.4xlarge` 16c/128 GB | **35/35** | reads **1.47 ms** (Memgraph 3.0×) · writes **1.73 ms** (Neo4j 2.4×) | [report](benchmarks/benchgraph/reports/pokec/REPORT.md) |
 
-_Wikidata-truthy is the hardest SPARQLoscope scale (8.19 B triples); passed-counts fall
-for every other engine there — Fluree is the only engine to answer all 105 queries, at
-both scales. The WGPB row is the separate 850-query graph-pattern benchmark on the full
-21.5 B-triple Wikidata all-dump (794 GB index, ~3× RAM): 100% completion, 0 timeouts._
+_The SPARQL rows are the SPARQLoscope penalized geo mean (P=2). Wikidata-truthy is the
+hardest SPARQLoscope scale (8.19 B triples); passed-counts fall for every other engine
+there — Fluree is the only engine to answer all 105 queries, at both scales. The WGPB
+row is the separate 850-query graph-pattern benchmark on the full 21.5 B-triple Wikidata
+all-dump (794 GB index, ~3× RAM): 100% completion, 0 timeouts. The Pokec row is the
+Cypher suite's large scale (read / durable-write geo means); Fluree is fastest on both
+at every scale._
 
 At the 8.19 B scale the same ordering holds — Fluree fastest on geo mean, QLever next:
 
