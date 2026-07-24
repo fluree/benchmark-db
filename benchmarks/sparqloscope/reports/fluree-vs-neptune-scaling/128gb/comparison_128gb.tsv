@@ -1,0 +1,106 @@
+query_id	description	fluree_status	fluree_ms	neptune_status	neptune_ms	neptune_over_fluree	neptune_outcome
+date-day	DAY function	200	1.366	200	17870.168	13082.1	both_pass
+date-month	MONTH function	200	1.223	200	18067.212	14772.9	both_pass
+date-year	YEAR function	200	56.014	200	18080.555	322.8	both_pass
+distinct-count-object-high-multiplicity	COUNT DISTINCT, for object with high multiplicity	200	0.677	200	34.172	50.5	both_pass
+distinct-count-object-low-multiplicity	COUNT DISTINCT, for object with low multiplicity	200	0.512	200	9494.727	18544.4	both_pass
+distinct-count-object-wrong-sort-order	COUNT DISTINCT, for object but not sorted by object	200	782.122	200	67508.66699999999	86.3	both_pass
+exists-join-2-large-large-with-large-result	EXISTS JOIN of two large predicates with a reasonably large join result	200	21.156	000	180000.0		neptune_FAIL
+exists-join-2-large-large-with-small-join-result-1	EXISTS JOIN of two large predicates with a small join result	200	27.539	200	17479.92	634.7	both_pass
+exists-join-2-large-large-with-small-join-result-2	EXISTS JOIN of two large predicates with a small join result	200	29.118	200	37619.787	1292.0	both_pass
+exists-join-3-chain-1	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	200	209.847	000	180000.0		neptune_FAIL
+exists-join-3-chain-2	EXISTS JOIN chain of three large predicates with the largest sum of join sizes	200	2558.992	000	180000.0		neptune_FAIL
+exists-join-3-star-1	EXISTS JOIN star of three large predicates with the largest sum of join sizes	200	1384.69	000	180000.0		neptune_FAIL
+exists-join-3-star-2	EXISTS JOIN star of three large predicates with the largest sum of join sizes	200	79.166	000	180000.0		neptune_FAIL
+exists-join-large-large	EXISTS JOIN of two large predicates	200	122.346	000	180000.0		neptune_FAIL
+exists-join-large-small	EXISTS JOIN of a large and a small predicate	200	0.802	000	180000.0		neptune_FAIL
+exists-join-small-large	EXISTS JOIN of a small and a large predicate	200	0.763	200	47.493	62.2	both_pass
+filter-few-results	FILTER that filters out most rows and has few results	200	159.533	200	168422.528	1055.7	both_pass
+filter-language-en	FILTER on string predicate for only English literals	200	7.142	200	103300.486	14463.8	both_pass
+filter-many-results	FILTER that filters out few rows and has many results	200	159.487	200	170914.635	1071.7	both_pass
+group-by-complex-aggregate	GROUP BY with COUNT and MIN and MAX and SAMPLE	200	410.117	200	20487.067	50.0	both_pass
+group-by-count-object-high-multiplicity	GROUP BY with COUNT, for object with high multiplicity	200	11.634	200	83780.63399999999	7201.4	both_pass
+group-by-count-object-low-multiplicity	GROUP BY with COUNT, for object with low multiplicity	200	165.021	200	95523.382	578.9	both_pass
+group-by-count-object-wrong-sort-order	GROUP BY with COUNT, for object but not sorted by object	200	400.629	200	20042.675	50.0	both_pass
+group-by-implicit-numeric-avg	Implicit GROUP BY with AVG on numeric predicate	200	71.342	200	13442.194	188.4	both_pass
+group-by-implicit-numeric-baseline	Implicit GROUP BY with COUNT on numeric predicate as baseline	200	0.469	200	6998.061	14921.2	both_pass
+group-by-implicit-numeric-max	Implicit GROUP BY with MAX on numeric predicate	200	0.537	200	13501.386	25142.2	both_pass
+group-by-implicit-numeric-min	Implicit GROUP BY with MIN on numeric predicate	200	0.484	200	13521.391	27936.8	both_pass
+group-by-implicit-numeric-sum	Implicit GROUP BY with SUM on numeric predicate	200	61.919	200	13307.37	214.9	both_pass
+group-by-implicit-string-baseline	Implicit GROUP BY with COUNT on string predicate as baseline	200	0.514	200	27911.666	54302.9	both_pass
+group-by-implicit-string-max	Implicit GROUP BY with MAX on string predicate	200	0.617	200	43726.468	70869.5	both_pass
+group-by-implicit-string-min	Implicit GROUP BY with MIN on string predicate	200	0.644	200	42885.489	66592.4	both_pass
+group-by-string-groupconcat	GROUP BY with GROUP_CONCAT on string predicate with high subject multiplicity	200	32.618	000	180000.0		neptune_FAIL
+join-2-large-large	JOIN of two large predicates	200	0.567	200	41644.477	73447.0	both_pass
+join-2-large-large-with-large-result	JOIN of two large predicates with a reasonably large result	200	25.117	200	44813.746	1784.2	both_pass
+join-2-large-large-with-small-result	JOIN of two large predicates with a small result	200	44.711	200	5323.306	119.1	both_pass
+join-2-large-small	JOIN of a large and a small predicate	200	0.48	200	34.705	72.3	both_pass
+join-2-largest-result	JOIN of two predicates with the largest possible result	200	25.112	200	45933.506	1829.1	both_pass
+join-2-small-large	JOIN of a small and a large predicate	200	0.549	200	33.85	61.7	both_pass
+join-3-chain-largest-sum-of-join-sizes	JOIN chain of three large predicates with the largest sum of join sizes	200	228.374	200	111142.006	486.7	both_pass
+join-3-star-largest-sum-of-join-sizes	JOIN star of three large predicates with the largest sum of join sizes	200	107.591	200	69255.948	643.7	both_pass
+join-xlarge-chain-on-small-predicates	JOIN chain of many small predicates	200	0.834	200	33.812	40.5	both_pass
+join-xlarge-star-on-small-predicates	JOIN star of many small predicates	200	1.966	200	32.546	16.6	both_pass
+minus-join-2-large-large-with-large-result	MINUS JOIN of two large predicates with a reasonably large join result	200	21.023	000	180000.0		neptune_FAIL
+minus-join-2-large-large-with-small-join-result-1	MINUS JOIN of two large predicates with a small join result	200	27.376	200	11141.763	407.0	both_pass
+minus-join-2-large-large-with-small-join-result-2	MINUS JOIN of two large predicates with a small join result	200	29.27	200	30625.96	1046.3	both_pass
+minus-join-3-chain-1	MINUS JOIN chain of three large predicates with the largest sum of join sizes	200	202.725	000	180000.0		neptune_FAIL
+minus-join-3-chain-2	MINUS JOIN chain of three large predicates with the largest sum of join sizes	200	2561.239	000	180000.0		neptune_FAIL
+minus-join-3-star-1	MINUS JOIN star of three large predicates with the largest sum of join sizes	200	1379.413	000	180000.0		neptune_FAIL
+minus-join-3-star-2	MINUS JOIN star of three large predicates with the largest sum of join sizes	200	78.852	000	180000.0		neptune_FAIL
+minus-join-large-large	MINUS JOIN of two large predicates	200	121.922	000	180000.0		neptune_FAIL
+minus-join-large-small	MINUS JOIN of a large and a small predicate	200	0.716	000	180000.0		neptune_FAIL
+minus-join-small-large	MINUS JOIN of a small and a large predicate	200	0.813	200	38.362	47.2	both_pass
+multicolumn-join-large	Multicolumn JOIN large	200	1270.915	200	91896.826	72.3	both_pass
+multicolumn-join-small	Multicolumn JOIN small	200	0.495	200	30.865	62.4	both_pass
+number-of-blank-nodes	Total number of blank nodes	200	31.006	000	180000.0		neptune_FAIL
+number-of-literals	Total number of literals	200	0.442	000	180000.0		neptune_FAIL
+number-of-objects	Total number of distinct objects	200	1.576	000	180000.0		neptune_FAIL
+number-of-predicates	Total number of distinct predicates	200	0.402	200	30.75	76.5	both_pass
+number-of-subjects	Total number of distinct subjects	200	1.524	200	145420.074	95420.0	both_pass
+number-of-triples	Total number of triples	200	0.458	200	32635.32	71256.2	both_pass
+numeric-abs	ABS function	200	63.555	200	13435.64	211.4	both_pass
+numeric-add	Addition	200	63.433	200	13572.643	214.0	both_pass
+numeric-baseline	Baseline for numeric queries	200	61.859	200	13520.142	218.6	both_pass
+numeric-ceil	CEIL function	200	63.58	200	13627.434	214.3	both_pass
+numeric-filter-bin-search-fifty-fifty	Numeric FILTER that filters out 50 percent of the values	200	0.982	200	12077.848	12299.2	both_pass
+numeric-filter-bin-search-ninetyfive-five	Numeric FILTER that filters out 95 percent of the values	200	1.008	200	895.215	888.1	both_pass
+numeric-filter-bin-search-seventy-thirty	Numeric FILTER that filters out 70 percent of the values	200	0.995	200	8550.458	8593.4	both_pass
+numeric-floor	FLOOR function	200	63.452	200	13657.163	215.2	both_pass
+numeric-greater	Greater than	200	1.123	200	24475.607	21794.8	both_pass
+numeric-round	ROUND function	200	63.451	200	13576.142	214.0	both_pass
+optional-join-2-large-large-with-large-result	OPTIONAL JOIN of two large predicates with a reasonably large join result	200	26.232	200	45511.108	1734.9	both_pass
+optional-join-2-large-large-with-small-join-result-1	OPTIONAL JOIN of two large predicates with a small join result	200	46.228	200	5339.848	115.5	both_pass
+optional-join-2-large-large-with-small-join-result-2	OPTIONAL JOIN of two large predicates with a small join result	200	38.664	200	5893.443	152.4	both_pass
+optional-join-3-chain-1	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	200	219.014	200	44129.837	201.5	both_pass
+optional-join-3-chain-2	OPTIONAL JOIN chain of three large predicates with the largest sum of join sizes	200	819.249	000	180000.0		neptune_FAIL
+optional-join-3-star-1	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	200	114.584	200	77322.16	674.8	both_pass
+optional-join-3-star-2	OPTIONAL JOIN star of three large predicates with the largest sum of join sizes	200	136.438	000	180000.0		neptune_FAIL
+optional-join-large-large	OPTIONAL JOIN of two large predicates	200	149.273	000	180000.0		neptune_FAIL
+optional-join-large-small	OPTIONAL JOIN of a large and a small predicate	200	0.735	500	151311.468		neptune_FAIL
+optional-join-small-large	OPTIONAL JOIN of a small and a large predicate	200	0.737	200	33.686	45.7	both_pass
+regex-3	REGEX filter with expression of length 3	200	391.185	200	41346.223	105.7	both_pass
+regex-3-contains	CONTAINS filter with fixed string of length 3	200	84.754	200	43432.132	512.4	both_pass
+regex-3-fixed	REGEX filter with fixed string of length 3	200	323.325	200	41234.475	127.5	both_pass
+regex-prefix-1	REGEX filter with prefix of length 1	200	131.012	200	41816.947	319.2	both_pass
+regex-prefix-2	REGEX filter with prefix of length 2	200	34.924	200	41525.267	1189.0	both_pass
+regex-prefix-3	REGEX filter with prefix of length 3	200	12.537	200	41375.569	3300.3	both_pass
+result-size-large	Export 1M tuples	200	671.529	200	2880.512	4.3	both_pass
+result-size-medium	Export 100K tuples	200	67.711	200	309.113	4.6	both_pass
+result-size-small	Export 1000 tuples	200	2.981	200	33.947	11.4	both_pass
+result-size-tiny	Export 10 tuples	200	2.368	200	30.874	13.0	both_pass
+result-size-xlarge	Export 10M tuples	200	6797.911	200	29227.83	4.3	both_pass
+strafter	STRAFTER string function	200	97.552	200	18000.898	184.5	both_pass
+strbefore	STRBEFORE string function	200	89.074	200	17822.451	200.1	both_pass
+strends	STRENDS string function	200	70.783	200	17982.475	254.1	both_pass
+strlen	String length for large string predicate	200	75.467	200	17697.561	234.5	both_pass
+strstarts	STRSTARTS string function	200	49.735	200	17755.182	357.0	both_pass
+transitive-path-large-join-and-plus	Transitive path with a large join and plus	200	0.49	200	32.429	66.2	both_pass
+transitive-path-plus	Transitive path with plus	200	0.454	200	31.452	69.3	both_pass
+transitive-path-plus-fixed-subject	Transitive path with plus and a fixed subject	200	0.515	200	31.979	62.1	both_pass
+transitive-path-small-join-and-plus	Transitive path with a small join and plus	200	0.471	200	31.942	67.8	both_pass
+union-constraint-filter-restrictive	UNION of two large predicates, constraint by restrictive FILTER	200	1248.159	500	178850.752		neptune_FAIL
+union-constraint-from-star	UNION of two large predicates, constrained by a large predicate known to have join partners	200	115.69	200	107171.852	926.4	both_pass
+union-constraint-large-join	UNION of two large predicates, constrained by a join with a large result	200	202.739	200	118861.872	586.3	both_pass
+union-constraint-small-join	UNION of two large predicates, constrained by a join with a small result	200	19.976	200	11858.643	593.6	both_pass
+union-no-constraint	UNION of two large predicates, no constraint	200	0.595	000	180002.277		neptune_FAIL

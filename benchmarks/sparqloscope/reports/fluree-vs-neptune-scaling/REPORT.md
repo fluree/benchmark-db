@@ -8,6 +8,10 @@
 > distinct triples** (574.2 M raw N-Triples lines, ~2.2 % exact dups removed). 1 warmup +
 > median of 3, 180 s per-query timeout, result cache off.
 
+> **See also:** [`128gb/REPORT.md`](128gb/REPORT.md) — the focused per-query head-to-head at
+> **128 GB**, the smallest size where Neptune is functional (81/105) and thus the fairest
+> single-size comparison.
+
 ## TL;DR
 
 - **Fluree passes 105/105 at every size**, 16.6–26.7 ms geomean, and loads 9–15× faster.
