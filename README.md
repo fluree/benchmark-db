@@ -20,7 +20,7 @@ Two families:
 
 ---
 
-## Headline — DBLP-core: 7 engines, one box
+## DBLP-core: 7 engines, one box
 
 The full SPARQLoscope suite over **DBLP-core** (~561 M triples) with
 **all seven engines on the same machine** (AWS `m7a.4xlarge`, 16 c / 64 GB) so the
@@ -110,7 +110,7 @@ consistently slowest.
 [per-query medians](benchmarks/benchgraph/reports/pokec/summary.tsv) ·
 [run metadata](benchmarks/benchgraph/reports/pokec/meta.json)
 
-> Fluree is the imminent **v4.1.2** release (build `13a78d2a`), measured through its Cypher
+> Fluree is the **v4.1.2** release (build `13a78d2a`), measured through its Cypher
 > surface over HTTP end to end. All four engines run **natively** on the one box (FalkorDB as
 > `redis-server` + module, not the Docker image), each over its real-world client transport
 > (Fluree HTTP, Memgraph/Neo4j Bolt, FalkorDB native RESP), and all held to per-commit fsync

@@ -1,5 +1,5 @@
 {
-  "status": "RUN 2026-07-04. BSBM 1M (pc=2785) throughput matrix on the m7a.4xlarge box, Fluree v4.1.2 (25d8c28f4). Real BSBM: bsbmtools-0.2 test driver (randomized query mix -> QMpH). All three use cases (explore, businessIntelligence, exploreAndUpdate) x {1,4,8,16,32} clients, 0 timeouts.",
+  "status": "RE-RUN 2026-07-09 on the m7a.4xlarge box. Explore + BI on Fluree v4.1.2 (13a78d2a); Update on Fluree v4.1.2 (e563e9bb = 13a78d2a + the single-pattern DELETE-WHERE stats-view fix). Real BSBM: bsbmtools-0.2 test driver (randomized query mix -> QMpH), x {1,4,8,16,32} clients, 0 timeouts. vs the 25d8c28f baseline: Explore +8-14% at low/mid concurrency (flat at saturation), BI +38-43%, and Update +0.8 to +4.6% (the e563e9bb fix removed the -3 to -7% concurrent-write regression that 13a78d2a alone had). All three use cases now beat the prior baseline.",
   "benchmark": "bsbm",
   "dataset": {
     "name": "BSBM 1M (pc=2785, forward-chained)",
@@ -49,8 +49,8 @@
     "fluree": {
       "label": "Fluree",
       "version": "4.1.2",
-      "commit": "25d8c28f4df719f8414f8f2507f955b5c41afd50",
-      "install": "Built from source, fluree/db branch feature/warm-on-write-reindex-cache (rebased with fix/filtered-delete-staging-hang). Binary reports 'fluree 4.1.1' (pre-release build of v4.1.2).",
+      "commit": "Explore + BI: 13a78d2a8cb5a0582830d823ac424e13c4e06bb0. Update: e563e9bb334402b2e21d8637747e15ef47b55520 (= 13a78d2a + 'skip per-update stats-view rebuild for single-pattern WHERE'; fixes the write regression, reads unchanged). Both 2026-07-09.",
+      "install": "Built from source (cargo build --release -p fluree-db-cli -p fluree-db-server). Binary reports 'fluree 4.1.1' (pre-release build of v4.1.2).",
       "config": "default server config; LeafletCache budget ~21.5 GiB",
       "import": {
         "notes": "fluree create <ledger> --from <dataset>.nt (N-Triples imported natively)."
@@ -60,6 +60,7 @@
   "caveats": [
     "Real BSBM via bsbmtools-0.2 (randomized query mix, QMpH), not a SPARQLoscope-style per-query latency reshape.",
     "pc=2785 is the canonical '1M' scale point; measured triple count is 724,101 (depends on toolkit version + forward chaining). Absolute QMpH is comparable engine-vs-engine on this box, not across toolkit versions/scales.",
-    "1M is the harness-validation scale; headline numbers come from 100M (pc=284826) and 200M (pc=570000)."
+    "1M is the harness-validation scale; headline numbers come from 100M (pc=284826) and 200M (pc=570000).",
+    "MIXED-COMMIT REPORT: Explore + BI are on 13a78d2a; Update is on e563e9bb (= 13a78d2a + the DELETE-WHERE stats-view fix). 13a78d2a alone regressed the concurrent write path -3 to -7% (root cause: execute_where_streaming rebuilt the novelty-merged stats view on every single-pattern update WHERE); e563e9bb skips that rebuild where there is no join order to choose, restoring Update to +0.8 to +4.6% over the 25d8c28f baseline with reads unchanged. The 100M/200M Explore+BI grids remain 13a78d2a (this fix is write-only; reads are identical). runs/{explore,bi}__*.xml are the 13a78d2a run; runs/update__*.xml are the e563e9bb run."
   ]
 }

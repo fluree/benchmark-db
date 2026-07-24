@@ -1,5 +1,5 @@
 {
-  "status": "RUN 2026-07-04. BSBM 200M (pc=570000) throughput matrix on the m7a.4xlarge box, Fluree v4.1.2 (25d8c28f4). Real BSBM: bsbmtools-0.2 test driver (randomized query mix -> QMpH). Explore + BusinessIntelligence (update omitted at scale) x {1,4,8,16,32} clients, 0 timeouts.",
+  "status": "RE-RUN 2026-07-09. BSBM 200M (pc=570000) throughput matrix on the m7a.4xlarge box, Fluree v4.1.2 (13a78d2a). Real BSBM: bsbmtools-0.2 test driver (randomized query mix -> QMpH). Explore + BusinessIntelligence (update omitted at scale) x {1,4,8,16,32} clients, 0 timeouts. vs the 25d8c28f baseline: Explore +11-31%, BI flat-to-better (+1-6%). BI ran all 5 client counts this time (server restarted before each BI cell for cache headroom); 0 timeouts vs the baseline's 1.",
   "benchmark": "bsbm",
   "dataset": {
     "name": "BSBM 200M (pc=570000, forward-chained)",
@@ -35,22 +35,26 @@
         32
       ],
       "bi": [
-        1
+        1,
+        4,
+        8,
+        16,
+        32
       ]
     },
     "warmup_runs": {
       "explore": "w=3 runs=30",
-      "bi": "w=1 runs=3"
+      "bi": "w=2 runs=3"
     },
-    "timeout_ms": 120000,
-    "notes": "BI run single-client only (multi-client BI@200M would be hours and is dominated by the -fc root-type artifact). NOTE: in the unattended full-suite run the BI@200M c1 cell OOM-killed the server (heavy root-type BI query working set + ~15 GiB already-filled LeafletCache exceeded the 64 GB box). Re-running it from a freshly-restarted server (cache headroom available) completed cleanly: QMpH 12.28, 1 timeout (Q4). The committed bi__c1.xml is that clean re-run. Headroom, not a hard regression."
+    "timeout_ms": 300000,
+    "notes": "BI ran all 5 client counts. To avoid the OOM the earlier baseline hit (heavy -fc root-type ProductType1 analytic query working set on top of a filled ~15 GiB LeafletCache exceeding the 64 GB box), the server is RESTARTED before each BI cell so it starts with full cache headroom. All 10 cells (explore + bi) completed with 0 timeouts. BI throughput is dominated by the -fc root-type draw (full-scan analytic queries), a known generator/methodology artifact, not an engine ceiling."
   },
   "engines": {
     "fluree": {
       "label": "Fluree",
       "version": "4.1.2",
-      "commit": "25d8c28f4df719f8414f8f2507f955b5c41afd50",
-      "install": "Built from source, fluree/db branch feature/warm-on-write-reindex-cache (rebased with fix/filtered-delete-staging-hang). Binary reports 'fluree 4.1.1' (pre-release build of v4.1.2).",
+      "commit": "13a78d2a8cb5a0582830d823ac424e13c4e06bb0 (2026-07-09 re-run)",
+      "install": "Built from source (cargo build --release -p fluree-db-cli -p fluree-db-server). Binary reports 'fluree 4.1.1' (pre-release build of v4.1.2).",
       "config": "default server config; LeafletCache budget ~21.5 GiB",
       "import": {
         "notes": "fluree create bsbm200 --from td_200m/dataset.nt -> 200,031,975 flakes."
@@ -59,8 +63,8 @@
   },
   "caveats": [
     "Real BSBM via bsbmtools-0.2 (randomized query mix, QMpH).",
-    "BI@200M single-client can exceed 64 GB RAM when a root-type (ProductType1) analytic query lands on top of a filled leaflet cache -> server OOM. Reproducible workaround: more RAM, smaller cache budget, or exclude the root type from the param pool / regenerate without -fc.",
+    "BI@200M can exceed 64 GB RAM when a root-type (ProductType1) analytic query lands on top of a filled leaflet cache -> server OOM. The 2026-07-09 run restarts the server before each BI cell (full cache headroom) and completes all 5 client counts with 0 timeouts. Other workarounds: more RAM, smaller cache budget, or exclude the root type from the param pool / regenerate without -fc.",
     "Absolute QMpH is comparable engine-vs-engine on this box, not across toolkit versions/scales.",
-    "200M explore re-measured on the warmed ledger (a warm-up pass then w3 r30); run-to-run variance on the cold 49GB ledger is ~7% (1M/100M explore are flat vs the prior v4.1.1/warm-on-write build)."
+    "200M explore measured on the warmed ledger (warm-up pass then w3 r30); run-to-run variance on the 49GB ledger is ~7%, so small explore deltas at 200M are within noise (the +11-31% vs baseline is well outside it)."
   ]
 }

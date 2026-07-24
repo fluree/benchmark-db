@@ -1,6 +1,6 @@
 # BSBM benchmark — 100M
 
-> **Run 2026-07-04, Fluree v4.1.2 (`25d8c28f4`) on the AWS m7a.4xlarge box (16c / 64 GB).**
+> **Fluree v4.1.2 (`13a78d2a`), run 2026-07-09** on the AWS m7a.4xlarge box (16c / 64 GB).
 > Real BSBM: bsbmtools-0.2 `testdriver` randomized query mix → **QMpH** (higher = faster).
 > Explore + BI (update omitted at scale) × {1,4,8,16,32} clients. **0 timeouts.**
 
@@ -10,19 +10,20 @@
 
 | clients | QMpH |
 |--:|--:|
-| 1 | 10,625 |
-| 4 | 44,927 |
-| 8 | 77,895 |
-| 16 | 115,671 |
-| 32 | 127,842 |
+| 1 | 12,812 |
+| 4 | 55,299 |
+| 8 | 99,823 |
+| 16 | 142,807 |
+| 32 | 149,272 |
 
 ## 2. Business Intelligence — QMpH
 
 | clients | QMpH |
 |--:|--:|
-| 1 | 30 |
-| 4 | 68 |
-| 8 | 88 |
-| 16 | 88 |
-| 32 | 90 |
+| 1 | 32 |
+| 4 | 78 |
+| 8 | 104 |
+| 16 | 103 |
+| 32 | 105 |
 
+_vs the `25d8c28f4` baseline: Explore **+17–28%**, BI **+8–18%** across clients._
