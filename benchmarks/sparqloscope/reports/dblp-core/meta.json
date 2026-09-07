@@ -1,5 +1,5 @@
 {
-  "status": "Run 2026-06-11 (run dblp-core-20260610-204013); all 7 engines on dedicated m7a.4xlarge boxes, fractional ms precision. Geo mean (P=2, the SPARQLoscope paper's official aggregate; failed query = 2x the 180 s timeout): Fluree v4.1.2 17.5 ms, 105/105. QLever: 202 ms, 105/105. Virtuoso: 300 ms, 103/105 (chunked TTLP loading). MillenniumDB: 1664 ms, 103/105. Jena: 67.7 s, 34/105 (cold TDB cache). Oxigraph: 87.0 s, 39/105. Blazegraph: 333 s, 3/105. Standard DBLP-core (bibliography only, no OpenCitations), stable DROPS archive 2026-06-01 (~561.5M distinct triples). All engines NATIVE (no Docker).",
+  "status": "Fluree v4.2.0: 105/105 queries, 17.5 ms geometric mean; QLever 202.4 ms and Virtuoso 299.7 ms. Native engines on matching m7a.4xlarge hardware, using the same DBLP snapshot and 105 queries.",
   "dataset": {
     "name": "DBLP-core (bibliography only)",
     "description": "Standard DBLP RDF bibliography, no OpenCitations citations \u2014 DROPS monthly archive 2026-06-01",
@@ -7,12 +7,13 @@
     "doi": "10.4230/dblp.rdf.ntriples.2026-06-01",
     "version": "2026-06-01 (stable DROPS monthly archive)",
     "sha256": "6a1edc1b7aebcd7a581bc4313243029952af4af0fbf900e4126a72d6deb92309",
-    "triples": 574218804,
-    "triples_distinct": 561544658,
+    "triples": 561477456,
+    "triples_distinct": 561477456,
     "predicates": 90,
     "subjects": null,
     "objects": null,
-    "size_disk": "4.73 GB .nt.gz (5,083,386,634 bytes); ~73.5 GB uncompressed .nt"
+    "size_disk": "4.73 GB .nt.gz (5,083,386,634 bytes); ~73.5 GB uncompressed .nt",
+    "raw_lines": 574218804
   },
   "hardware": {
     "instance": "AWS m7a.4xlarge",
@@ -28,18 +29,22 @@
     "metric": "median",
     "timeout_s": 180,
     "accept": "text/tab-separated-values",
-    "notes": "All engines NATIVE (no Docker). Timeout 180 s per query per the SPARQLoscope DBLP spec (docs/Qleverfile.dblp TIMEOUT=180s), with a per-query 180 s wall budget (a query that takes ~180 s for one run is measured once, not 3x). Fluree/QLever/Virtuoso were initially run at a 300 s cap but NO query fell in the 180-300 s window (max passing: Fluree 12 s, QLever 37 s, Virtuoso 154 s), so their results are identical to a 180 s run and were not re-run; Oxigraph and Jena ran at 180 s. QLever result cache disabled + cleared before each run so it re-executes (matches Fluree/Virtuoso/Jena, which have no result cache); Oxigraph runs single-shot, memory-capped, per-query restart-on-failure."
+    "notes": "Local HTTP, TSV responses, no result cache. One warmup and median of three measured requests, with a 180 s timeout and timed-query wall budget. QLever result cache disabled and cleared per query. QLever and Virtuoso used 300 s caps, but no query finished between 180 and 300 s. Oxigraph uses the single-run protocol described below."
   },
   "engines": {
     "fluree": {
       "label": "Fluree",
-      "version": "v4.1.2",
-      "config": "Server cache auto (~31.5 GB); inline-indexed ledger. Built from source (branch feature/cypher-import @ d9f36463, pre-release v4.1.2 \u2014 carries the warm-on-write read cache + filtered-DELETE staging fix). Uses the metadata-driven fast paths (literals, subjects, objects, MIN/MAX string, COUNT DISTINCT) and algebraic aggregate identities. Query geo mean 17.5 ms, 105/105 \u2014 best of all measured Fluree versions.",
+      "version": "v4.2.0",
+      "config": "Official x86_64 Linux release binary, checksum verified. Fresh native import; default auto cache and Sync durability. Local HTTP TSV; no result cache.",
       "import": {
-        "time": "672 s",
-        "throughput": "0.835 M tr/s",
-        "notes": "fluree create dblp --from dblp.nt on the m7a.4xlarge box; 561,544,658 distinct triples in 672 s (0.835 M tr/s). Import is single-threaded and I/O-bound; query latency is unaffected (see status). Peak RAM / index size not separately captured for this run."
-      }
+        "time": "740.27 s",
+        "throughput": "0.758 M tr/s",
+        "peak_ram": "16.20 GiB (maximum process RSS)",
+        "index_size": "29.69 GB ledger directory",
+        "notes": "fluree create dblp --from dblp.nt; 561,477,456 distinct statements. Process wall time includes import completion and statistics; single import measurement."
+      },
+      "commit": "603974fad5c13efed9d147d214d613849fb43c73",
+      "measured_at": "2026-09-07"
     },
     "qlever": {
       "label": "QLever",
@@ -51,7 +56,7 @@
         "throughput": "1.08 M tr/s",
         "peak_ram": "20.8 GB",
         "index_size": "9.4 GB",
-        "notes": "qlever index (native), parallel parse @ 2.3 M/s. in-memory-compressed vocab, num-triples-per-batch 1M (matches the paper). Native on the host needed two things Docker masked: ulimit -n raised to 1048576 (533 partial vocabs) and --stxxl-memory 20G (permutation merge). QLever counts 561,477,456 distinct triples (Fluree 561,544,658; +0.012% delta, different exact-dup handling).",
+        "notes": "qlever index (native), parallel parse @ 2.3 M/s. in-memory-compressed vocab, num-triples-per-batch 1M (matches the paper). Native on the host needed two things Docker masked: ulimit -n raised to 1048576 (533 partial vocabs) and --stxxl-memory 20G (permutation merge). Loaded 561,477,456 distinct triples.",
         "phases": "parse 247 s @ 2.3 M/s + vocab merge + convert + sort/permutations; total 521 s"
       }
     },
@@ -127,13 +132,23 @@
     }
   },
   "caveats": [
-    "Run 2026-06-11 (dblp-core-20260610-204013): all 7 engines on dedicated m7a.4xlarge boxes, fractional ms precision, all engines NATIVE (no Docker).",
-    "Virtuoso: loaded via chunked TTLP because ld_dir is broken in Ubuntu apt 07.20.3229. We also tried rdf_loader_run in an earlier setup pass; chunked TTLP gave clearly better query times (loading method affects B-tree organization), so this run uses it. Earlier passes ran on a coarser-precision harness, so no like-for-like timing comparison is published.",
-    "Jena: 34/105 completed. Fuseki started cold for the benchmark; a cold 54GB index on a 64GB box (32GB JVM heap) causes many heavy queries to time out. In an earlier setup pass with a warm OS page cache Jena completed substantially more queries (69/105), so treat the completion count as cache-state sensitive.",
-    "NOT bit-comparable to the published SPARQLoscope table: that used DBLP 2024-04-01 / 2025-04-01 (~390-502M); this is the 2026-06-01 core archive (574.2M raw lines, ~561.5M distinct).",
-    "Triple-count delta: Fluree 561,544,658 vs QLever 561,477,456 distinct (+0.012%) \u2014 different exact-duplicate handling on import; both agree on 90 predicates.",
-    "Oxigraph: 39/105 completed. Sweep uses documented deviation (1 run, 180 s, memory-capped, per-query restart); not directly comparable to warmup+median-of-3 engines.",
-    "Absolute times are this-box-only (m7a.4xlarge, 16c/64GB).",
-    "Scope: this run compares query completion and latency, not result-set equivalence."
-  ]
+    "Fluree measured 2026-09-07; other engines measured 2026-06-11. Dedicated hosts of the same instance class, not the same physical host. Absolute timings can vary between hosts.",
+    "All engines use the pinned 2026-06-01 DBLP archive. This differs from the older snapshots used in the SPARQLoscope paper, so absolute timings are not directly comparable to that paper.",
+    "Virtuoso uses chunked TTLP loading; its ld_dir loader was broken in the tested Ubuntu package.",
+    "Jena starts with a cold JVM/TDB cache and a 54 GB index on a 64 GB host; its completion count is cache-state sensitive.",
+    "Oxigraph uses no warmup and one measured request, with a 180 s timeout, a memory cap, and restart on failure. This differs from the other engines' warmup/median-of-three protocol.",
+    "This comparison measures query completion and latency. It does not assert result equivalence across all engines. See the per-query table for differences in performance.",
+    "[Reproduce the Fluree run](v420-release/REPORT.md): pinned binary, dataset and harness checksums, import and query commands."
+  ],
+  "provenance": {
+    "fluree": {
+      "manifest": "v420-release/binary-manifest.json",
+      "harness": "v420-release/harness-sha256.json",
+      "raw_timings": "engines/fluree.tsv",
+      "summary": "engines/fluree_summary.tsv",
+      "archive": "s3://fluree-benchmark-data/runs/dblp-v420-release-20260907/results.tar.gz",
+      "archive_sha256": "f1dbcd30f7070bb351da50ae3155f07fd6e29bae34487dfb80d84d3f9575f30a",
+      "archive_result_path": "results/v420-1/"
+    }
+  }
 }

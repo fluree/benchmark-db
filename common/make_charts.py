@@ -12,6 +12,8 @@ Numbers are the published aggregates from
 benchmarks/sparqloscope/reports/{dblp-core,wikidata-truthy}/ and
 benchmarks/benchgraph/reports/pokec/ (REPORT.md / meta.json).
 """
+import csv
+import json
 import math
 import os
 
@@ -80,7 +82,7 @@ def geomean_chart(rows, title, subtitle, hi, nticks=5, cap=None):
         fill = "url(#offscale)" if capped else col
         s.append(f"<rect x='{L}' y='{y:.1f}' width='{max(bx-L,2):.1f}' height='{bh:.1f}' "
                  f"rx='2' fill='{fill}'/>")
-        vlabel = f"{v} ms" if v < 1000 else f"{v/1000:.1f} s"
+        vlabel = f"{v:.1f} ms" if v < 1000 else f"{v/1000:.1f} s"
         tail = f"{ratio} · {passed}" + ("  ▶ off-scale" if capped else "")
         full = f"{vlabel}   {tail}"
         # place the value label outside the bar if it fits, else inside (right-aligned)
@@ -152,27 +154,39 @@ def grouped_chart(groups, title, subtitle, hi, nticks=5):
     return "\n".join(s)
 
 
+def make_dblp_chart():
+    """Read the canonical published TSVs so chart numbers and version stay aligned."""
+    directory = os.path.join(os.path.dirname(__file__), "..", "benchmarks", "sparqloscope", "reports", "dblp-core")
+    with open(os.path.join(directory, "meta.json")) as f:
+        meta = json.load(f)
+    measured = []
+    timeout_ms = meta["methodology"]["timeout_s"] * 1000
+    for engine, info in meta["engines"].items():
+        with open(os.path.join(directory, "engines", engine + "_summary.tsv")) as f:
+            samples = list(csv.DictReader(f, delimiter="\t"))
+        values = [float(r["median_ms"]) if r["status"] == "200" else 2 * timeout_ms for r in samples]
+        mean = math.exp(sum(math.log(max(v, .001)) for v in values) / len(values))
+        passed = sum(r["status"] == "200" for r in samples)
+        measured.append((info["label"], mean, f"{passed}/{len(samples)}"))
+    measured.sort(key=lambda r: r[1])
+    best = measured[0][1]
+    rows = [(label, value, (f"{value / best:.1f}×" if value / best < 100 else f"{value / best:.0f}×"), passed)
+            for label, value, passed in measured]
+    os.makedirs(OUT, exist_ok=True)
+    version = meta["engines"]["fluree"]["version"]
+    with open(os.path.join(OUT, "dblp-core-geomean.svg"), "w") as f:
+        f.write(geomean_chart(
+            rows,
+            "DBLP-core · geometric-mean query time (penalized, P=2)",
+            f"561M triples · matched m7a.4xlarge (16c/64GB) · Fluree {version} · "
+            "failed query = 2× the 180 s timeout · lower is better",
+            hi=2000, nticks=4, cap=2000))
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
 
-    # Penalized geo mean per the SPARQLoscope paper: a failed/timed-out query
-    # counts as 2x the 180 s timeout (P=2).
-    dblp_rows = [
-        ("Fluree",          17.5,   "1.0×",   "105/105"),
-        ("QLever",         202,    "11.5×",   "105/105"),
-        ("Virtuoso",       300,    "17.1×",   "103/105"),
-        ("MillenniumDB",  1664,      "95×",   "103/105"),
-        ("Jena",         67700,    "3856×",    "34/105"),
-        ("Oxigraph",     87000,    "4961×",    "39/105"),
-        ("Blazegraph",  333000,   "18971×",     "3/105"),
-    ]
-    open(os.path.join(OUT, "dblp-core-geomean.svg"), "w").write(
-        geomean_chart(
-            dblp_rows,
-            "DBLP-core · geometric-mean query time (penalized, P=2)",
-            "561M triples · 7 engines, one box (m7a.4xlarge 16c/64GB) · Fluree v4.1.2 · "
-            "failed query = 2× the 180 s timeout · linear, lower is better",
-            hi=2000, nticks=4, cap=2000))
+    make_dblp_chart()
 
     # Penalized geo mean per the SPARQLoscope paper: a failed/timed-out query
     # counts as 2x the 300 s timeout (P=2).
