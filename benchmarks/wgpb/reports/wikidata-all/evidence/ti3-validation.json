@@ -1,0 +1,33 @@
+{
+  "valid": true,
+  "solutions": 1000,
+  "distinct_solutions": 1000,
+  "source_response_sha256": "2c1832e36726bda3d120447fee80524493c3586fe46c321c2b5cc1c984515fed",
+  "method": "Check all three source triples of every solution using only subject-bound lookups. Exact RDF binding comparison, no object-bound seek or multi-pattern join.",
+  "checks": [
+    {
+      "predicate": "P2884",
+      "subjects": 1,
+      "returned_pairs": 2,
+      "missing_solution_indices": [],
+      "valid": true,
+      "diagnostic_seconds": 60.036331852999865
+    },
+    {
+      "predicate": "P2547",
+      "subjects": 1,
+      "returned_pairs": 1,
+      "missing_solution_indices": [],
+      "valid": true,
+      "diagnostic_seconds": 0.007794035999950211
+    },
+    {
+      "predicate": "P1082",
+      "subjects": 1000,
+      "returned_pairs": 7744,
+      "missing_solution_indices": [],
+      "valid": true,
+      "diagnostic_seconds": 0.2240804149998894
+    }
+  ]
+}

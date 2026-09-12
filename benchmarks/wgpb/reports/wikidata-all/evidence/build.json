@@ -1,0 +1,18 @@
+{
+  "repository": "fluree/db",
+  "branch": "fix/subquery-unbound-join-keys",
+  "commit": "5529b53ea41f349b18b8ff0980a4b738de51b497",
+  "source_sha256": "f149ec6ce6505ba9d7dcf2c76647c21e012c6c78ac82d7f892f93a90362b0e0a",
+  "features": "default + mimalloc",
+  "profile": "release",
+  "pinned_at": "2026-09-12T15:26:50.854013+00:00",
+  "build_host": "i-09a987248f319af92",
+  "wikidata_host": "i-0ba90abd128e6d5b8",
+  "bsbm_200m_host": "i-03951fa499aefcc45",
+  "binary_sha256": "d7eaa5ea2b45fa9feb1dd26c528dea45f901e567c988ceebdda1d5ec512ab820",
+  "binary_version": "fluree 4.2.0",
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)",
+  "build_command": "cargo +1.97.0 build --locked --release -p fluree-db-cli --bin fluree --features mimalloc",
+  "rustflags": "-C link-arg=-fuse-ld=mold",
+  "completed_at": "2026-09-12T15:43:18.223231+00:00"
+}

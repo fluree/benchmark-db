@@ -1,8 +1,8 @@
 {
-  "status": "Run 2026-06-12 on Fluree v4.0.6. 850 WGPB graph-pattern queries against the full Wikidata all-dump (21.5B triples) on AWS r7a.8xlarge (32c/256GB). 100% completion: 0 timeouts, 0 errors. Geo 43 ms, median 33 ms; <100ms 73.8%, <1s 97.1%. 1 warmup + 3 runs, median (fractional-ms harness), 120s timeout.",
+  "status": "Measured September 12, 2026: Fluree v4.2.1, 850/850 queries completed, no errors or timeouts.",
   "benchmark": {
     "name": "Wikidata Graph Pattern Benchmark (WGPB)",
-    "description": "850 basic graph pattern queries: 17 abstract join shapes x 50 instances, predicates sampled from Wikidata. Each query is SELECT * ... LIMIT 1000 over prop/direct truthy edges.",
+    "description": "850 basic graph pattern queries: 17 join shapes x 50 predicate instantiations. SELECT * ... LIMIT 1000 over Wikidata predicates; see the exact queries and archived hashes.",
     "source": "Hogan, Riveros, Rojas, Soto: 'A Worst-Case Optimal Join Algorithm for SPARQL' (ISWC 2019); query set Zenodo 4035223",
     "families": {
       "J3/J4": "object-object joins on a shared variable (3/4 triple patterns)",
@@ -22,22 +22,29 @@
     "source_url": "https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.nt.gz",
     "version": "snapshot dated 2026-06-04; pinned in S3 as wikidata-all/all-2026-06-04.nt.gz",
     "size_source": "250,036,308,745 bytes compressed (~3 TB uncompressed N-Triples)",
-    "triples": 21512007172,
-    "unique_subjects": 2560000000,
-    "unique_predicates": 62901
+    "triples": 21127103263,
+    "input_records": 21512007172,
+    "duplicate_input_records": 384903909,
+    "shards": 5379,
+    "shard_archive": "s3://fluree-benchmark-data/wikidata-all/shards-4m-v1/i-03ebd7567db755b63/shards.tar",
+    "shard_archive_sha256": "c7cff7d23252ca31ada396cdf76c551ff19f621be9b567cfd13f41b30d3e061a"
   },
   "engine": {
     "name": "Fluree",
-    "version": "v4.0.6",
-    "import": "6,785 gzip shards, --parallelism 32, wall 6h44m, 794 GB index",
-    "server": "fluree server, HTTP SPARQL endpoint, cache budget 35% of RAM"
+    "version": "v4.2.1",
+    "commit": "5529b53ea41f349b18b8ff0980a4b738de51b497",
+    "binary_sha256": "d7eaa5ea2b45fa9feb1dd26c528dea45f901e567c988ceebdda1d5ec512ab820",
+    "build_provenance": "evidence/build.json",
+    "import": "Retained database imported September 8, 2026; reused without reimport or rechunking. Import timing is not a v4.2.1 measurement.",
+    "ledger_size_bytes_at_import": 842218632692,
+    "server": "HTTP SPARQL endpoint on loopback, WARN logging, FLUREE_CACHE_MAX_MB=88311"
   },
   "hardware": {
     "instance": "AWS r7a.8xlarge",
-    "cpu": "AMD EPYC (Zen 4), no-SMT",
-    "cores": 32,
-    "ram_gb": 256,
-    "disk": "3 TB gp3 (16000 IOPS / 1000 MB/s)",
+    "cpu": "AMD EPYC 9R14, one thread per core",
+    "vcpus": 32,
+    "ram_gib": 256,
+    "disk": "3,000 GB gp3 (16,000 IOPS / 1,000 MiB/s)",
     "os": "Ubuntu 24.04"
   },
   "methodology": {
@@ -46,17 +53,30 @@
     "metric": "median",
     "timeout_s": 120,
     "accept": "text/tab-separated-values",
-    "notes": "Index (794 GB) exceeds RAM (256 GB); the warmup run absorbs most cold-cache I/O. All 850 queries completed within the timeout."
+    "notes": "Sequential queries in filename order; startup prime and TI3-40 JSON probe precede the suite. One warmup and three measured HTTP requests per query; curl time_total includes transfer. No cache clearing. One full-suite pass; no concurrency or cold-cache claim.",
+    "measured_at": "2026-09-12",
+    "query_correction": "J4-38: LIMIT 1000 placed after the closing WHERE brace; triple patterns and predicates unchanged.",
+    "result_size_unit": "response bytes"
   },
   "results": {
     "completed": 850,
+    "measured_requests": 2550,
     "timeouts": 0,
     "errors": 0,
-    "geo_mean_ms": 43,
-    "median_ms": 33,
-    "arith_mean_ms": 182,
-    "max_ms": 18974,
-    "under_100ms": 627,
-    "under_1s": 825
+    "geo_mean_ms": 20.16473757479598,
+    "median_ms": 16.442999999999998,
+    "arith_mean_ms": 90.89851411764705,
+    "max_ms": 3559.72,
+    "slowest_query": "P4-03",
+    "under_100ms": 672,
+    "under_500ms": 815,
+    "under_1000ms": 843
+  },
+  "evidence": {
+    "archive": "evidence/artifacts.tar.gz",
+    "archive_manifest": "evidence/archive-manifest.json",
+    "ti3_validation": "evidence/ti3-validation.json",
+    "answer_comparison": "evidence/answer-comparison.json",
+    "import_reconciliation": "evidence/import-reconciliation.json"
   }
 }
