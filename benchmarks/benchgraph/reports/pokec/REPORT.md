@@ -1,70 +1,63 @@
 # Pokec (benchgraph) — Fluree vs Memgraph vs Neo4j vs FalkorDB
 
-**Status:** Run 2026-07-08 on one AWS `r8a.4xlarge` box (16 c / 128 GB, Ubuntu 24.04). The
-Memgraph [benchgraph](https://memgraph.com/benchgraph) suite — 35 Cypher queries over the
-Pokec social network — run through **Fluree's Cypher surface (over HTTP)** and compared
-against native **Memgraph 3.11.0**, **Neo4j 5.26.28 Community**, and **FalkorDB 4.18.11**.
-All four engines answer **35/35 at every scale**, return **byte-identical result sets**
-(verified per-query at every scale), and are held to the **same per-commit durability
-contract**. Fluree is the imminent **v4.1.2** release. Each engine is measured on its
-real-world client transport — Fluree over HTTP, Memgraph and Neo4j over Bolt, FalkorDB over
-native RESP (§5).
+**Fluree v4.2.1 leads both read and durable-write geometric means at every scale.**
+At large (1.6 M nodes / 30.6 M edges), reads are **3.17–5.49× faster** and durable
+writes **1.46–1.98× faster** than FalkorDB, Memgraph and Neo4j.
 
-**Headline:** this is a read _and_ write benchmark. With every engine held to **per-commit
-durability**, **Fluree wins writes outright** — its durable write path is **~2.3–2.7×
-faster than Memgraph and FalkorDB and 1.3–2.4× faster than Neo4j** at every scale. On
-**reads Fluree is the fastest engine at every scale** — **1.6–3.0× faster** than Memgraph,
-**2.4–4.6× faster** than Neo4j, and **1.0–3.1× faster** than FalkorDB (essentially tied
-with FalkorDB on the tiny small graph, pulling away as the graph grows). The reads
-decompose into a **division of strengths** (§2): **Fluree owns the analytical half** —
-whole-graph **aggregates** stay ~O(1) via index directories and run **100–720× faster**
-than the scanners at large — while **FalkorDB keeps a narrow edge in raw traversal**
-(fixed-hop expansions/neighbourhoods ~1.2–1.5× faster on the category geo-mean), though
-**Fluree now overtakes it on the deepest hops** (`expansion_3`, `expansion_4`) at large.
-Memgraph is the balanced generalist and the shortest-path leader at small/medium; Neo4j is
-consistently the slowest engine that finishes.
+Measured September 11, 2026, on one AWS `m7a.4xlarge` (16 cores / 64 GB, Ubuntu 24.04).
+The 35-query [benchgraph](https://memgraph.com/benchgraph) suite runs through Fluree's
+HTTP Cypher endpoint, Memgraph 3.11.0 and Neo4j 5.26.30 Community over Bolt, and
+FalkorDB 4.20.4 over RESP. Each client reuses a persistent connection. All four engines
+use per-commit durable writes, with flush behavior checked by syscall traces (§5).
+The measured Fluree source build is `0f26d9d6a`; its version string is recorded in §4.
 
-**Dataset:** Pokec — single `:User` label, single `Friend` edge type, no edge properties
-(small 10 k / 121,716 · medium 100 k / 1,768,515 · large 1,632,803 / 30,622,564) ·
-**Engines:** Fluree v4.1.2 (HTTP), Memgraph 3.11.0 (native Bolt, fsync), Neo4j 5.26.28
-Community (native Bolt), FalkorDB 4.18.11 (native Redis module, RESP, AOF fsync) · **Box:**
-AWS r8a.4xlarge (16 c / 128 GB) · single-client latency, median of 5 (large: 3), seed 42,
-shared params.
+All engines **complete 35/35 queries at every scale** without execution errors. This
+is not a claim of identical results: two reads have known result-count differences at
+small/medium scale, including a Fluree relationship-uniqueness bug (§5). Timings for
+those queries remain in the headline means; §5 also shows the effect of excluding them.
 
-_Results first; the division-of-strengths analysis is §2, dataset/engine/load detail §3–§4,
-methodology and caveats §5, and full reproduction steps §6. A note on memory-bound scaling
-— where a disk-backed engine and two in-memory engines diverge — closes §5._
+**Dataset:** one `:User` label, one `Friend` edge type, no edge properties; small
+10,000 / 121,716 nodes/edges, medium 100,000 / 1,768,515, large 1,632,803 / 30,622,564.
+Single-client latency; median of 5 measured requests (large: 3), seed 42, shared parameters.
+
+Results are in §1, category and individual-query analysis in §2, dataset/setup details in
+§3–§4, methodology and caveats in §5, and reproduction instructions in §6.
 
 ## 1. Query benchmark
 
-Geometric mean over the 8 write queries and 27 read queries — **writes first**, since a
-graph database that takes writes is the primary use. All four engines fsync every commit
-(Memgraph's published non-durable write mode, sub-millisecond but acked before disk, is
-excluded — see §5). Writes are measured in a dedicated pass; reads on a **pristine,
-read-only store** (clean protocol, §5). Lower ms is faster. The **Fluree vs X** columns
-state how much faster (or slower) Fluree is than that engine (bold = fastest engine in the
-row).
+Geometric means of per-query medians, separately over **8 write queries and 27 read
+queries**. Every engine uses per-commit durable writes. Reads are measured on a pristine
+store; writes come from a separate pass (§5). **Lower milliseconds are faster.**
+The **Fluree vs X** columns give latency ratios; bold marks the lowest value in a row.
+
+![Pokec reads: geometric-mean latency across graph sizes; lower is faster](../../../../assets/pokec-reads-scaling.svg)
+
+![Pokec durable writes: geometric-mean latency across graph sizes; lower is faster](../../../../assets/pokec-writes-scaling.svg)
+
+Each line shows an engine's geometric mean at each measured scale. The tables carry the
+same values. Charts are generated from [`summary.tsv`](summary.tsv) by
+[`make_scaling_charts.py`](make_scaling_charts.py).
 
 ### Writes — geometric mean (ms)
 
 | scale | n | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|--:|---|---|---|---|--:|--:|--:|
-| small | 8 | **1.32** | 3.03 | 1.76 | 2.93 | 2.30× faster | 1.33× faster | 2.22× faster |
-| medium | 8 | **1.27** | 3.39 | 2.94 | 3.36 | 2.66× faster | 2.31× faster | 2.64× faster |
-| large | 8 | **1.73** | 4.46 | 4.07 | 4.57 | 2.57× faster | 2.35× faster | 2.63× faster |
+| --- | --: | --- | --- | --- | --- | --: | --: | --: |
+| small | 8 | **2.57** | 3.25 | 2.93 | 3.15 | 1.26× faster | 1.14× faster | 1.22× faster |
+| medium | 8 | **2.82** | 3.70 | 3.56 | 3.62 | 1.31× faster | 1.26× faster | 1.28× faster |
+| large | 8 | **3.39** | 5.45 | 6.70 | 4.94 | 1.61× faster | 1.98× faster | 1.46× faster |
 
 ### Reads — geometric mean (ms)
 
 | scale | n | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|--:|---|---|---|---|--:|--:|--:|
-| small | 27 | **0.60** | 0.93 | 1.43 | 0.61 | 1.56× faster | 2.39× faster | 1.02× faster |
-| medium | 27 | **1.23** | 2.36 | 4.99 | 1.75 | 1.92× faster | 4.05× faster | 1.42× faster |
-| large | 27 | **1.47** | 4.41 | 6.80 | 4.57 | 3.01× faster | 4.64× faster | 3.12× faster |
+| --- | --: | --- | --- | --- | --- | --: | --: | --: |
+| small | 27 | **0.77** | 1.54 | 3.38 | 0.88 | 1.99× faster | 4.37× faster | 1.14× faster |
+| medium | 27 | **1.29** | 3.86 | 6.56 | 2.42 | 3.00× faster | 5.09× faster | 1.88× faster |
+| large | 27 | **1.90** | 7.22 | 10.41 | 6.01 | 3.81× faster | 5.49× faster | 3.17× faster |
 
-## 2. Division of strengths — who wins which half
+## 2. Performance by query category
 
-The read geo-mean is a blend of two very different regimes, and adding FalkorDB makes the
-split unmistakable. Breaking the 27 read queries into categories (geo mean, ms):
+The read geo-mean is a blend of two very different regimes. Breaking the 27 read queries into
+categories (geo mean, ms):
 
 ### Reads by category — geometric mean (ms)
 
@@ -72,80 +65,63 @@ split unmistakable. Breaking the 27 read queries into categories (geo mean, ms):
 
 | category | n | Fluree | Memgraph | Neo4j | FalkorDB | winner |
 |---|--:|---|---|---|---|---|
-| Point lookup | 7 | 0.28 | 0.19 | 0.25 | **0.14** | FalkorDB |
-| Aggregate | 5 | **0.29** | 1.44 | 2.25 | 1.15 | Fluree |
-| Expansion | 8 | 1.77 | 3.35 | 5.56 | **1.15** | FalkorDB |
-| Neighbourhood | 4 | **0.80** | 2.24 | 2.36 | 1.05 | Fluree |
-| Shortest path | 3 | 0.42 | **0.18** | 0.53 | 0.59 | Memgraph |
+| Point lookup | 7 | 0.38 | 0.31 | 0.93 | **0.21** | FalkorDB |
+| Aggregate | 5 | **0.43** | 1.98 | 2.97 | 1.63 | Fluree |
+| Expansion | 8 | 2.15 | 6.05 | 12.24 | **1.67** | FalkorDB |
+| Neighbourhood | 4 | **0.96** | 3.87 | 6.15 | 1.48 | Fluree |
+| Shortest path | 3 | 0.51 | **0.31** | 1.25 | 0.85 | Memgraph |
 
 **medium**
 
 | category | n | Fluree | Memgraph | Neo4j | FalkorDB | winner |
 |---|--:|---|---|---|---|---|
-| Point lookup | 7 | 0.40 | 0.30 | 0.82 | **0.22** | FalkorDB |
-| Aggregate | 5 | **0.49** | 12.92 | 11.99 | 9.54 | Fluree |
-| Expansion | 8 | 6.05 | 9.37 | 24.42 | **3.45** | FalkorDB |
-| Neighbourhood | 4 | **1.61** | 2.71 | 4.22 | 1.64 | Fluree |
-| Shortest path | 3 | 0.78 | **0.35** | 1.42 | 2.40 | Memgraph |
+| Point lookup | 7 | 0.44 | 0.46 | 0.98 | **0.28** | FalkorDB |
+| Aggregate | 5 | **0.57** | 16.49 | 16.38 | 13.80 | Fluree |
+| Expansion | 8 | 6.23 | 17.98 | 34.72 | **4.69** | FalkorDB |
+| Neighbourhood | 4 | **1.49** | 5.03 | 6.73 | 2.21 | Fluree |
+| Shortest path | 3 | 0.77 | **0.57** | 1.37 | 3.85 | Memgraph |
 
 **large**
 
 | category | n | Fluree | Memgraph | Neo4j | FalkorDB | winner |
 |---|--:|---|---|---|---|---|
-| Point lookup | 7 | 0.41 | 0.44 | 0.71 | **0.32** | FalkorDB |
-| Aggregate | 5 | **1.09** | 202.89 | 166.81 | 153.20 | Fluree |
-| Expansion | 8 | 5.63 | 6.56 | 13.01 | **4.04** | FalkorDB |
-| Neighbourhood | 4 | 2.76 | 4.35 | 6.65 | **2.63** | FalkorDB |
-| Shortest path | 3 | **0.55** | 0.58 | 1.17 | 19.29 | Fluree |
+| Point lookup | 7 | 0.57 | 0.72 | 1.10 | **0.38** | FalkorDB |
+| Aggregate | 5 | **1.55** | 266.40 | 248.22 | 221.47 | Fluree |
+| Expansion | 8 | 6.45 | 11.97 | 21.92 | **4.71** | FalkorDB |
+| Neighbourhood | 4 | **3.18** | 7.68 | 9.64 | 3.71 | Fluree |
+| Shortest path | 3 | **0.85** | 0.90 | 1.52 | 33.90 | Fluree |
 
-**Fluree wins the analytical half — and it widens with scale.** Whole-graph **aggregates**
-(`count`, `min/max/avg`, histograms, `COUNT(DISTINCT)`) are answered from Fluree's index
-directories without scanning the graph, so their cost barely moves as the dataset grows.
-Every other engine — including FalkorDB — scans. At large, Fluree answers
-`aggregate_with_distinct` in **0.24 ms vs FalkorDB's 177 ms, Memgraph's 173 ms, and Neo4j's
-150 ms** (~625–738×), `count` in **0.47 ms vs 106–154 ms** (~230–330×), and the label-less
-`SET n.property` update in **1.4 ms vs 70–152 ms** (~51–111×). The advantage is structural,
-not a constant factor, so it *widens* with scale.
+**Aggregate queries account for Fluree's largest read advantage.** At large, the five
+aggregate queries have a **1.55 ms** geometric mean, versus **221–266 ms** for the other
+engines (**143–172× faster**). Fluree's index directories support these aggregates:
+`aggregate_with_distinct` takes **0.39 ms vs 221–245 ms**, `count` **0.55 ms vs
+159–236 ms**, and `aggregate` **1.83 ms vs 194–229 ms**. Costs still vary with the query
+and scale: `min_max_avg` rises from 0.49 ms at small to 12.73 ms at large, where it is
+**24–36× faster** than the other engines. The measured category advantage grows with scale.
 
-**FalkorDB keeps a narrow traversal edge — but the gap has collapsed, and Fluree overtakes
-on the deepest hops.** On the expansion/neighbourhood category geo-means FalkorDB is
-**~1.2–1.5× faster** than Fluree at every scale (down from ~2–3× in prior builds). The
-crossover is at hop depth: on shallow one/two-hop expansions FalkorDB (and Memgraph) still
-lead, but on the **deepest hops at large Fluree wins outright** — `expansion_3` is
-**7.9 ms vs FalkorDB 12.2 / Memgraph 17.1 / Neo4j 22.2**, and `expansion_4` is **27.9 ms vs
-FalkorDB 30.0 / Memgraph 80.3 / Neo4j 101.4**. FalkorDB still owns the category at small and
-medium and on shallow hops; see [`FLUREE-GAPS.md`](../../FLUREE-GAPS.md) for the remaining
-shallow-expansion targets.
+**Fluree leads deeper unfiltered expansion and neighbourhood reads with returned data.**
+At large it leads `expansion_3` (9.15 ms vs FalkorDB's 13.42 ms), `expansion_4`
+(31.88 vs 34.71 ms), and both `neighbours_2_with_data` variants. FalkorDB has lower
+latency on filtered expansions and shallow hops, giving it the lower expansion category
+mean (4.71 vs 6.45 ms). Its point-lookup category mean is also lower (0.38 vs 0.57 ms).
+These category gaps are 1.37× and 1.50×, respectively; they are not uniform across queries.
 
-**Point lookups sit at the in-memory floor** for all four engines (sub-millisecond);
-FalkorDB edges the category on hash/matrix lookups, Fluree matches or beats Neo4j.
+**Fluree has the lowest shortest-path category mean at large**, 0.85 ms versus
+Memgraph's 0.90 ms and Neo4j's 1.52 ms. On the individual unfiltered `shortest_path`
+query, Neo4j is only **about 6% faster** (2.07 vs 2.19 ms). Memgraph has lower category
+means at small and medium. The filtered path queries have semantic differences (§5),
+so their timings should be read alongside the correctness notes.
 
-**Shortest path is split by scale.** Memgraph's native BFS leads at small and medium; Fluree
-leads at large. **FalkorDB is the weak one here** — its point-to-point `shortestPath` is
-**~44–58 ms at large vs sub-2 ms for the others**. See §5 for the FalkorDB path-query
-formulations and one filtered-path semantic caveat.
+**Durable-write geometric means favor Fluree at every scale:** 1.14–1.26× faster at
+small, 1.26–1.31× at medium, and 1.46–1.98× at large. The largest individual win is
+`update__vertex_on_property`, a label-less `SET`, at **2.22 ms vs 103–249 ms** at large
+(**46–112× faster**). The main gaps are the 100-row `unwind_range_vertex_write` batch
+insert (7.40 ms vs FalkorDB's 3.53 ms at large), `create__edge` (7.51 ms vs Neo4j's
+2.93 ms), and `create__pattern` (5.10 vs 2.77 ms). Some differences are much smaller:
+FalkorDB's large `single_edge_write` takes 3.65 ms versus Fluree's 3.79 ms, about 4% faster.
 
-**Writes — Fluree wins on a level durability field.** Every engine here fsyncs each commit
-(Memgraph `--storage-wal-file-flush-every-n-tx=1`, Neo4j durable by default, FalkorDB
-Redis AOF `appendfsync always`, Fluree durable per commit). Under that contract Fluree's
-per-commit write floor (~0.8–1.7 ms) is **2.3–2.7× faster than Memgraph and FalkorDB and
-1.3–2.4× faster than Neo4j** at every scale. Fluree's consistent write losses are
-`unwind_range_vertex_write` (a 100-row batch insert — its known batch-write long pole, where
-FalkorDB's batched CREATE wins) and `edge` at large; everywhere else Fluree leads, most
-dramatically on `vertex_on_property` (a label-less `SET`, **51–111× faster** at large — the
-same index-directory advantage as the read-side aggregates). _Note: Memgraph's **published**
-benchmark runs writes non-durably (WAL flush every 100 k tx), where its write floor drops
-below 0.2 ms; that number is not comparable to a per-commit-durable engine and is not what is
-measured here._
-
-**Net.** Pick by query mix. **Analytical, lookup-, and write-heavy** workloads favour
-Fluree — and its aggregate/write wins are the ones that *widen* with scale. **Shallow
-pure-traversal** workloads still favour FalkorDB, though the margin is now narrow and Fluree
-takes the deep hops. Memgraph is the balanced in-memory generalist. On the blended read
-geo-mean **Fluree now leads at every scale**, and the durable-write result — where Fluree
-separates cleanly at every scale — remains the headline. One axis this single-big-box run
-does **not** exercise is memory-bound scaling (§5): FalkorDB and Memgraph hold the whole
-graph in RAM, Fluree does not.
+The overall lead describes this measured query mix. The category tables and appendix
+show where it holds and where individual queries have higher latency.
 
 ## 3. Dataset & scales
 
@@ -166,141 +142,209 @@ in [`queries/`](../../queries/) are the **Neo4j-portable branch** of
 `memgraph/tests/mgbench/workloads/pokec.py`;
 [`query-set.tsv`](../../query-set.tsv) records each query's parameterization and read/write
 kind. All engines receive **identical seed vertices** (seed 42) via shared params files, so
-every engine runs the same point lookups, expansion roots, and path endpoints — and at
-every scale all four engines returned **byte-identical result-set sizes** for all 35
-queries (correctness cross-check, §5).
+every engine runs the same point lookups, expansion roots, and path endpoints. Node and edge
+counts were re-verified on every engine at every scale after load (§4); result-set sizes were
+cross-checked per query across all four engines, and the two differences found are in §5.
 
 ## 4. Engines, setup & load
 
 | | version | transport | durability | in-memory? | install |
 |---|---|---|---|---|---|
-| **Fluree** | **v4.1.2** (`13a78d2a`; binary self-reports `4.1.1`) | HTTP (JSON) | per-commit, on-disk index | **no** (disk-backed + page cache) | source build (`cargo build --release -p fluree-db-cli`) |
-| **Memgraph** | 3.11.0 | Bolt 7687 | `--storage-wal-file-flush-every-n-tx=1` (per-commit fsync) | yes | native `.deb` / Docker |
-| **Neo4j** | 5.26.28 Community | Bolt 7687 | durable by default | partly (page cache, disk store) | native `.deb` / Docker |
-| **FalkorDB** | 4.18.11 | RESP `GRAPH.QUERY` | Redis AOF `appendfsync always` (per-write fsync) | **yes** (RAM-resident graph) | native (`redis-server` + `falkordb.so`) |
+| **Fluree** | **v4.2.1** (`0f26d9d6a`; binary self-reports `4.2.0`) | HTTP (JSON), keep-alive | per-commit WAL `fdatasync` + on-disk index | **no** (disk-backed + page cache) | source build (`cargo build --release -p fluree-db-cli`) |
+| **Memgraph** | 3.11.0 | Bolt 7687 | `--storage-wal-file-flush-every-n-tx=1` (per-commit fsync) | yes | official Docker image, `--network host` |
+| **Neo4j** | 5.26.30 Community | Bolt 7687 | durable by default | partly (page cache, disk store) | official Docker image, `--network host` |
+| **FalkorDB** | 4.20.4 (graph module `42004`, Redis 8.6.3) | RESP `GRAPH.QUERY` | Redis AOF `appendfsync always` | **yes** (RAM-resident graph) | official Docker image, `--network host` |
 
-- **Fluree** is loaded via the native bulk importer (`fluree create pokec --from
-  pokec_<scale>.ttl`), then bridged to bare Cypher names with
-  `fluree context set pokec -e '{"@vocab":"http://example.org/"}'`. Every **measured** query
-  then runs end-to-end through Fluree's Cypher surface over the HTTP API — SPARQL plays no
-  part at query time. Load is out of the measured path.
+Load times (out of the measured path, fresh store per engine per scale):
+
+| | small | medium | large |
+|---|--:|--:|--:|
+| Fluree (`fluree create --from *.cypher`) | 2 s | 24 s | 441 s |
+| Neo4j (`neo4j-admin database import full`) | 1.3 s | 2.4 s | 17.5 s |
+| Memgraph (mgconsole replay + `CREATE SNAPSHOT`) | 16 s | 252 s | 4,364 s |
+| FalkorDB (`falkordb-bulk-insert`) | 0.3 s | 5 s | 88 s |
+
+- **Fluree** ingests the upstream `.cypher` dump directly — the exact same file Memgraph and
+  Neo4j load, no Turtle conversion and no `@vocab` context, bare Cypher names resolve
+  directly. Every **measured** query then runs end to end through Fluree's Cypher surface over
+  the HTTP API; SPARQL plays no part at query time. Served with `FLUREE_STORAGE_FSYNC=wal`
+  and background indexing at the shipped default threshold.
+- **Neo4j** is bulk-loaded with `neo4j-admin database import full --id-type=INTEGER` from CSVs
+  generated by [`cypher_to_csv.py`](../../cypher_to_csv.py) (typed header
+  `id:ID,completion_percentage:int,gender,age:int`), then the `User(id)` index is built and
+  awaited with `db.awaitIndexes()`.
 - **Memgraph** is loaded by replaying the distribution's Cypher `CREATE` statements
-  (`CREATE INDEX ON :User(id)` first), then `CREATE SNAPSHOT` and a restart in fsync mode.
-- **Neo4j** is bulk-loaded with `neo4j-admin database import full` from generated CSVs
-  (~19 s large — vs hours for `cypher-shell` replay), then a `User(id)` index built and
-  `db.awaitIndexes()`.
-- **FalkorDB** runs **natively** (`redis-server` loading the `falkordb.so` module, AOF
-  `appendfsync always` on the host filesystem — not the Docker image). It is loaded with the
-  native bulk loader (`falkordb-bulk-insert … --nodes-with-label User … --relations-with-type
-  Friend … --id-type INTEGER`), then a `User.id` index created and verified. The loader is
-  fast (small 0.19 s · medium 3.1 s · large ~85 s for 30.6 M edges) but has two silent-failure
-  modes that this run works around: default buffers/socket timeout drop edges past ~24 M
-  (fixed with a longer `socket_timeout` and larger buffers), and `--index` does not always
-  build on the 1.6 M-node graph (fixed by creating the index explicitly and verifying the plan
-  uses an index scan). Queries run over FalkorDB's native RESP `GRAPH.QUERY` via the
-  falkordb python client; its experimental Bolt surface was not reliable enough to benchmark.
-
-**FalkorDB memory footprint.** The full 30.6 M-edge large graph is **~1,286 MB** resident —
-the whole working set lives in RAM (AOF/RDB is for durability/restart only; queries are
-never served from disk). See the memory-bound note in §5.
+  (`CREATE INDEX ON :User(id)` first), then `CREATE SNAPSHOT`, then a restart with
+  `--data-recovery-on-startup=true --storage-wal-file-flush-every-n-tx=1`. The replay used here takes 73 minutes at large.
+- **FalkorDB** is loaded with the native bulk loader (`falkordb-bulk-insert 1.2.0`), then
+  `CREATE INDEX FOR (u:User) ON (u.id)`. Two image defaults must be lifted before measuring
+  (`GRAPH.CONFIG SET RESULTSET_SIZE -1`, `TIMEOUT 0`) — see §5. AOF durability is enabled after
+  the bulk load and `aof_enabled:1` confirmed before any timing.
 
 ## 5. Methodology & caveats
 
 - **Single-client latency, median of N** — small/medium: 5 runs + 2 warmup; large: 3 runs
   + 1 warmup. Times are wall-clock per query at the client.
-- **Per-engine client transport.** Each engine is measured over the transport its users
-  actually use: **Fluree over its HTTP/JSON API** (`urllib` + `json.loads`), **Memgraph and
-  Neo4j over Bolt** (the official neo4j driver), **FalkorDB over native RESP** (`GRAPH.QUERY`
-  via the falkordb client). Transport is part of the delivered latency, so it is not
-  normalised away; where it matters for large result sets it is called out. (Fluree's Bolt
-  surface exists but its neo4j-driver record deserialization dominates large-result latency;
-  HTTP is the leaner, representative Fluree client and is what is reported here.)
+- **Per-engine client transport, one connection each.** Each engine is measured over the
+  transport its users actually use: **Fluree over its HTTP/JSON API**, **Memgraph and Neo4j
+  over Bolt** (official neo4j driver 6.3.0), **FalkorDB over native RESP** (`GRAPH.QUERY` via
+  falkordb client 1.7.1). Every client holds **one persistent connection for the whole run**.
+  The July 2026 Fluree HTTP client opened a fresh TCP connection per request; this
+  run uses the persistent client in [`bench_runner.py`](../../bench_runner.py).
+  Transport and full-response transfer remain part of delivered latency.
+- **Per-commit durability.** Fluree uses WAL `fdatasync`, Neo4j its default durable
+  transaction log, Memgraph `--storage-wal-file-flush-every-n-tx=1`, and FalkorDB
+  Redis AOF `appendfsync always`. A separate **40-write pass** (8 queries × 5 runs)
+  recorded `fsync`/`fdatasync`/`syncfs` activity in each configuration; see
+  [`engines/durability/`](engines/durability/). These aggregate counts support the
+  configured flush behavior; they do not substitute for crash-recovery testing.
+  The measured Memgraph and FalkorDB images issued no flush syscalls in their default
+  configurations during the diagnostic. Those default-mode timings are not included.
 - **Clean protocol (reads).** For each scale and each engine: fresh load → warmup reads-only
-  pass (discarded) → recorded **reads-only** passes on the still-pristine store → a
-  **separate write pass**. Reads and writes are never measured on top of each other's
-  mutations. This matters especially for Fluree: reads on a store carrying accumulated write
-  novelty inflate its aggregate latency (novelty reconciliation) — the canonical Fluree
-  reads here are the pristine `reads2` pass and writes the `full` pass.
+  pass (discarded) → recorded **reads-only** pass on the still-pristine store → a **separate
+  full pass** whose write rows are the canonical writes. Reads precede all mutations;
+  writes accumulate mutations within their own pass. This prevents earlier writes from
+  changing the store state used for the read measurements.
 - **Shared params, all scales.** All three scales were measured for all four engines on this
-  one box with shared `params_<scale>.json` (fresh pristine load each). Result-set sizes
-  matched byte-for-byte across all four engines (the sole exception being FalkorDB's
-  `shortest_path_with_filter` semantic difference, below), confirming both parameter
-  alignment and result equivalence — the latency comparison is like-for-like work. Because
-  expansion latency depends on start-node degree and the shared large params draw
-  lower-degree roots than earlier-published sets, the large traversal numbers here are lower
-  than previously-published ones; they are apples-to-apples across engines.
-- **Durability parity.** All four engines fsync each commit, so write numbers are
-  apples-to-apples. Memgraph's *published* sub-0.2 ms writes use non-durable WAL batching
-  and are **not** what is measured here.
+  one box with shared `params_<scale>.json` (fresh load each), so every engine runs the same
+  point lookups, expansion roots and path endpoints.
+- **Read-result differences.** Row counts agree across all four engines on all 27 reads
+  at large, and on all but two reads at small/medium. Write `result_size` fields are not
+  directly comparable: Fluree records a commit receipt as 1, while the other clients
+  record 0 for writes without returned rows.
+
+  The two read differences are:
+  1. `expansion_3_with_filter` at small, one parameter draw: Fluree and FalkorDB return 3,430
+     rows where Neo4j and Memgraph return 3,429. **This one is a Fluree bug, not a tie-break.**
+     openCypher uses *relationship isomorphism* — nodes may repeat across the hops of one
+     `MATCH` pattern, a relationship may not. The extra row comes from the walk
+     `5926 → 5629 → 5926 → 5629`, which reuses its first edge as its third.
+     `MATCH (s:User {id:5926})-[r1]->()-[r2]->()-[r3]->(n:User {id:5629}) RETURN count(*)`
+     returns 1 on Fluree and 0 on Neo4j; adding `WHERE r1 <> r3` makes Fluree agree. Fluree and
+     FalkorDB share the gap; Neo4j and Memgraph enforce the constraint. Impact here is one row
+     in 3,430 on one of the five measured small-scale draws, and it is a correctness item, tracked separately.
+  2. `shortest_path_with_filter` uses engine-specific query forms. At small `run3`,
+     FalkorDB returns zero rows and the other three return one. Its override filters a
+     previously selected shortest path, which can differ from a constrained search.
+     At medium `run2`–`run4`, Memgraph returns one row while Fluree, Neo4j and FalkorDB
+     return zero. The Memgraph override applies an age predicate while traversing;
+     the committed timings and row counts do not establish equivalent returned paths.
+     Both sets of differences are retained in the raw TSVs.
+
+  The raw files record row counts, not complete result contents; matching counts alone
+  do not prove result equality. Excluding both affected query IDs at **every** scale
+  leaves 25 reads and preserves Fluree's lowest read geometric mean:
+
+  | scale | Fluree | Memgraph | Neo4j | FalkorDB |
+  |---|---:|---:|---:|---:|
+  | small | **0.75 ms** | 1.53 ms | 3.31 ms | 0.83 ms |
+  | medium | **1.20 ms** | 3.70 ms | 6.26 ms | 2.12 ms |
+  | large | **1.76 ms** | 7.39 ms | 10.21 ms | 5.11 ms |
+
+- **FalkorDB image defaults silently truncate.** `falkordb/falkordb:latest` ships
+  `RESULTSET_SIZE 10000` and `TIMEOUT 1000` ms. With the cap in place, medium `expansion_4`
+  returns exactly 10,000 rows and *looks* fast; the cap must be lifted
+  (`GRAPH.CONFIG SET RESULTSET_SIZE -1`) for a like-for-like comparison. Its `User(id)` index
+  also builds asynchronously and takes minutes on the 1.6 M-node graph — query plans show a
+  label scan until it lands, so the index must be confirmed before timing. Both are handled in
+  the run script.
 - **FalkorDB path queries.** FalkorDB rejects Neo4j's standalone `MATCH p=shortestPath(...)`;
-  the equivalents live in [`queries-falkordb/`](../../queries-falkordb/) (`shortestPath()`
-  in a `WITH`/`RETURN`; `allShortestPaths()` in a `MATCH` with pre-resolved endpoints, hop
-  bound `..2` to match the reference). One caveat: `shortest_path_with_filter` post-filters
-  the shortest path (`WITH shortestPath(...) … WHERE all(...)`) rather than searching under
-  the constraint as Neo4j does, so on FalkorDB it can return the empty path where Neo4j
-  returns a longer constrained one — a semantic difference in one of 35 queries, flagged not
-  hidden.
-- **Native, not containerised.** All four engines run natively on the one box (FalkorDB as
-  `redis-server` + module, not the Docker image), each with per-commit fsync durability.
-- **Box variance.** Absolute times are specific to this `r8a.4xlarge`, single-client — not a
-  throughput or concurrency benchmark.
+  the equivalents live in [`queries-falkordb/`](../../queries-falkordb/).
+- **Containers, host networking.** Neo4j, Memgraph and FalkorDB run from their official Docker
+  images with `--network host` (no docker-proxy hop) and named volumes on the same gp3 volume
+  Fluree writes to. Fluree runs natively.
+- **Comparison with the previous publication.** The July 2026 v4.1.2 report used an
+  `r8a.4xlarge` (Zen 5), a different Fluree connection model, and a different write
+  durability implementation. **Correction:** it described Fluree's writes as
+  fsync-durable, but v4.1.2 file storage used `tokio::fs::write` without fsync.
+  Per-commit durability arrived in `44eb56b53`, before v4.1.6. Those write timings
+  therefore excluded the durable flush cost measured here. The hardware, connection,
+  and durability changes prevent a direct version-to-version comparison.
 - **Not the published Memgraph table.** Memgraph publishes multi-worker throughput on older
   silicon; this is single-client isolated latency on current hardware. Cross-referencing the
   two is not valid.
 
-**Memory-bound scaling — the axis this run does _not_ show.** FalkorDB and Memgraph are
-in-memory engines: the entire graph must fit in RAM (FalkorDB is notably compact — 1.29 GB
-for large — but it is still a hard ceiling; there is no disk paging of graph data, so an
-over-sized graph OOMs). Neo4j is disk-backed but leans heavily on page cache. **Fluree is
-disk-backed with an on-disk index**, so it degrades gracefully as the graph outgrows RAM
-where the in-memory engines fail. This single 128 GB box holds every graph here comfortably,
-so it cannot surface that difference. A follow-up run on **smaller machines** — where the
-large graph approaches or exceeds RAM — is the natural next step: the expectation is that
-Fluree's per-query latency stays roughly flat per machine size while the in-memory engines
-hit a cliff. That structural difference, not the on-par big-box read numbers, is where the
-architectures truly diverge.
+**Scope.** All graphs fit in the 64 GB machine. This run measures single-client
+latency, not concurrent throughput or performance when the graph exceeds RAM. Fluree
+uses an on-disk index, but these measurements do not quantify that capacity advantage.
 
 ## 6. Reproduce it
 
-Everything needed is in this directory tree. The per-engine raw runs
-([`engines/`](engines/), runs × 35 queries each) and the machine-readable per-query
-medians ([`summary.tsv`](summary.tsv)) back every number above.
+The [raw engine TSVs](engines/), [per-query medians](summary.tsv), and [metadata](meta.json)
+back the published results. [`gen_report.py`](../../gen_report.py) regenerates the summary
+and tables; it does not replace the report's analysis prose.
+
+For the Fluree-only sequence and an explanation of **HTTP connection reuse**, see
+[the suite instructions](../../README.md#reproduce-the-published-http-measurements).
+`bench_runner.py --engine fluree` uses the built-in persistent HTTP client by default,
+including through `run_benchmark.sh`. No additional load-testing package is required.
+
+For the complete comparison, use a dedicated Ubuntu benchmark host with Bash 4+,
+Docker, Python 3, curl, gzip, Rust/Cargo, and `strace` for the durability check. The box
+scripts recreate their named containers, volumes and Fluree stores. They are intended
+for a disposable benchmark machine. Run from a checkout of this repository:
 
 ```bash
+# Build the exact Fluree source used in these measurements, in a separate checkout.
+git clone https://github.com/fluree/db.git "$HOME/pokec-fluree-src"
+git -C "$HOME/pokec-fluree-src" checkout 0f26d9d6a
+(cd "$HOME/pokec-fluree-src" && cargo build --release -p fluree-db-cli)
+export FBIN="$HOME/pokec-fluree-src/target/release/fluree"
+
 cd benchmarks/benchgraph
+python3 -m venv "$HOME/pokec-venv"
+source "$HOME/pokec-venv/bin/activate"
+python3 -m pip install neo4j==6.3.0 falkordb==1.7.1 falkordb-bulk-loader==1.2.0
 
-# 1. dataset (small; also medium / large from deps.memgraph.io)
-curl -L -o data/pokec_small_import.cypher \
-  https://s3.eu-west-1.amazonaws.com/deps.memgraph.io/dataset/pokec/benchmark/pokec_small_import.cypher
+mkdir -p data
+pokec_base=https://s3.eu-west-1.amazonaws.com/deps.memgraph.io/dataset/pokec/benchmark
+for scale in small medium; do
+  curl -fL -o "data/pokec_${scale}_import.cypher" \
+    "$pokec_base/pokec_${scale}_import.cypher"
+done
+curl -fL -o data/pokec_large.setup.cypher.gz "$pokec_base/pokec_large.setup.cypher.gz"
+gzip -dk data/pokec_large.setup.cypher.gz
 
-# 2. Fluree: import, bridge bare Cypher names, serve over HTTP
-mkdir -p fluree-data && cd fluree-data && fluree init
-fluree create pokec --from ../data/pokec_small.ttl
-fluree context set pokec -e '{"@vocab":"http://example.org/"}'
-FLUREE_CYPHER_ALLOW_FULL_SCAN=1 fluree server start --listen-addr 127.0.0.1:8090 ; cd ..
+# Fresh load per engine/scale -> discarded reads1 -> canonical reads2 -> full write pass.
+# Uses the committed params_<scale>.json and the persistent HTTP/Bolt/RESP clients.
+export OUT="$PWD/results/v421"
+bash run-4engine-box.sh
+python3 merge_runs.py "$OUT" "$OUT/engines" query-set.tsv
+python3 gen_report.py "$OUT/engines" "$OUT" --tables
 
-# 3. FalkorDB: native durable Redis module + native bulk load
-redis-server --loadmodule ./falkordb.so --appendonly yes --appendfsync always --dir ./falkor-data &
-python3 cypher_to_csv.py data/pokec_small_import.cypher /tmp/User.csv /tmp/Friend.csv
-falkordb-bulk-insert pokec --nodes-with-label User /tmp/User.csv \
-  --relations-with-type Friend /tmp/Friend.csv --id-type INTEGER
-redis-cli GRAPH.QUERY pokec "CREATE INDEX FOR (u:User) ON (u.id)"   # verify index scan!
-
-# 4. run the suite (clean protocol: reads on a pristine store, writes separately)
-python3 bench_runner.py --engine fluree --http-port 8090 --params-file params_small.json \
-  --num-vertices 10000 --seed 42 --runs 5 --warmup 2 --skip-writes --output <reads>.tsv
-python3 bench_runner.py --engine falkordb --redis-port 6379 --graph pokec \
-  --params-file params_small.json --num-vertices 10000 --runs 5 --warmup 2 --skip-writes --output <reads>.tsv
-# baselines: --engine memgraph --bolt-port 7687   /   --engine neo4j --bolt-port 7687
+# Separate diagnostic pass; keep its timings out of the performance results.
+bash verify-durability-box.sh
 ```
 
-- **Runner:** [`bench_runner.py`](../../bench_runner.py) — multi-engine
-  (`fluree` HTTP / `memgraph` / `neo4j` Bolt / `falkordb` RESP), shared seeded params,
-  `--skip-writes`, median-of-N.
-- **Suite README + setup:** [`../../README.md`](../../README.md) · **FalkorDB path overrides:**
-  [`../../queries-falkordb/`](../../queries-falkordb/).
-- **Exact settings** (durability flags, ports, index DDL, box spec) are in
-  [`meta.json`](meta.json).
+The measured images were `memgraph/memgraph:3.11.0`, `neo4j:5.26-community` (resolved
+version 5.26.30), and `falkordb/falkordb:latest` (4.20.4 on Redis 8.6.3). The latter two
+tags are mutable; check resolved versions against [meta.json](meta.json) when rerunning.
+Set `NEO4J_IMAGE` and `FALKORDB_IMAGE` to retained image references if available. The
+original image digests were not recorded. Use the pinned Fluree commit above: that
+source build's `--version` string is `fluree 4.2.0`, as retained in the metadata.
+
+To regenerate the publication artifacts from the committed measurements without
+running any database, from the repository root:
+
+```bash
+mkdir -p /tmp/pokec-tables
+python3 benchmarks/benchgraph/gen_report.py \
+  benchmarks/benchgraph/reports/pokec/engines /tmp/pokec-tables --tables
+diff -u benchmarks/benchgraph/reports/pokec/summary.tsv /tmp/pokec-tables/summary.tsv
+python3 -c 'from common.make_charts import make_pokec_chart; make_pokec_chart()'
+python3 benchmarks/benchgraph/reports/pokec/make_scaling_charts.py
+python3 -m unittest discover -s benchmarks/benchgraph -p 'test_http_keepalive.py'
+```
+
+- **Runner:** [`bench_runner.py`](../../bench_runner.py); **HTTP wrapper:**
+  [`run_benchmark.sh`](../../run_benchmark.sh); **connection test:**
+  [`test_http_keepalive.py`](../../test_http_keepalive.py).
+- **Four-engine protocol:** [`run-4engine-box.sh`](../../run-4engine-box.sh);
+  **pass merger:** [`merge_runs.py`](../../merge_runs.py).
+- **Durability check:** [`verify-durability-box.sh`](../../verify-durability-box.sh);
+  [retained traces and counts](engines/durability/).
+- **Query overrides:** [Memgraph](../../queries-memgraph/) and
+  [FalkorDB](../../queries-falkordb/); settings and load methods in [meta.json](meta.json).
 
 ## Appendix — per-query medians
 
@@ -312,136 +356,136 @@ is than that engine.
 **small**
 
 | query | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|---|---|---|---|--:|--:|--:|
-| `single_edge_write` | 1.37 | 2.99 | **1.34** | 3.34 | 2.18× faster | 1.03× slower | 2.43× faster |
-| `single_vertex_write` | **0.80** | 2.88 | 1.27 | 2.94 | 3.61× faster | 1.60× faster | 3.69× faster |
-| `unwind_range_vertex_write` | 9.66 | 3.75 | 4.93 | **2.89** | 2.57× slower | 1.96× slower | 3.34× slower |
-| `edge` | 1.65 | 2.87 | **1.27** | 2.84 | 1.74× faster | 1.30× slower | 1.72× faster |
-| `pattern` | **0.84** | 2.82 | 1.29 | 2.77 | 3.36× faster | 1.54× faster | 3.31× faster |
-| `vertex` | **0.79** | 2.77 | 1.09 | 2.75 | 3.52× faster | 1.39× faster | 3.50× faster |
-| `vertex_big` | **0.80** | 2.81 | 1.18 | 2.77 | 3.50× faster | 1.47× faster | 3.46× faster |
-| `vertex_on_property` | **1.00** | 3.52 | 5.16 | 3.19 | 3.54× faster | 5.18× faster | 3.20× faster |
+| --- | --- | --- | --- | --- | --: | --: | --: |
+| `single_edge_write` | 2.74 | 3.11 | **2.67** | 3.52 | 1.13× faster | 1.03× slower | 1.29× faster |
+| `single_vertex_write` | **1.83** | 2.99 | 2.42 | 3.09 | 1.63× faster | 1.32× faster | 1.69× faster |
+| `unwind_range_vertex_write` | 11.81 | 4.03 | 9.67 | **3.42** | 2.93× slower | 1.22× slower | 3.46× slower |
+| `edge` | 3.46 | 3.15 | **2.33** | 3.02 | 1.10× slower | 1.49× slower | 1.15× slower |
+| `pattern` | **1.65** | 3.01 | 2.02 | 2.96 | 1.83× faster | 1.22× faster | 1.80× faster |
+| `vertex` | **1.74** | 2.88 | 1.75 | 2.84 | 1.65× faster | 1.01× faster | 1.63× faster |
+| `vertex_big` | **1.68** | 3.02 | 2.10 | 2.86 | 1.80× faster | 1.25× faster | 1.70× faster |
+| `vertex_on_property` | **1.94** | 4.06 | 5.01 | 3.58 | 2.09× faster | 2.58× faster | 1.84× faster |
 
 **medium**
 
 | query | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|---|---|---|---|--:|--:|--:|
-| `single_edge_write` | **1.29** | 2.75 | 2.20 | 3.71 | 2.13× faster | 1.70× faster | 2.88× faster |
-| `single_vertex_write` | **0.94** | 2.78 | 1.75 | 3.00 | 2.94× faster | 1.86× faster | 3.18× faster |
-| `unwind_range_vertex_write` | 5.14 | 3.90 | 7.92 | **3.02** | 1.32× slower | 1.54× faster | 1.70× slower |
-| `edge` | **1.42** | 2.72 | 2.46 | 2.98 | 1.92× faster | 1.73× faster | 2.10× faster |
-| `pattern` | **0.82** | 2.74 | 2.09 | 2.88 | 3.35× faster | 2.55× faster | 3.52× faster |
-| `vertex` | **0.85** | 2.79 | 1.60 | 2.80 | 3.27× faster | 1.88× faster | 3.29× faster |
-| `vertex_big` | **0.90** | 2.81 | 1.84 | 2.88 | 3.12× faster | 2.03× faster | 3.18× faster |
-| `vertex_on_property` | **1.24** | 10.00 | 12.20 | 7.06 | 8.10× faster | 9.88× faster | 5.72× faster |
+| --- | --- | --- | --- | --- | --: | --: | --: |
+| `single_edge_write` | **2.92** | 2.92 | 3.42 | 3.90 | 1.00× faster | 1.17× faster | 1.34× faster |
+| `single_vertex_write` | **2.05** | 2.90 | 2.58 | 3.23 | 1.41× faster | 1.26× faster | 1.58× faster |
+| `unwind_range_vertex_write` | 7.61 | 4.02 | 9.18 | **3.35** | 1.89× slower | 1.21× faster | 2.27× slower |
+| `edge` | 6.37 | 3.05 | **2.35** | 3.11 | 2.09× slower | 2.71× slower | 2.05× slower |
+| `pattern` | **1.88** | 2.96 | 2.06 | 2.92 | 1.57× faster | 1.10× faster | 1.55× faster |
+| `vertex` | 1.81 | 2.96 | **1.78** | 2.85 | 1.64× faster | 1.01× slower | 1.58× faster |
+| `vertex_big` | **1.88** | 3.01 | 2.04 | 2.88 | 1.60× faster | 1.08× faster | 1.53× faster |
+| `vertex_on_property` | **2.17** | 12.74 | 17.85 | 9.30 | 5.89× faster | 8.25× faster | 4.30× faster |
 
 **large**
 
 | query | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|---|---|---|---|--:|--:|--:|
-| `single_edge_write` | **2.24** | 2.39 | 3.71 | 3.81 | 1.06× faster | 1.66× faster | 1.70× faster |
-| `single_vertex_write` | **1.24** | 2.57 | 1.84 | 3.26 | 2.07× faster | 1.48× faster | 2.63× faster |
-| `unwind_range_vertex_write` | 5.20 | 3.56 | 11.39 | **3.05** | 1.46× slower | 2.19× faster | 1.70× slower |
-| `edge` | 7.23 | 2.74 | **1.93** | 3.09 | 2.64× slower | 3.75× slower | 2.34× slower |
-| `pattern` | **0.95** | 2.75 | 1.58 | 2.86 | 2.89× faster | 1.66× faster | 3.01× faster |
-| `vertex` | **0.75** | 2.76 | 1.41 | 2.85 | 3.70× faster | 1.88× faster | 3.81× faster |
-| `vertex_big` | **0.81** | 2.92 | 1.49 | 2.83 | 3.62× faster | 1.85× faster | 3.51× faster |
-| `vertex_on_property` | **1.36** | 118.38 | 152.02 | 69.75 | 86.79× faster | 111.45× faster | 51.13× faster |
+| --- | --- | --- | --- | --- | --: | --: | --: |
+| `single_edge_write` | 3.79 | 3.81 | 6.16 | **3.65** | 1.01× faster | 1.62× faster | 1.04× slower |
+| `single_vertex_write` | **2.01** | 3.59 | 4.03 | 3.24 | 1.79× faster | 2.00× faster | 1.61× faster |
+| `unwind_range_vertex_write` | 7.40 | 4.21 | 16.46 | **3.53** | 1.76× slower | 2.22× faster | 2.09× slower |
+| `edge` | 7.51 | 3.09 | **2.93** | 3.16 | 2.43× slower | 2.56× slower | 2.38× slower |
+| `pattern` | 5.10 | 3.04 | **2.77** | 2.97 | 1.68× slower | 1.84× slower | 1.72× slower |
+| `vertex` | **1.83** | 3.03 | 2.11 | 2.90 | 1.66× faster | 1.16× faster | 1.59× faster |
+| `vertex_big` | **1.98** | 3.01 | 2.32 | 3.05 | 1.52× faster | 1.17× faster | 1.54× faster |
+| `vertex_on_property` | **2.22** | 159.38 | 249.09 | 102.78 | 71.79× faster | 112.20× faster | 46.30× faster |
 
 ### Per query — reads (median ms)
 
 **small**
 
 | query | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|---|---|---|---|--:|--:|--:|
-| `count` | **0.31** | 0.89 | 3.73 | 0.79 | 2.88× faster | 12.02× faster | 2.54× faster |
-| `min_max_avg` | **0.32** | 2.25 | 1.61 | 1.62 | 7.08× faster | 5.06× faster | 5.08× faster |
-| `aggregate` | **0.33** | 1.49 | 2.83 | 1.10 | 4.45× faster | 8.46× faster | 3.30× faster |
-| `aggregate_with_distinct` | **0.22** | 1.13 | 1.38 | 1.18 | 5.24× faster | 6.38× faster | 5.45× faster |
-| `aggregate_with_filter` | **0.31** | 1.83 | 2.45 | 1.24 | 5.89× faster | 7.91× faster | 4.00× faster |
-| `allshortest_paths` | 0.36 | 0.24 | 0.64 | **0.20** | 1.51× slower | 1.77× faster | 1.83× slower |
-| `expansion_1` | 0.30 | 0.18 | 0.37 | **0.17** | 1.67× slower | 1.23× faster | 1.71× slower |
-| `expansion_1_with_filter` | 0.32 | 0.15 | 0.42 | **0.13** | 2.07× slower | 1.34× faster | 2.39× slower |
-| `expansion_2` | 1.01 | 1.98 | 3.82 | **0.84** | 1.96× faster | 3.79× faster | 1.20× slower |
-| `expansion_2_with_filter` | 0.45 | 0.42 | 0.69 | **0.24** | 1.06× slower | 1.53× faster | 1.87× slower |
-| `expansion_3` | 3.75 | 12.38 | 16.45 | **3.34** | 3.31× faster | 4.39× faster | 1.12× slower |
-| `expansion_3_with_filter` | 3.28 | 7.22 | 8.95 | **2.17** | 2.20× faster | 2.73× faster | 1.51× slower |
-| `expansion_4` | 17.63 | 94.98 | 129.98 | **14.63** | 5.39× faster | 7.37× faster | 1.21× slower |
-| `expansion_4_with_filter` | 10.24 | 82.12 | 117.39 | **6.22** | 8.02× faster | 11.46× faster | 1.65× slower |
-| `neighbours_2` | 1.16 | 3.07 | 3.75 | **1.06** | 2.64× faster | 3.22× faster | 1.09× slower |
-| `neighbours_2_with_data` | **0.75** | 2.22 | 2.50 | 1.67 | 2.97× faster | 3.34× faster | 2.24× faster |
-| `neighbours_2_with_data_and_filter` | **0.79** | 3.85 | 2.83 | 1.58 | 4.87× faster | 3.59× faster | 2.01× faster |
-| `neighbours_2_with_filter` | 0.60 | 0.95 | 1.17 | **0.44** | 1.58× faster | 1.94× faster | 1.39× slower |
-| `shortest_path` | 0.71 | **0.21** | 0.70 | 1.30 | 3.36× slower | 1.01× slower | 1.83× faster |
-| `shortest_path_with_filter` | 0.29 | **0.12** | 0.32 | 0.81 | 2.42× slower | 1.11× faster | 2.78× faster |
-| `single_vertex_read` | 0.19 | 0.14 | 0.26 | **0.11** | 1.35× slower | 1.37× faster | 1.70× slower |
-| `pattern_cycle` | 0.29 | 0.18 | 0.39 | **0.18** | 1.64× slower | 1.34× faster | 1.65× slower |
-| `pattern_long` | 0.65 | **0.13** | 0.26 | 0.35 | 4.81× slower | 2.51× slower | 1.86× slower |
-| `pattern_short` | 0.26 | 0.13 | 0.23 | **0.11** | 1.93× slower | 1.13× slower | 2.25× slower |
-| `vertex_on_label_property` | 0.41 | 1.21 | 0.21 | **0.12** | 2.99× faster | 1.96× slower | 3.50× slower |
-| `vertex_on_label_property_index` | 0.20 | 0.13 | 0.19 | **0.10** | 1.51× slower | 1.01× slower | 1.94× slower |
-| `vertex_on_property` | 0.19 | 0.13 | 0.27 | **0.10** | 1.45× slower | 1.39× faster | 2.00× slower |
+| --- | --- | --- | --- | --- | --: | --: | --: |
+| `count` | **0.39** | 1.38 | 2.86 | 1.18 | 3.53× faster | 7.34× faster | 3.02× faster |
+| `min_max_avg` | **0.49** | 3.00 | 2.80 | 2.15 | 6.16× faster | 5.74× faster | 4.42× faster |
+| `aggregate` | **0.50** | 2.07 | 3.39 | 1.58 | 4.17× faster | 6.84× faster | 3.18× faster |
+| `aggregate_with_distinct` | **0.35** | 1.40 | 2.59 | 1.66 | 4.02× faster | 7.44× faster | 4.76× faster |
+| `aggregate_with_filter` | **0.46** | 2.56 | 3.27 | 1.73 | 5.54× faster | 7.07× faster | 3.74× faster |
+| `allshortest_paths` | 0.45 | 0.43 | 1.29 | **0.27** | 1.05× slower | 2.87× faster | 1.67× slower |
+| `expansion_1` | 0.40 | 0.33 | 1.34 | **0.25** | 1.21× slower | 3.33× faster | 1.63× slower |
+| `expansion_1_with_filter` | 0.42 | 0.28 | 1.26 | **0.20** | 1.51× slower | 3.02× faster | 2.05× slower |
+| `expansion_2` | 1.13 | 4.07 | 6.20 | **1.05** | 3.60× faster | 5.50× faster | 1.07× slower |
+| `expansion_2_with_filter` | 0.55 | 0.72 | 1.69 | **0.31** | 1.30× faster | 3.07× faster | 1.77× slower |
+| `expansion_3` | **4.24** | 22.96 | 31.77 | 5.30 | 5.41× faster | 7.49× faster | 1.25× faster |
+| `expansion_3_with_filter` | 3.79 | 13.45 | 18.57 | **2.97** | 3.55× faster | 4.90× faster | 1.27× slower |
+| `expansion_4` | 23.72 | 162.59 | 239.71 | **19.68** | 6.86× faster | 10.11× faster | 1.21× slower |
+| `expansion_4_with_filter` | **11.65** | 133.42 | 201.41 | 11.83 | 11.45× faster | 17.29× faster | 1.02× faster |
+| `neighbours_2` | **1.33** | 5.83 | 7.99 | 1.35 | 4.38× faster | 6.00× faster | 1.01× faster |
+| `neighbours_2_with_data` | **0.84** | 3.75 | 5.23 | 2.32 | 4.46× faster | 6.22× faster | 2.76× faster |
+| `neighbours_2_with_data_and_filter` | **0.98** | 6.21 | 6.92 | 2.31 | 6.36× faster | 7.09× faster | 2.37× faster |
+| `neighbours_2_with_filter` | 0.77 | 1.66 | 4.94 | **0.67** | 2.16× faster | 6.43× faster | 1.15× slower |
+| `shortest_path` | 0.80 | **0.33** | 1.47 | 1.73 | 2.42× slower | 1.83× faster | 2.16× faster |
+| `shortest_path_with_filter` | 0.37 | **0.22** | 1.02 | 1.32 | 1.71× slower | 2.76× faster | 3.56× faster |
+| `single_vertex_read` | 0.27 | 0.21 | 0.92 | **0.18** | 1.26× slower | 3.43× faster | 1.45× slower |
+| `pattern_cycle` | 0.36 | **0.29** | 1.29 | 0.30 | 1.24× slower | 3.58× faster | 1.21× slower |
+| `pattern_long` | 0.81 | **0.25** | 0.87 | 0.49 | 3.21× slower | 1.07× faster | 1.66× slower |
+| `pattern_short` | 0.34 | 0.22 | 0.82 | **0.18** | 1.59× slower | 2.38× faster | 1.92× slower |
+| `vertex_on_label_property` | 0.68 | 1.48 | 0.83 | **0.16** | 2.18× faster | 1.22× faster | 4.25× slower |
+| `vertex_on_label_property_index` | 0.26 | 0.24 | 0.87 | **0.15** | 1.09× slower | 3.30× faster | 1.81× slower |
+| `vertex_on_property` | 0.26 | 0.24 | 0.96 | **0.15** | 1.06× slower | 3.76× faster | 1.66× slower |
 
 **medium**
 
 | query | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|---|---|---|---|--:|--:|--:|
-| `count` | **0.35** | 8.26 | 10.88 | 6.77 | 23.88× faster | 31.46× faster | 19.58× faster |
-| `min_max_avg` | **1.06** | 23.53 | 13.75 | 14.43 | 22.28× faster | 13.02× faster | 13.66× faster |
-| `aggregate` | **0.51** | 11.36 | 12.98 | 8.16 | 22.27× faster | 25.45× faster | 16.00× faster |
-| `aggregate_with_distinct` | **0.30** | 10.52 | 9.52 | 10.42 | 35.31× faster | 31.95× faster | 34.95× faster |
-| `aggregate_with_filter` | **0.51** | 15.52 | 13.41 | 9.51 | 30.73× faster | 26.56× faster | 18.84× faster |
-| `allshortest_paths` | 1.02 | 0.60 | 1.75 | **0.35** | 1.72× slower | 1.71× faster | 2.93× slower |
-| `expansion_1` | 0.36 | 0.15 | 1.27 | **0.14** | 2.47× slower | 3.52× faster | 2.67× slower |
-| `expansion_1_with_filter` | 0.40 | **0.13** | 1.70 | 0.18 | 3.16× slower | 4.23× faster | 2.25× slower |
-| `expansion_2` | 2.00 | 3.08 | 7.82 | **0.98** | 1.54× faster | 3.91× faster | 2.04× slower |
-| `expansion_2_with_filter` | 2.23 | 2.71 | 6.64 | **0.98** | 1.21× faster | 2.97× faster | 2.27× slower |
-| `expansion_3` | 6.66 | 18.46 | 23.73 | **5.74** | 2.77× faster | 3.56× faster | 1.16× slower |
-| `expansion_3_with_filter` | 22.71 | 55.27 | 68.16 | **14.79** | 2.43× faster | 3.00× faster | 1.54× slower |
-| `expansion_4` | 175.41 | 948.95 | 1291.57 | **142.29** | 5.41× faster | 7.36× faster | 1.23× slower |
-| `expansion_4_with_filter` | 105.30 | 397.12 | 539.59 | **71.22** | 3.77× faster | 5.12× faster | 1.48× slower |
-| `neighbours_2` | 1.45 | 2.03 | 3.14 | **0.84** | 1.40× faster | 2.16× faster | 1.72× slower |
-| `neighbours_2_with_data` | **1.48** | 4.39 | 5.91 | 3.54 | 2.96× faster | 3.98× faster | 2.39× faster |
-| `neighbours_2_with_data_and_filter` | **2.79** | 4.46 | 5.42 | 3.76 | 1.60× faster | 1.94× faster | 1.35× faster |
-| `neighbours_2_with_filter` | 1.13 | 1.36 | 3.17 | **0.65** | 1.21× faster | 2.80× faster | 1.74× slower |
-| `shortest_path` | 1.18 | **0.30** | 1.93 | 6.03 | 3.90× slower | 1.63× faster | 5.11× faster |
-| `shortest_path_with_filter` | 0.39 | **0.24** | 0.85 | 6.53 | 1.63× slower | 2.16× faster | 16.57× faster |
-| `single_vertex_read` | 0.27 | **0.14** | 0.73 | 0.17 | 1.98× slower | 2.72× faster | 1.60× slower |
-| `pattern_cycle` | 0.54 | 0.43 | 1.25 | **0.42** | 1.27× slower | 2.30× faster | 1.31× slower |
-| `pattern_long` | 0.64 | **0.14** | 0.82 | 1.09 | 4.50× slower | 1.28× faster | 1.69× faster |
-| `pattern_short` | 0.31 | **0.13** | 0.79 | 0.17 | 2.42× slower | 2.52× faster | 1.80× slower |
-| `vertex_on_label_property` | 0.74 | 11.02 | 0.85 | **0.16** | 14.87× faster | 1.15× faster | 4.55× slower |
-| `vertex_on_label_property_index` | 0.27 | 0.14 | 0.66 | **0.10** | 1.88× slower | 2.45× faster | 2.62× slower |
-| `vertex_on_property` | 0.29 | 0.14 | 0.73 | **0.10** | 2.11× slower | 2.51× faster | 2.78× slower |
+| --- | --- | --- | --- | --- | --: | --: | --: |
+| `count` | **0.37** | 11.60 | 14.29 | 9.86 | 31.02× faster | 38.20× faster | 26.37× faster |
+| `min_max_avg` | **1.16** | 29.50 | 19.90 | 19.86 | 25.34× faster | 17.09× faster | 17.06× faster |
+| `aggregate` | **0.63** | 14.01 | 16.27 | 12.35 | 22.13× faster | 25.71× faster | 19.52× faster |
+| `aggregate_with_distinct` | **0.36** | 12.77 | 14.02 | 14.91 | 35.56× faster | 39.05× faster | 41.55× faster |
+| `aggregate_with_filter` | **0.61** | 19.91 | 18.20 | 13.86 | 32.74× faster | 29.94× faster | 22.80× faster |
+| `allshortest_paths` | 0.95 | 0.86 | 1.29 | **0.74** | 1.10× slower | 1.35× faster | 1.28× slower |
+| `expansion_1` | 0.37 | 0.27 | 1.15 | **0.24** | 1.39× slower | 3.10× faster | 1.52× slower |
+| `expansion_1_with_filter` | 0.39 | 0.27 | 1.21 | **0.22** | 1.46× slower | 3.07× faster | 1.82× slower |
+| `expansion_2` | 1.51 | 6.07 | 8.45 | **1.32** | 4.02× faster | 5.59× faster | 1.15× slower |
+| `expansion_2_with_filter` | 2.08 | 5.33 | 11.14 | **1.30** | 2.56× faster | 5.35× faster | 1.60× slower |
+| `expansion_3` | **7.36** | 36.76 | 48.92 | 7.64 | 5.00× faster | 6.65× faster | 1.04× faster |
+| `expansion_3_with_filter` | 25.95 | 103.03 | 136.51 | **19.44** | 3.97× faster | 5.26× faster | 1.33× slower |
+| `expansion_4` | 203.96 | 1730.03 | 2434.96 | **190.31** | 8.48× faster | 11.94× faster | 1.07× slower |
+| `expansion_4_with_filter` | 126.20 | 718.67 | 991.50 | **92.12** | 5.69× faster | 7.86× faster | 1.37× slower |
+| `neighbours_2` | 1.19 | 4.17 | 6.74 | **1.07** | 3.49× faster | 5.64× faster | 1.12× slower |
+| `neighbours_2_with_data` | **1.61** | 7.40 | 8.57 | 4.73 | 4.60× faster | 5.33× faster | 2.94× faster |
+| `neighbours_2_with_data_and_filter` | **2.06** | 7.82 | 8.27 | 4.89 | 3.80× faster | 4.02× faster | 2.38× faster |
+| `neighbours_2_with_filter` | 1.23 | 2.65 | 4.30 | **0.96** | 2.15× faster | 3.49× faster | 1.28× slower |
+| `shortest_path` | 1.29 | **0.48** | 2.00 | 8.74 | 2.69× slower | 1.55× faster | 6.78× faster |
+| `shortest_path_with_filter` | **0.37** | 0.44 | 1.00 | 8.76 | 1.17× faster | 2.69× faster | 23.43× faster |
+| `single_vertex_read` | 0.27 | **0.23** | 0.82 | 0.24 | 1.16× slower | 3.01× faster | 1.13× slower |
+| `pattern_cycle` | 0.60 | 0.55 | 2.07 | **0.52** | 1.09× slower | 3.47× faster | 1.14× slower |
+| `pattern_long` | 0.58 | **0.24** | 0.84 | 1.34 | 2.45× slower | 1.45× faster | 2.31× faster |
+| `pattern_short` | 0.34 | 0.24 | 0.80 | **0.20** | 1.41× slower | 2.36× faster | 1.65× slower |
+| `vertex_on_label_property` | 1.24 | 13.52 | 0.91 | **0.18** | 10.88× faster | 1.36× slower | 6.75× slower |
+| `vertex_on_label_property_index` | 0.28 | 0.21 | 0.89 | **0.16** | 1.30× slower | 3.18× faster | 1.78× slower |
+| `vertex_on_property` | 0.28 | 0.22 | 0.93 | **0.15** | 1.29× slower | 3.35× faster | 1.90× slower |
 
 **large**
 
 | query | Fluree | Memgraph | Neo4j | FalkorDB | Fluree vs Memgraph | Fluree vs Neo4j | Fluree vs FalkorDB |
-|---|---|---|---|---|--:|--:|--:|
-| `count` | **0.47** | 126.70 | 153.75 | 106.02 | 271.90× faster | 329.94× faster | 227.50× faster |
-| `min_max_avg` | **11.58** | 360.86 | 209.43 | 230.85 | 31.17× faster | 18.09× faster | 19.94× faster |
-| `aggregate` | **1.11** | 180.77 | 152.21 | 128.89 | 162.86× faster | 137.13× faster | 116.12× faster |
-| `aggregate_with_distinct` | **0.24** | 172.91 | 150.06 | 177.17 | 720.44× faster | 625.25× faster | 738.20× faster |
-| `aggregate_with_filter` | **1.08** | 240.56 | 175.62 | 150.98 | 221.91× faster | 162.02× faster | 139.28× faster |
-| `allshortest_paths` | 0.39 | **0.30** | 1.01 | 2.87 | 1.28× slower | 2.60× faster | 7.41× faster |
-| `expansion_1` | 0.32 | **0.15** | 0.73 | 0.23 | 2.11× slower | 2.29× faster | 1.37× slower |
-| `expansion_1_with_filter` | 0.38 | **0.17** | 0.84 | 0.25 | 2.30× slower | 2.21× faster | 1.52× slower |
-| `expansion_2` | 5.83 | 14.09 | 18.73 | **4.59** | 2.41× faster | 3.21× faster | 1.27× slower |
-| `expansion_2_with_filter` | 0.96 | 0.33 | 0.87 | **0.30** | 2.90× slower | 1.10× slower | 3.19× slower |
-| `expansion_3` | **7.92** | 17.05 | 22.21 | 12.16 | 2.15× faster | 2.80× faster | 1.54× faster |
-| `expansion_3_with_filter` | 41.04 | 62.76 | 84.94 | **23.95** | 1.53× faster | 2.07× faster | 1.71× slower |
-| `expansion_4` | **27.92** | 80.32 | 101.39 | 29.98 | 2.88× faster | 3.63× faster | 1.07× faster |
-| `expansion_4_with_filter` | 163.68 | 343.08 | 429.30 | **102.11** | 2.10× faster | 2.62× faster | 1.60× slower |
-| `neighbours_2` | 3.05 | 4.47 | 6.92 | **1.84** | 1.47× faster | 2.27× faster | 1.65× slower |
-| `neighbours_2_with_data` | **2.64** | 7.13 | 7.62 | 5.57 | 2.70× faster | 2.89× faster | 2.11× faster |
-| `neighbours_2_with_data_and_filter` | **6.14** | 10.14 | 10.40 | 7.76 | 1.65× faster | 1.69× faster | 1.26× faster |
-| `neighbours_2_with_filter` | 1.17 | 1.11 | 3.57 | **0.60** | 1.05× slower | 3.06× faster | 1.93× slower |
-| `shortest_path` | **1.34** | 4.22 | 1.85 | 57.95 | 3.15× faster | 1.38× faster | 43.22× faster |
-| `shortest_path_with_filter` | 0.33 | **0.15** | 0.85 | 43.19 | 2.13× slower | 2.59× faster | 131.67× faster |
-| `single_vertex_read` | 0.26 | **0.13** | 0.64 | 0.27 | 2.04× slower | 2.43× faster | 1.03× faster |
-| `pattern_cycle` | 0.73 | **0.28** | 1.17 | 0.51 | 2.58× slower | 1.60× faster | 1.44× slower |
-| `pattern_long` | 1.06 | **0.14** | 0.64 | 2.26 | 7.33× slower | 1.65× slower | 2.14× faster |
-| `pattern_short` | 0.29 | **0.14** | 0.61 | 0.21 | 2.12× slower | 2.09× faster | 1.38× slower |
-| `vertex_on_label_property` | 0.72 | 183.02 | 0.64 | **0.15** | 255.61× faster | 1.11× slower | 4.74× slower |
-| `vertex_on_label_property_index` | 0.22 | **0.16** | 0.78 | 0.18 | 1.37× slower | 3.51× faster | 1.21× slower |
-| `vertex_on_property` | 0.21 | **0.14** | 0.62 | 0.18 | 1.52× slower | 2.96× faster | 1.20× slower |
+| --- | --- | --- | --- | --- | --: | --: | --: |
+| `count` | **0.55** | 183.64 | 236.31 | 158.69 | 333.29× faster | 428.87× faster | 288.01× faster |
+| `min_max_avg` | **12.73** | 462.90 | 307.52 | 322.73 | 36.37× faster | 24.16× faster | 25.36× faster |
+| `aggregate` | **1.83** | 227.60 | 229.41 | 194.25 | 124.30× faster | 125.29× faster | 106.09× faster |
+| `aggregate_with_distinct` | **0.39** | 223.03 | 220.89 | 245.37 | 570.41× faster | 564.93× faster | 627.53× faster |
+| `aggregate_with_filter` | **1.78** | 310.94 | 255.90 | 218.29 | 174.59× faster | 143.68× faster | 122.57× faster |
+| `allshortest_paths` | 0.60 | **0.39** | 1.51 | 6.23 | 1.54× slower | 2.53× faster | 10.44× faster |
+| `expansion_1` | 0.41 | 0.27 | 1.12 | **0.22** | 1.55× slower | 2.73× faster | 1.83× slower |
+| `expansion_1_with_filter` | 0.58 | 0.30 | 1.08 | **0.27** | 1.90× slower | 1.88× faster | 2.16× slower |
+| `expansion_2` | 6.84 | 26.75 | 34.60 | **6.16** | 3.91× faster | 5.06× faster | 1.11× slower |
+| `expansion_2_with_filter` | 0.67 | 0.58 | 1.27 | **0.33** | 1.16× slower | 1.89× faster | 2.01× slower |
+| `expansion_3` | **9.15** | 31.79 | 42.12 | 13.42 | 3.47× faster | 4.60× faster | 1.47× faster |
+| `expansion_3_with_filter` | 48.67 | 115.78 | 157.69 | **29.72** | 2.38× faster | 3.24× faster | 1.64× slower |
+| `expansion_4` | **31.88** | 151.46 | 191.42 | 34.71 | 4.75× faster | 6.00× faster | 1.09× faster |
+| `expansion_4_with_filter` | 193.36 | 599.63 | 783.79 | **141.27** | 3.10× faster | 4.05× faster | 1.37× slower |
+| `neighbours_2` | 3.24 | 8.72 | 12.39 | **2.48** | 2.69× faster | 3.83× faster | 1.30× slower |
+| `neighbours_2_with_data` | **3.11** | 11.81 | 12.56 | 7.43 | 3.80× faster | 4.04× faster | 2.39× faster |
+| `neighbours_2_with_data_and_filter` | **6.79** | 15.18 | 15.76 | 10.73 | 2.24× faster | 2.32× faster | 1.58× faster |
+| `neighbours_2_with_filter` | 1.50 | 2.23 | 3.52 | **0.95** | 1.49× faster | 2.36× faster | 1.57× slower |
+| `shortest_path` | 2.19 | 7.52 | **2.07** | 89.80 | 3.42× faster | 1.06× slower | 40.91× faster |
+| `shortest_path_with_filter` | 0.47 | **0.25** | 1.12 | 69.60 | 1.87× slower | 2.39× faster | 148.08× faster |
+| `single_vertex_read` | 0.33 | **0.22** | 1.02 | 0.26 | 1.48× slower | 3.07× faster | 1.27× slower |
+| `pattern_cycle` | 0.90 | **0.44** | 1.71 | 0.60 | 2.04× slower | 1.90× faster | 1.49× slower |
+| `pattern_long` | 1.28 | **0.25** | 1.00 | 3.05 | 5.18× slower | 1.28× slower | 2.37× faster |
+| `pattern_short` | 0.39 | **0.25** | 1.00 | 0.29 | 1.56× slower | 2.58× faster | 1.32× slower |
+| `vertex_on_label_property` | 1.41 | 233.67 | 1.00 | **0.22** | 165.72× faster | 1.41× slower | 6.53× slower |
+| `vertex_on_label_property_index` | 0.32 | 0.29 | 1.18 | **0.19** | 1.10× slower | 3.70× faster | 1.69× slower |
+| `vertex_on_property` | 0.29 | 0.26 | 0.94 | **0.19** | 1.13× slower | 3.28× faster | 1.48× slower |

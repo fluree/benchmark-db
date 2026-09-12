@@ -9,6 +9,7 @@ comparable if the seed vertices match.
 
 Transports:
   - fluree : HTTP  POST {"cypher","params"} to /v1/fluree/query|update/<ledger>
+             over one persistent keep-alive connection (the Bolt/RESP clients hold theirs)
   - neo4j  : Bolt (default) via the neo4j Python driver, or --http
   - memgraph: Bolt via the neo4j Python driver
 
@@ -70,16 +71,35 @@ def build_params(queryset, seed, nv, n, cache_file):
 
 # --- transports -------------------------------------------------------------
 
+_HTTP_CONNS = {}
+
+
+def _http_conn(url, timeout):
+    """One persistent keep-alive connection per host:port, like the Bolt/RESP clients hold."""
+    from urllib.parse import urlsplit
+    u = urlsplit(url)
+    key = (u.hostname, u.port or 80)
+    conn = _HTTP_CONNS.get(key)
+    if conn is None:
+        import http.client
+        conn = http.client.HTTPConnection(u.hostname, u.port or 80, timeout=timeout)
+        _HTTP_CONNS[key] = conn
+    return conn, u.path
+
+
 def http_call(url, cypher, params, timeout, is_write):
-    body = json.dumps({"cypher": cypher, "params": params}).encode()
-    req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/cypher"}
-    )
+    body = json.dumps({"cypher": cypher, "params": params})
     t0 = time.perf_counter()
+    conn = None
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            data = json.loads(resp.read())
+        conn, path = _http_conn(url, timeout)
+        conn.request("POST", path, body, {"Content-Type": "application/cypher"})
+        resp = conn.getresponse()
+        raw = resp.read()
         dt = (time.perf_counter() - t0) * 1000
+        if resp.status >= 400:
+            return dt, None, raw[:200].decode("utf-8", "replace")
+        data = json.loads(raw)
         if "results" in data:
             size = len(data["results"][0]["data"])
         elif data.get("tx-id"):
@@ -87,10 +107,14 @@ def http_call(url, cypher, params, timeout, is_write):
         else:
             size = 0
         return dt, size, None
-    except urllib.error.HTTPError as e:
-        dt = (time.perf_counter() - t0) * 1000
-        return dt, None, e.read()[:200].decode("utf-8", "replace")
     except Exception as e:
+        # Do not replay a failed request: a write may have committed before the
+        # response was lost. Record the failure and reconnect for the next sample.
+        if conn is not None:
+            conn.close()
+            for key, cached in list(_HTTP_CONNS.items()):
+                if cached is conn:
+                    del _HTTP_CONNS[key]
         dt = (time.perf_counter() - t0) * 1000
         return dt, None, str(e)[:200]
 
@@ -167,6 +191,7 @@ def main():
     ap.add_argument("--params-file", default=str(HERE / "params_small.json"))
     ap.add_argument("--output", required=True)
     ap.add_argument("--skip-writes", action="store_true")
+    ap.add_argument("--query-glob", default="*", help="only run query_ids matching this glob")
     ap.add_argument("--redis-port", type=int, default=6379)  # falkordb
     ap.add_argument("--graph", default="pokec")  # falkordb graph name
     args = ap.parse_args()
@@ -203,7 +228,13 @@ def main():
     out.write("query_id\tdescription\trun\tstatus\ttime_ms\tresult_size\terror\n")
     npass = nfail = nskip = 0
 
+    import fnmatch
+
     for r in qs:
+
+        if not fnmatch.fnmatch(r["query_id"], args.query_glob):
+
+            continue
         qid, kind, desc = r["query_id"], r["kind"], r["description"]
         if args.skip_writes and kind == "write":
             nskip += 1
@@ -248,8 +279,12 @@ def main():
     out.close()
     if driver:
         driver.close()
+    for conn in _HTTP_CONNS.values():
+        conn.close()
+    _HTTP_CONNS.clear()
     print(f"\n=== {args.engine}: {npass} ok, {nfail} failed, {nskip} skipped -> {args.output} ===")
+    return 1 if nfail else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

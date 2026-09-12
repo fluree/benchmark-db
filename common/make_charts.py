@@ -16,10 +16,11 @@ import csv
 import json
 import math
 import os
+import textwrap
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "assets")
 FLUREE = "#0d9488"   # teal — Fluree
-OTHER = "#94a3b8"    # slate — other engines
+OTHER = "#64748b"    # slate — other engines; contrast for white in-bar labels
 INK = "#1e293b"
 MUTED = "#64748b"
 GRID = "#e2e8f0"
@@ -41,6 +42,8 @@ def geomean_chart(rows, title, subtitle, hi, nticks=5, cap=None):
              `cap` and flagged, so one outlier (e.g. Blazegraph) doesn't crush the axis.
     """
     L, R, T, B = 150, 32, 64, 44
+    subtitle_lines = textwrap.wrap(subtitle, width=108)
+    T += 18 * (len(subtitle_lines) - 1)
     row_h = 37
     W = 760
     H = T + B + len(rows) * row_h
@@ -61,7 +64,8 @@ def geomean_chart(rows, title, subtitle, hi, nticks=5, cap=None):
     s.append(f"<rect width='{W}' height='{H}' fill='white'/>")
     s.append(f"<text x='20' y='26' font-size='17' font-weight='700' fill='{INK}'>"
              f"{esc(title)}</text>")
-    s.append(f"<text x='20' y='46' font-size='12.5' fill='{MUTED}'>{esc(subtitle)}</text>")
+    for i, line in enumerate(subtitle_lines):
+        s.append(f"<text x='20' y='{46 + 18*i}' font-size='12.5' fill='{MUTED}'>{esc(line)}</text>")
     # linear gridlines: 0 .. axis_max in nticks steps
     for k in range(nticks + 1):
         gv = axis_max * k / nticks
@@ -91,9 +95,16 @@ def geomean_chart(rows, title, subtitle, hi, nticks=5, cap=None):
                      f"font-weight='{'700' if i==0 else '400'}' fill='{INK}'>"
                      f"{vlabel}  <tspan fill='{MUTED}'>{esc(tail)}</tspan></text>")
         else:
+            if capped:
+                # Keep the hatch visible while giving off-scale labels a solid backing.
+                label_width = len(full) * 6.2 + 12
+                s.append(f"<rect x='{bx-label_width:.1f}' y='{y:.1f}' "
+                         f"width='{label_width:.1f}' height='{bh:.1f}' fill='{OTHER}'/>")
             s.append(f"<text x='{bx-8:.1f}' y='{y+bh/2+4:.1f}' font-size='12' "
                      f"font-weight='700' fill='white' text-anchor='end'>"
                      f"{esc(full)}</text>")
+    s.append(f"<text x='{W/2:g}' y='{H-7}' text-anchor='middle' font-size='13' "
+             f"font-weight='700' fill='{INK}'>LOWER IS FASTER · shorter bars = less time</text>")
     s.append("</svg>")
     return "\n".join(s)
 
@@ -102,6 +113,8 @@ def grouped_chart(groups, title, subtitle, hi, nticks=5):
     """Horizontal grouped bar chart: several labeled groups of (engine, ms, ratio)
     rows sharing one linear axis, Fluree (row 0 of each group) highlighted."""
     L, R, T, B = 150, 32, 64, 44
+    subtitle_lines = textwrap.wrap(subtitle, width=108)
+    T += 18 * (len(subtitle_lines) - 1)
     row_h = 33
     gap_h = 30
     W = 760
@@ -118,7 +131,8 @@ def grouped_chart(groups, title, subtitle, hi, nticks=5):
     s.append(f"<rect width='{W}' height='{H}' fill='white'/>")
     s.append(f"<text x='20' y='26' font-size='17' font-weight='700' fill='{INK}'>"
              f"{esc(title)}</text>")
-    s.append(f"<text x='20' y='46' font-size='12.5' fill='{MUTED}'>{esc(subtitle)}</text>")
+    for i, line in enumerate(subtitle_lines):
+        s.append(f"<text x='20' y='{46 + 18*i}' font-size='12.5' fill='{MUTED}'>{esc(line)}</text>")
     for k in range(nticks + 1):
         gv = hi * k / nticks
         gx = x(gv)
@@ -140,16 +154,18 @@ def grouped_chart(groups, title, subtitle, hi, nticks=5):
             bx = x(v)
             s.append(f"<rect x='{L}' y='{ry:.1f}' width='{max(bx-L,2):.1f}' "
                      f"height='{bh:.1f}' rx='2' fill='{col}'/>")
-            full = f"{v:g} ms  {ratio}"
+            full = f"{v:.2f} ms  {ratio}"
             if bx + 8 + len(full) * 6.2 <= W - 2:
                 s.append(f"<text x='{bx+8:.1f}' y='{ry+bh/2+4:.1f}' font-size='12' "
                          f"font-weight='{'700' if i==0 else '400'}' fill='{INK}'>"
-                         f"{v:g} ms  <tspan fill='{MUTED}'>{esc(ratio)}</tspan></text>")
+                         f"{v:.2f} ms  <tspan fill='{MUTED}'>{esc(ratio)}</tspan></text>")
             else:
                 s.append(f"<text x='{bx-8:.1f}' y='{ry+bh/2+4:.1f}' font-size='12' "
                          f"font-weight='700' fill='white' text-anchor='end'>"
                          f"{esc(full)}</text>")
         y += len(rows) * row_h
+    s.append(f"<text x='{W/2:g}' y='{H-7}' text-anchor='middle' font-size='13' "
+             f"font-weight='700' fill='{INK}'>LOWER IS FASTER · shorter bars = less time</text>")
     s.append("</svg>")
     return "\n".join(s)
 
@@ -178,9 +194,41 @@ def make_dblp_chart():
         f.write(geomean_chart(
             rows,
             "DBLP-core · geometric-mean query time (penalized, P=2)",
-            f"561M triples · matched m7a.4xlarge (16c/64GB) · Fluree {version} · "
-            "failed query = 2× the 180 s timeout · lower is better",
+            f"561M triples · m7a.4xlarge (16c/64GB) · Fluree {version} · "
+            "failures = 2×180 s · ratios vs Fluree",
             hi=2000, nticks=4, cap=2000))
+
+
+def make_pokec_chart():
+    """Generate the Pokec headline from canonical medians, without rounded inputs."""
+    directory = os.path.join(os.path.dirname(__file__), "..", "benchmarks", "benchgraph", "reports", "pokec")
+    with open(os.path.join(directory, "meta.json")) as f:
+        meta = json.load(f)
+    with open(os.path.join(directory, "summary.tsv")) as f:
+        samples = list(csv.DictReader(f, delimiter="\t"))
+    groups = []
+    for kind, label, count in (("read", "Reads", 27), ("write", "Durable writes", 8)):
+        selected = [r for r in samples if r["scale"] == "large" and r["kind"] == kind]
+        if len(selected) != count:
+            raise ValueError(f"Expected {count} Pokec {kind} queries, got {len(selected)}")
+        means = {}
+        for engine in meta["engines"]:
+            values = [float(r[f"{engine}_ms"]) for r in selected]
+            means[engine] = math.exp(sum(map(math.log, values)) / len(values))
+        rows = []
+        for engine in sorted(means, key=means.get):
+            ratio = means[engine] / means["fluree"]
+            rows.append((meta["engines"][engine]["label"], means[engine],
+                         "baseline" if engine == "fluree" else f"{ratio:.2f}× Fluree's latency"))
+        groups.append((f"{label} · geometric mean over {count} queries", rows))
+    version = meta["engines"]["fluree"]["version"]
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, "pokec-large-geomean.svg"), "w") as f:
+        f.write(grouped_chart(
+            groups,
+            f"Pokec · Fluree {version} · read and durable-write latency",
+            "1.6M nodes / 30.6M edges · one m7a.4xlarge (16c/64GB) · persistent connections · per-commit durable writes",
+            hi=12, nticks=6))
 
 
 def main():
@@ -205,30 +253,7 @@ def main():
             "failed query = 2× the 300 s timeout · linear, lower is better",
             hi=30000, nticks=6, cap=30000))
 
-    # Pokec (benchgraph) large scale: geo-mean latency from
-    # benchmarks/benchgraph/reports/pokec/REPORT.md §1 (writes n=8, reads n=27),
-    # all four engines fsync-durable per commit, sorted fastest first.
-    pokec_groups = [
-        ("Durable writes — geo mean over 8 write queries", [
-            ("Fluree",   1.73, "1.0×"),
-            ("Neo4j",    4.07, "2.4× slower"),
-            ("Memgraph", 4.46, "2.6× slower"),
-            ("FalkorDB", 4.57, "2.6× slower"),
-        ]),
-        ("Reads — geo mean over 27 read queries", [
-            ("Fluree",   1.47, "1.0×"),
-            ("Memgraph", 4.41, "3.0× slower"),
-            ("FalkorDB", 4.57, "3.1× slower"),
-            ("Neo4j",    6.80, "4.6× slower"),
-        ]),
-    ]
-    open(os.path.join(OUT, "pokec-large-geomean.svg"), "w").write(
-        grouped_chart(
-            pokec_groups,
-            "Pokec (large, 1.6M nodes / 30.6M edges) · geometric-mean latency",
-            "35 Cypher queries (Memgraph's benchgraph) · 4 engines, one box "
-            "(r8a.4xlarge 16c/128GB) · all engines fsync-durable · lower is better",
-            hi=7, nticks=7))
+    make_pokec_chart()
 
     print("wrote assets/dblp-core-geomean.svg, assets/wikidata-truthy-geomean.svg, "
           "assets/pokec-large-geomean.svg")

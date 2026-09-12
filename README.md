@@ -1,19 +1,30 @@
 # benchmark-db
 
-Reproducible database benchmarks for [Fluree](https://labs.flur.ee) and other engines.
-Each comparison records its dataset, hardware, engine versions, query timings and
-setup commands. Engines run natively, with query-result caches disabled.
+**Fluree is a multi-modal database with an RDF foundation, supporting SPARQL, Cypher,
+GraphQL, and Fluree JSON-LD query.**
+This repository contains reproducible benchmarks for [Fluree](https://labs.flur.ee)
+and other engines, with datasets, hardware, versions, raw timings and setup commands.
 
-## DBLP-core: 7 engines, matched hardware
+| RDF / SPARQL · [DBLP-core](benchmarks/sparqloscope/reports/dblp-core/REPORT.md) | Property graph / Cypher · [Pokec](benchmarks/benchgraph/reports/pokec/REPORT.md) |
+|---|---|
+| **11.5× faster than QLever · 17.1× faster than Virtuoso** | **3.17–5.49× faster reads · 1.46–1.98× faster durable writes** than FalkorDB, Memgraph and Neo4j |
+| Fluree **v4.2.0** · 561 M triples · **105/105 queries complete** | Fluree **v4.2.1** · 1.6 M nodes / 30.6 M edges · **35/35 queries complete** |
+| **17.5 ms** penalized geometric-mean latency (P=2) | **1.90 ms reads · 3.39 ms durable writes**, geometric means at large scale |
+
+Each comparison uses its own workload and protocol; timings are comparable within a
+benchmark. **All charts below show latency: lower is faster.** Per-query results and
+correctness notes accompany each report.
+
+## RDF / SPARQL — DBLP-core: 7 engines, matched hardware
 
 **Fluree v4.2.0 answers all 105 queries with a 17.5 ms geometric mean** on
 561 million triples. QLever averages 202.4 ms and Virtuoso 299.7 ms—**11.5× and
 17.1× Fluree's latency**, respectively. All seven engines use matching AWS
 `m7a.4xlarge` hardware (16 cores / 64 GB).
 
-![DBLP-core geometric-mean query time, all 7 engines on matched hardware](assets/dblp-core-geomean.svg)
+![DBLP-core geometric-mean query time, all 7 engines on matched hardware; lower is faster](assets/dblp-core-geomean.svg)
 
-| metric (lower = faster) | **Fluree v4.2.0** | QLever | Virtuoso | MillenniumDB | Jena | Oxigraph | Blazegraph |
+| metric | **Fluree v4.2.0** | QLever | Virtuoso | MillenniumDB | Jena | Oxigraph | Blazegraph |
 |---|---|---|---|---|---|---|---|
 | **queries passed** | **105/105** | 105/105 | 103/105 | 103/105 | 34/105 | 39/105 | 3/105 |
 | **geo mean (P=2)** | **17.5 ms (1.0×)** | 202.4 ms (11.5×) | 299.7 ms (17.1×) | 1,664.2 ms (94.9×) | 67.7 s (3859.8×) | 87.0 s (4965.6×) | 332.9 s (18990.3×) |
@@ -29,20 +40,52 @@ Fluree: official v4.2.0 binary, measured September 7, 2026. Other engines:
 June 11, 2026, on the same instance class and dataset.
 [Reproduce the Fluree run](benchmarks/sparqloscope/reports/dblp-core/v420-release/REPORT.md).
 
+## Property graph / Cypher — Pokec: reads and durable writes
+
+> **Capacity matters: Fluree and Neo4j can store and query databases larger than RAM.**
+> The Memgraph and FalkorDB configurations tested here keep the graph and indexes in RAM,
+> so their capacity is bounded by available memory. Disk capacity and query memory still
+> impose limits on disk-backed engines. See the [storage-mode comparison](benchmarks/benchgraph/README.md)
+> for details, including Memgraph's separate on-disk mode, which was not tested.
+
+**3.17–5.49× faster reads and 1.46–1.98× faster durable writes** on Pokec's
+1.6 million nodes and 30.6 million edges, compared with FalkorDB, Memgraph and Neo4j.
+Fluree has the lowest geometric-mean latency for both reads and writes at all three
+measured scales. All four engines run on one AWS `m7a.4xlarge` (16 cores / 64 GB).
+
+![Pokec reads across three graph sizes: Fluree v4.2.1 has the lowest geometric-mean latency at each scale; lower is faster](assets/pokec-reads-scaling.svg)
+
+![Pokec durable writes across three graph sizes: Fluree v4.2.1 has the lowest geometric-mean latency at each scale; lower is faster](assets/pokec-writes-scaling.svg)
+
+Geometric means of per-query medians: **27 reads and 8 writes**, measured separately
+with persistent client connections. Every engine uses per-commit durable writes;
+[syscall traces](benchmarks/benchgraph/reports/pokec/engines/durability/) document the
+configured flush behavior. All 35 queries complete on every engine at every scale;
+completion does not imply identical results. The
+[report's correctness notes](benchmarks/benchgraph/reports/pokec/REPORT.md#5-methodology--caveats)
+detail differences on two read queries at small/medium scale. Some individual queries
+favor other engines; for example, Neo4j's large-scale `shortest_path` is about 6%
+faster (2.07 vs 2.19 ms).
+
+→ **[Full Pokec report](benchmarks/benchgraph/reports/pokec/REPORT.md)** ·
+[results at all three scales & reproduction](benchmarks/benchgraph/README.md) ·
+[raw timings](benchmarks/benchgraph/reports/pokec/engines/) ·
+[run metadata](benchmarks/benchgraph/reports/pokec/meta.json)
+
+Measured September 11, 2026, using Fluree source build `0f26d9d6a`.
+
 ## Other benchmarks
 
-These are separate measurements; each report records the engine versions and
-configuration used. They have not been refreshed with the DBLP v4.2.0 run.
+These are separate measurements; each report records its own engine versions, hardware
+and configuration. They were not refreshed with the Pokec or DBLP runs above.
 
 | Benchmark | Dataset | Fluree completed | Fluree geometric mean | Comparison |
 |---|---|---:|---:|---|
 | [Wikidata-truthy / SPARQLoscope](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) | 8.19 B triples | 105/105 | 367.4 ms | QLever: 10.4× the latency |
 | [Wikidata Graph Pattern Benchmark](benchmarks/wgpb/reports/wikidata-all/REPORT.md) | 21.5 B triples | 850/850 | 43 ms | Fluree only |
-| [Pokec / Cypher](benchmarks/benchgraph/reports/pokec/REPORT.md) | 1.6 M nodes / 30.6 M edges | 35/35 | 1.47 ms, reads | Memgraph: 4.41 ms; Neo4j: 6.80 ms; FalkorDB: 4.57 ms |
 
 SPARQLoscope uses the penalized P=2 mean. The graph-pattern and Cypher benchmarks
-use their own query sets and protocols. Historical Pokec write measurements used
-different durability settings across engines and are not an equal-durability comparison.
+use their own query sets and protocols; values are comparable within each benchmark.
 
 ## Reproduce DBLP-core
 
@@ -69,7 +112,7 @@ python3 -c 'from common.make_charts import make_dblp_chart; make_dblp_chart()'
 - [Native engine setup](common/engine-setup/)
 - [SPARQL query runner](common/run_benchmark.sh): warmup, timed requests, timeout, saved responses.
 - [Report generator](common/generate_report.py): aggregate, category and per-query comparisons.
-- [Chart generator](common/make_charts.py): the DBLP chart reads the published TSVs and version metadata.
+- [DBLP chart generator](common/make_charts.py) and [Pokec line-chart generator](benchmarks/benchgraph/reports/pokec/make_scaling_charts.py): charts read the published TSVs and version metadata.
 
 ## Method
 

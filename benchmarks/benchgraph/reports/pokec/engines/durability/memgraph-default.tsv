@@ -1,0 +1,41 @@
+query_id	description	run	status	time_ms	result_size	error
+arango__single_edge_write	CREATE edge between two matched users	run1	200	7.388	1	
+arango__single_edge_write	CREATE edge between two matched users	run2	200	0.953	1	
+arango__single_edge_write	CREATE edge between two matched users	run3	200	0.687	1	
+arango__single_edge_write	CREATE edge between two matched users	run4	200	0.616	1	
+arango__single_edge_write	CREATE edge between two matched users	run5	200	0.595	1	
+arango__single_vertex_write	CREATE UserTemp node	run1	200	0.977	1	
+arango__single_vertex_write	CREATE UserTemp node	run2	200	0.647	1	
+arango__single_vertex_write	CREATE UserTemp node	run3	200	0.565	1	
+arango__single_vertex_write	CREATE UserTemp node	run4	200	0.599	1	
+arango__single_vertex_write	CREATE UserTemp node	run5	200	0.723	1	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run1	200	8.485	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run2	200	1.096	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run3	200	1.130	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run4	200	0.981	0	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run5	200	0.965	0	
+create__edge	CREATE TempEdge between matched users	run1	200	1.324	0	
+create__edge	CREATE TempEdge between matched users	run2	200	0.565	0	
+create__edge	CREATE TempEdge between matched users	run3	200	0.649	0	
+create__edge	CREATE TempEdge between matched users	run4	200	0.737	0	
+create__edge	CREATE TempEdge between matched users	run5	200	0.623	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run1	200	0.621	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run2	200	0.506	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run3	200	0.521	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run4	200	0.502	0	
+create__pattern	CREATE ()-[:TempEdge]->()	run5	200	0.519	0	
+create__vertex	CREATE () bare node	run1	200	0.519	0	
+create__vertex	CREATE () bare node	run2	200	0.481	0	
+create__vertex	CREATE () bare node	run3	200	0.464	0	
+create__vertex	CREATE () bare node	run4	200	0.535	0	
+create__vertex	CREATE () bare node	run5	200	0.451	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run1	200	1.226	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run2	200	0.505	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run3	200	0.500	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run4	200	0.514	0	
+create__vertex_big	CREATE node with 7 labels + 7 props	run5	200	0.521	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run1	200	3.265	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run2	200	1.519	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run3	200	1.537	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run4	200	1.460	0	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run5	200	1.487	0	

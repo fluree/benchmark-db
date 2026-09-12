@@ -1,25 +1,34 @@
 {
-  "status": "Run 2026-07-08 on one AWS r8a.4xlarge box. Memgraph benchgraph/Pokec (35 Cypher queries) through Fluree's Cypher surface over HTTP vs native Memgraph 3.11.0 (Bolt), Neo4j 5.26.28 Community (Bolt), and FalkorDB 4.18.11 (native Redis module, RESP). 35/35 pass on every engine at every scale; all four return byte-identical result sets (one FalkorDB filtered-path semantic caveat); all held to per-commit durability. Each engine measured on its real-world client transport (Fluree HTTP, Memgraph/Neo4j Bolt, FalkorDB RESP). Read geo mean (ms) — small Fluree 0.60 / Memgraph 0.93 / Neo4j 1.43 / FalkorDB 0.61; medium 1.23 / 2.36 / 4.99 / 1.75; large 1.47 / 4.41 / 6.80 / 4.57: Fluree fastest read engine at EVERY scale (1.6-3.0x vs Memgraph, 2.4-4.6x vs Neo4j, 1.0-3.1x vs FalkorDB; tied w/ FalkorDB at small, pulling away with scale). Write geo mean (durable): small 1.32 / 3.03 / 1.76 / 2.93; medium 1.27 / 3.39 / 2.94 / 3.36; large 1.73 / 4.46 / 4.07 / 4.57: Fluree wins durable writes 2.3-2.7x vs Memgraph/FalkorDB, 1.3-2.4x vs Neo4j at every scale. Division of strengths: Fluree wins the analytical half (whole-graph aggregates ~O(1) via index directories, 100-720x faster than scanners at large) + durable writes; FalkorDB keeps a NARROW traversal edge (fixed-hop expansion/neighbourhood ~1.2-1.5x on category geo, down from ~2-3x prior builds) but Fluree now overtakes on the deepest hops (expansion_3/expansion_4) at large; Memgraph is the balanced generalist + shortest-path leader at small/medium; Neo4j slowest. Numbers reflect the v4.1.2 build (13a78d2a) measured over HTTP; write path unchanged in this build. Fluree is the imminent v4.1.2 release.",
+  "status": "Measured 2026-09-11 on one AWS m7a.4xlarge. Fluree v4.2.1 has the lowest read and durable-write geometric means at all three Pokec scales. All 35 queries complete without execution errors on all four engines. Two read queries have result-count differences at small/medium scale; see REPORT.md section 5, including a comparison excluding both queries.",
   "dataset": {
     "name": "Pokec (benchgraph / mgbench)",
     "description": "Slovak Pokec social network, Memgraph's published benchgraph distribution. Single :User node label, single Friend relationship type, no edge properties.",
     "source": "deps.memgraph.io (verbatim Memgraph distribution); queries = Neo4j-portable branch of memgraph/tests/mgbench/workloads/pokec.py",
     "scales": {
-      "small": { "nodes": 10000, "edges": 121716 },
-      "medium": { "nodes": 100000, "edges": 1768515 },
-      "large": { "nodes": 1632803, "edges": 30622564 }
+      "small": {
+        "nodes": 10000,
+        "edges": 121716
+      },
+      "medium": {
+        "nodes": 100000,
+        "edges": 1768515
+      },
+      "large": {
+        "nodes": 1632803,
+        "edges": 30622564
+      }
     },
     "queries": 35,
     "reads": 27,
     "writes": 8
   },
   "hardware": {
-    "instance": "AWS r8a.4xlarge",
-    "cpu": "AMD EPYC 9R45 (Zen 5, 'Turin')",
+    "instance": "AWS m7a.4xlarge",
+    "cpu": "AMD EPYC 9R14 (Zen 4, 'Genoa')",
     "cores": 16,
-    "ram_gb": 128,
-    "disk": "150 GB gp3",
-    "os": "Ubuntu 24.04"
+    "ram_gb": 64,
+    "disk": "gp3 (retained benchmark volume)",
+    "os": "Ubuntu 24.04.4, kernel 7.0.0-1012-aws"
   },
   "methodology": {
     "mode": "single-client latency, median of N",
@@ -27,73 +36,79 @@
     "warmup": "2 (large: 1)",
     "seed": 42,
     "shared_params": true,
-    "transport": "Each engine measured over its real-world client transport, not normalised away: Fluree over its HTTP/JSON API (urllib + json.loads), Memgraph and Neo4j over Bolt (official neo4j driver), FalkorDB over native RESP (GRAPH.QUERY via falkordb client). Fluree's Bolt surface exists but neo4j-driver record deserialization dominates large-result latency; HTTP is the leaner, representative Fluree client and is what is reported here.",
-    "durability": "all four engines fsync per commit (apples-to-apples writes): Memgraph --storage-wal-file-flush-every-n-tx=1, Neo4j durable by default, FalkorDB Redis AOF appendfsync always, Fluree per-commit on-disk index",
-    "clean_protocol": "Reads on a pristine store: fresh load -> warmup (discard) -> reads-only passes -> separate write pass. Canonical reads = pristine 'reads2' pass; writes = 'full' pass. Critical for Fluree (reads on a store with accumulated write novelty inflate aggregate latency via novelty reconciliation).",
-    "shared_params_all_scales": "All three scales measured for all four engines on one box with shared params_<scale>.json (fresh pristine load each). Result-set sizes matched byte-for-byte across all four engines (sole exception: FalkorDB shortest_path_with_filter semantic difference). Because expansion latency depends on start-node degree and the shared large params draw lower-degree roots than earlier-published sets, large traversal numbers are lower than previously published but apples-to-apples across engines.",
-    "correctness": "At every scale all four engines returned identical result-set sizes for all 35 queries (one FalkorDB filtered-path caveat); the latency comparison is like-for-like work.",
-    "notes": "Single-client isolated latency on current hardware; NOT comparable to Memgraph's published multi-worker throughput/mixed/realistic modes on older silicon. Absolute times are this-box-only."
+    "transport": "Each engine measured over its real-world client transport, and each client holds ONE persistent connection for the whole run: Fluree over its HTTP/JSON API through a keep-alive http.client connection (bench_runner.py; the previous urllib client opened a new TCP connection per request, ~0.25 ms on this box), Memgraph and Neo4j over Bolt (official neo4j driver 6.3.0), FalkorDB over native RESP (GRAPH.QUERY via falkordb client 1.7.1).",
+    "durability": "Per-commit durability configured for all four engines; flush behavior checked with strace over 40 writes (8 queries x 5 runs) on small. Fluree FLUREE_STORAGE_FSYNC=wal; Neo4j default; Memgraph --storage-wal-file-flush-every-n-tx=1; FalkorDB Redis AOF appendfsync always. Counts are in engines/durability/. Syscall counts are not a crash-recovery test.",
+    "clean_protocol": "Fresh load -> discarded reads-only pass -> recorded reads-only pass (canonical reads) -> separate full pass (canonical writes). Read measurements precede all write mutations; writes accumulate mutations within their own pass.",
+    "shared_params_all_scales": "All three scales measured for all four engines on one box with shared params_<scale>.json (fresh load each). Result-set sizes cross-checked per query across the four engines (see caveats for the known differences).",
+    "containers": "Neo4j, Memgraph and FalkorDB run from their official Docker images with --network host (no docker-proxy hop) and named volumes on the same gp3 volume Fluree writes to. Fluree runs natively.",
+    "notes": "Single-client isolated latency on current hardware; NOT comparable to Memgraph's published multi-worker throughput/mixed/realistic modes. Absolute times are this-box-only. The July 2026 v4.1.2 report ran on an r8a.4xlarge (Zen 5); its numbers are not directly comparable to this box."
   },
   "engines": {
     "fluree": {
       "label": "Fluree",
-      "version": "v4.1.2",
-      "commit": "13a78d2a; binary self-reports 'fluree 4.1.1'; pre-release v4.1.2",
-      "config": "Source build (cargo build --release -p fluree-db-cli). Served over the HTTP/JSON API. FLUREE_CYPHER_ALLOW_FULL_SCAN=1 for whole-graph aggregate queries. Every measured query runs end-to-end through Fluree's Cypher surface (verbatim Neo4j query texts); SPARQL plays no part at query time.",
-      "transport": "HTTP (JSON)",
-      "durability": "per-commit, durable on-disk index",
+      "version": "v4.2.1",
+      "commit": "0f26d9d6a",
+      "config": "Source build (cargo build --release -p fluree-db-cli). Served over the HTTP/JSON API (fluree server run, default log level). FLUREE_STORAGE_FSYNC=wal (per-commit WAL fdatasync), background indexing at the shipped default threshold, FLUREE_CYPHER_ALLOW_FULL_SCAN=1 for whole-graph aggregate queries. Every measured query runs end-to-end through Fluree's Cypher surface (verbatim Neo4j query texts); SPARQL plays no part at query time.",
+      "transport": "HTTP (JSON), one keep-alive connection",
+      "durability": "per-commit WAL fdatasync, durable on-disk index",
       "in_memory": false,
       "load": {
-        "method": "native TTL bulk importer: fluree create pokec --from pokec_<scale>.ttl, then fluree context set pokec -e '{\"@vocab\":\"http://example.org/\"}' to bridge bare Cypher names to imported IRIs",
-        "notes": "Load out of the measured path. Fresh pristine create per scale."
-      }
+        "method": "native Cypher bulk importer: fluree create pokec --from pokec_<scale>_import.cypher (large: pokec_large.setup.cypher) — the same file the other engines load; bare Cypher names resolve directly, no Turtle conversion, no @vocab context",
+        "throughput": "small 2 s; medium 24 s; large 441 s (38.8 M flakes)",
+        "notes": "Load out of the measured path. Fresh ledger per scale."
+      },
+      "binary_version": "fluree 4.2.0"
     },
     "memgraph": {
       "label": "Memgraph",
       "version": "3.11.0",
-      "config": "Bolt 7687, durable via --storage-wal-file-flush-every-n-tx=1 (per-commit fsync). Path queries in the published Memgraph suite use proprietary *bfs syntax; this run uses the Neo4j-portable query branch for a like-for-like comparison.",
+      "config": "Docker memgraph/memgraph:3.11.0, --network host, Bolt 7687. Loaded in default mode, CREATE SNAPSHOT, restarted with --data-recovery-on-startup=true --storage-wal-file-flush-every-n-tx=1 (per-commit fsync). Path queries use queries-memgraph/ overrides where the Neo4j-portable text is not accepted.",
       "transport": "Bolt 7687",
       "durability": "per-commit fsync (--storage-wal-file-flush-every-n-tx=1)",
       "in_memory": true,
       "load": {
-        "method": "replay distribution Cypher CREATE statements (CREATE INDEX ON :User(id) first) -> CREATE SNAPSHOT -> restart in fsync mode",
-        "notes": "Memgraph's PUBLISHED benchmark runs writes non-durably (WAL flush every 100k tx, sub-0.2 ms write floor); not comparable to a per-commit-durable engine and not measured here."
+        "method": "replay distribution Cypher CREATE statements through mgconsole (CREATE INDEX ON :User(id) first) -> CREATE SNAPSHOT -> restart in fsync mode",
+        "throughput": "small 16 s; medium 252 s; large 4364 s (mgconsole replay of 30.6 M CREATE statements)",
+        "notes": "Loaded in default mode, then restarted with per-commit WAL flushing for all published write timings. Default-mode syscall traces are retained separately."
       }
     },
     "neo4j": {
       "label": "Neo4j",
-      "version": "5.26.28 Community",
-      "config": "Bolt 7687, durable by default, openjdk-21.",
+      "version": "5.26.30 Community",
+      "config": "Docker neo4j:5.26-community, --network host, Bolt 7687, heap 8G, page cache 8G, durable by default.",
       "transport": "Bolt 7687",
-      "durability": "durable by default",
+      "durability": "durable by default (fdatasync per commit)",
       "in_memory": false,
       "load": {
-        "method": "neo4j-admin database import full from generated CSVs (~19 s large vs hours for cypher-shell replay), then User(id) index + db.awaitIndexes()"
+        "method": "neo4j-admin database import full --id-type=INTEGER from CSVs generated by cypher_to_csv.py (typed header id:ID,completion_percentage:int,gender,age:int), then the User(id) index + db.awaitIndexes()",
+        "throughput": "small 1.3 s; medium 2.4 s; large 17.5 s"
       }
     },
     "falkordb": {
       "label": "FalkorDB",
-      "version": "4.18.11 (Redis module, GraphBLAS; Redis 8.6.3 base)",
-      "config": "Native redis-server loading the falkordb.so module (NOT the Docker image), AOF appendfsync always on the host filesystem. Queries over native RESP GRAPH.QUERY via the falkordb python client (its experimental Bolt surface was not reliable enough to benchmark). Path queries use queries-falkordb/ overrides (shortestPath in WITH/RETURN; allShortestPaths in MATCH, hop bound ..2 to match reference).",
+      "version": "4.20.4 (graph module ver 42004 on Redis 8.6.3; falkordb/falkordb:latest Docker image)",
+      "config": "Docker falkordb/falkordb:latest, --network host, RESP 6379. The image ships RESULTSET_SIZE 10000 and TIMEOUT 1000 (ms); both are lifted (RESULTSET_SIZE -1, TIMEOUT 0) so large expansions return full result sets — with the shipped cap, medium expansion_4 silently returned exactly 10,000 rows. Durability: Redis AOF appendfsync always, enabled after the bulk load (CONFIG SET appendonly yes / appendfsync always, verified aof_enabled:1 before measuring). Path queries use queries-falkordb/ overrides (shortestPath in WITH/RETURN; allShortestPaths in MATCH with pre-resolved endpoints, hop bound ..2).",
       "transport": "RESP GRAPH.QUERY (port 6379)",
-      "durability": "Redis AOF appendfsync always (per-write fsync)",
+      "durability": "Redis AOF appendfsync always (per-write fdatasync)",
       "in_memory": true,
-      "memory_footprint": "large graph (30.6 M edges) = ~1286 MB resident (GraphBLAS compressed-sparse); whole working set in RAM, AOF/RDB for durability only, never serves queries from disk",
       "load": {
-        "method": "native bulk loader falkordb-bulk-insert --nodes-with-label User --relations-with-type Friend --id-type INTEGER (CSVs generated from the .cypher via cypher_to_csv.py), then explicit CREATE INDEX FOR (u:User) ON (u.id) + plan verification",
-        "throughput": "small 0.19 s; medium 3.1 s; large ~85 s (30.6 M edges)",
-        "notes": "Two silent-failure modes worked around: default buffers/socket timeout drop edges past ~24 M (use a longer socket_timeout + larger buffers); --index does not always build on the 1.6 M-node graph (create explicitly and verify the plan uses an index scan)."
-      }
+        "method": "native bulk loader falkordb-bulk-insert 1.2.0 --nodes-with-label User --relations-with-type Friend --id-type INTEGER (CSVs from cypher_to_csv.py), then explicit CREATE INDEX FOR (u:User) ON (u.id) and GRAPH.EXPLAIN verification of the index scan",
+        "throughput": "small 0.3 s; medium 5 s; large 88 s"
+      },
+      "memory_footprint": "in-memory graph (GraphBLAS compressed-sparse); AOF/RDB is for durability and restart only, queries are never served from disk"
     }
   },
   "caveats": [
-    "Run 2026-07-08 on one AWS r8a.4xlarge; single-client isolated latency; each engine on its real-world client transport (Fluree HTTP, Memgraph/Neo4j Bolt, FalkorDB RESP).",
-    "Fluree is the fastest read engine at every scale on the blended geo-mean (tied with FalkorDB at small). Division of strengths: Fluree wins aggregates (~O(1) index directories, 100-720x vs scanners at large) + durable writes; FalkorDB keeps a narrow traversal edge (expansion/neighbourhood ~1.2-1.5x on category geo, down from ~2-3x) but Fluree overtakes on the deepest hops (expansion_3/expansion_4) at large; Memgraph balanced + shortest-path leader at small/medium; Neo4j slowest.",
-    "Writes are apples-to-apples only because all engines fsync per commit. Memgraph's published non-durable writes are faster but not comparable.",
-    "FalkorDB shortest_path_with_filter post-filters the shortest path rather than searching under the constraint (as Neo4j does), so it can return the empty path where Neo4j returns a longer constrained one - a semantic difference in 1 of 35 queries. FalkorDB point-to-point shortestPath is also its weakest category (~44-58 ms at large vs sub-2 ms for others).",
-    "Memory-bound scaling is NOT exercised on this 128 GB box: FalkorDB and Memgraph hold the whole graph in RAM (no disk paging; over-sized graph OOMs), Fluree is disk-backed and degrades gracefully. A smaller-machine run is the natural next step and the true architectural differentiator.",
+    "Run 2026-09-11 on one AWS m7a.4xlarge (16c/64GB, AMD EPYC 9R14 Zen 4); single-client isolated latency; each engine on its real-world client transport, every client holding one persistent connection.",
+    "Fluree leads the read and durable-write geometric means at every scale; individual-query and category results vary. See REPORT.md section 2 for measured advantages and gaps.",
+    "Writes are apples-to-apples only because all four engines fsync per commit, verified by syscall count. Memgraph's and FalkorDB's SHIPPED defaults issue zero fsyncs over the same write pass and post sub-millisecond writes that are not comparable; they are excluded from the tables.",
+    "The July 2026 v4.1.2 report described Fluree's writes as fsync-durable; they were not. v4.1.2 file storage used tokio::fs::write with no fsync, and per-commit durability arrived in 44eb56b53 (before v4.1.6). Its ~1.3 ms small-graph write geo-mean was a page-cache number; the higher write times here are the cost of the durability every engine in this report pays; these changes prevent a direct version-to-version performance comparison.",
+    "Two reads have result-count differences. expansion_3_with_filter: small run1, Fluree/FalkorDB 3430 vs Neo4j/Memgraph 3429, with a relationship-reuse reproduction in REPORT.md. shortest_path_with_filter: small run3 FalkorDB 0 vs others 1; medium run2-run4 Memgraph 1 vs others 0. Engine-specific path queries differ. Raw TSVs record counts, not complete results. Excluding both query IDs at all scales preserves Fluree's lowest read geometric mean.",
+    "FalkorDB's official image ships RESULTSET_SIZE 10000 and TIMEOUT 1000ms; with the cap in place medium expansion_4 silently returns exactly 10000 rows. Both were lifted before measuring. Its User(id) index also builds asynchronously over minutes on the 1.6M-node graph and must be confirmed in the query plan before timing.",
+    "All graphs fit in 64 GB RAM. This single-client run does not measure concurrent throughput or performance beyond RAM capacity.",
     "NOT comparable to Memgraph's published multi-worker throughput numbers (different mode, different hardware).",
-    "Absolute times are this-box-only (r8a.4xlarge, 16c/128GB).",
-    "Fluree traversal optimization targets (shallow-expansion batching, pattern_long, unwind_range batch writes) are open; see FLUREE-GAPS.md."
+    "Not directly comparable to July 2026 v4.1.2 results: different hardware (r8a.4xlarge), Fluree connection handling, and write durability.",
+    "Absolute times are this-box-only (m7a.4xlarge, 16c/64GB).",
+    "Fluree optimization targets still open: shallow-expansion batching, pattern_long, and the write path's two consistent losses: unwind_range batch writes and create__edge (match two nodes, create the edge), plus create__pattern at large; see FLUREE-GAPS.md."
   ]
 }
