@@ -4,5 +4,5 @@ bsbmtools-0.2/
 bsbmtools-v0.2.zip
 datasets/*/td/
 
-# Keep reports/<scale>/runs/*.xml — the regenerable backing data for REPORT.md
-# (the BSBM analogue of sparqloscope's engines/*.tsv), small + text.
+# Keep reports/<release>/runs/**/*.xml — the raw driver output behind the README
+# tables (the BSBM analogue of sparqloscope's engines/*.tsv), small + text.

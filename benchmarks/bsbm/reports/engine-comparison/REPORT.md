@@ -64,17 +64,23 @@ QMpH; timeouts in parens (driver `-t` = 120 s). BI at 100M/200M is dominated by 
 `-fc` root-type draw (`ProductType1` = all products → full scans), which affects all
 engines.
 
+**Correctness note (2026-09-08):** Virtuoso 7.2.17 returned incorrect empty results
+for canonical BI Q5 across all 151 product types in a separate 1M validation.
+Fluree 4.2.0 matched an independent calculation from the RDF input. Virtuoso's BI
+throughput is therefore not a valid equivalent-work comparison while this issue
+remains. The historical tables below use Virtuoso 7.2.5, where empty Q5 results were
+also recorded. See the [minimal reproduction and scope](BI-Q5-CORRECTNESS.md).
+
 | scale | Fluree | Virtuoso | QLever |
 |---|--:|--:|--:|
 | 1M | **2,993** (0 to) | 323 (0 to) | 716 (0 to) |
 | 100M | 28.7 (0 to) | 26.5 (6 to) | 42.1 (3 to) |
 | 200M | 12.3 (1 to) | 20.6 (3 to) | 35.2 (2 to) |
 
-> **Read QMpH together with the timeout (`to`) counts:** at 100M/200M Virtuoso and
-> QLever post higher QMpH *only because* their slowest queries time out (capped at
-> 120 s in the mix) — and Virtuoso returns an empty Q5 (see §below). Fluree completes
-> all 8 BI queries with 0–1 timeouts, so its lower QMpH reflects fully-returned results,
-> not a slower engine on completed work.
+> **Read QMpH together with correctness and timeout (`to`) counts.** Timeouts cap
+> unfinished queries at 120 seconds, and incorrect empty results do not represent
+> completed work. These BI totals cannot establish relative speed for successfully
+> completed, equivalent queries.
 
 BI 1M concurrency peak: Fluree 24,784 · Virtuoso 2,165 · QLever 1,501.
 

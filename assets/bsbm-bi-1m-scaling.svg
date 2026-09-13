@@ -1,0 +1,56 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='820' height='515' viewBox='0 0 820 515' font-family='-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif'>
+<rect width='820' height='515' fill='white'/>
+<text x='70' y='28' font-size='17' font-weight='700' fill='#1e293b'>BSBM Business Intelligence, 1M · throughput vs concurrent clients</text>
+<text x='70' y='47' font-size='12' fill='#64748b'>15-query BI mix (8 aggregate templates)</text>
+<text x='70' y='70' font-size='13' font-weight='700' fill='#1e293b'>HIGHER IS FASTER · QMpH (query mixes per hour)</text>
+<line x1='70' y1='90' x2='88' y2='90' stroke='#0d9488' stroke-width='3.2'/>
+<text x='94' y='94' font-size='12' font-weight='700' fill='#0d9488'>Fluree v4.2.1</text>
+<line x1='209.60000000000002' y1='90' x2='227.60000000000002' y2='90' stroke='#f59e0b' stroke-width='2'/>
+<text x='233.60000000000002' y='94' font-size='12' font-weight='400' fill='#f59e0b'>QLever 0.6.0</text>
+<circle cx='354.0' cy='90' r='3.6' fill='#64748b'/>
+<text x='363.0' y='94' font-size='11' fill='#64748b'>validated</text>
+<line x1='70' y1='412.0' x2='630' y2='412.0' stroke='#e2e8f0'/>
+<text x='63' y='416.0' font-size='10.5' fill='#64748b' text-anchor='end'>0</text>
+<line x1='70' y1='355.6' x2='630' y2='355.6' stroke='#e2e8f0'/>
+<text x='63' y='359.6' font-size='10.5' fill='#64748b' text-anchor='end'>20k</text>
+<line x1='70' y1='299.2' x2='630' y2='299.2' stroke='#e2e8f0'/>
+<text x='63' y='303.2' font-size='10.5' fill='#64748b' text-anchor='end'>40k</text>
+<line x1='70' y1='242.8' x2='630' y2='242.8' stroke='#e2e8f0'/>
+<text x='63' y='246.8' font-size='10.5' fill='#64748b' text-anchor='end'>60k</text>
+<line x1='70' y1='186.4' x2='630' y2='186.4' stroke='#e2e8f0'/>
+<text x='63' y='190.4' font-size='10.5' fill='#64748b' text-anchor='end'>80k</text>
+<line x1='70' y1='130.0' x2='630' y2='130.0' stroke='#e2e8f0'/>
+<text x='63' y='134.0' font-size='10.5' fill='#64748b' text-anchor='end'>100k</text>
+<line x1='70' y1='412' x2='630' y2='412' stroke='#64748b' stroke-opacity='0.5'/>
+<text x='70.0' y='429' font-size='10.5' fill='#64748b' text-anchor='middle'>1</text>
+<text x='210.0' y='429' font-size='10.5' fill='#64748b' text-anchor='middle'>4</text>
+<text x='350.0' y='429' font-size='10.5' fill='#64748b' text-anchor='middle'>8</text>
+<text x='490.0' y='429' font-size='10.5' fill='#64748b' text-anchor='middle'>16</text>
+<text x='630.0' y='429' font-size='10.5' fill='#64748b' text-anchor='middle'>32</text>
+<text x='350.0' y='447' font-size='11' fill='#1e293b' text-anchor='middle'>concurrent clients</text>
+<line x1='70.0' y1='409.8' x2='210.0' y2='404.9' stroke='#f59e0b' stroke-width='2'/>
+<line x1='210.0' y1='404.9' x2='350.0' y2='394.3' stroke='#f59e0b' stroke-width='2'/>
+<line x1='350.0' y1='394.3' x2='490.0' y2='375.2' stroke='#f59e0b' stroke-width='2'/>
+<line x1='490.0' y1='375.2' x2='630.0' y2='338.4' stroke='#f59e0b' stroke-width='2'/>
+<circle cx='70.0' cy='409.8' r='3.6' fill='#f59e0b'/>
+<circle cx='210.0' cy='404.9' r='3.6' fill='#f59e0b'/>
+<circle cx='350.0' cy='394.3' r='3.6' fill='#f59e0b'/>
+<circle cx='490.0' cy='375.2' r='3.6' fill='#f59e0b'/>
+<circle cx='630.0' cy='338.4' r='3.6' fill='#f59e0b'/>
+<line x1='70.0' y1='394.7' x2='210.0' y2='347.6' stroke='#0d9488' stroke-width='3.2'/>
+<line x1='210.0' y1='347.6' x2='350.0' y2='293.1' stroke='#0d9488' stroke-width='3.2'/>
+<line x1='350.0' y1='293.1' x2='490.0' y2='211.4' stroke='#0d9488' stroke-width='3.2'/>
+<line x1='490.0' y1='211.4' x2='630.0' y2='200.3' stroke='#0d9488' stroke-width='3.2'/>
+<circle cx='70.0' cy='394.7' r='3.6' fill='#0d9488'/>
+<circle cx='210.0' cy='347.6' r='3.6' fill='#0d9488'/>
+<circle cx='350.0' cy='293.1' r='3.6' fill='#0d9488'/>
+<circle cx='490.0' cy='211.4' r='3.6' fill='#0d9488'/>
+<circle cx='630.0' cy='200.3' r='3.6' fill='#0d9488'/>
+<text x='642' y='204.3' font-size='12' font-weight='700' fill='#0d9488'>Fluree v4.2.1</text>
+<text x='642' y='218.3' font-size='10' fill='#64748b'>75,061 QMpH @32</text>
+<text x='642' y='342.4' font-size='12' font-weight='400' fill='#f59e0b'>QLever 0.6.0</text>
+<text x='642' y='356.4' font-size='10' fill='#64748b'>26,098 QMpH @32</text>
+<text x='70' y='503' font-size='11' fill='#64748b'>At 100M and 200M QLever completed only 1 client (41 and 34 QMpH); its 4–32 client cells failed repeatedly.</text>
+<text x='70' y='488' font-size='11' fill='#64748b'>Virtuoso not shown: its BI Q5 returns an empty result, so its BI throughput is not a valid measurement.</text>
+<text x='70' y='473' font-size='11' fill='#64748b'>m7a.4xlarge database · separate m7a.2xlarge driver · median of 3 repeats</text>
+</svg>
