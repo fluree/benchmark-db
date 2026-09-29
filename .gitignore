@@ -13,6 +13,9 @@ benchmarks/lubm/datasets/*/build/log.txt
 # Benchmark run output (curated copies live in reports/<ds>/engines/)
 results/
 
+# Local AWS run harnesses and raw archives; published runs are archived in S3 under runs/
+/runs/
+
 # Local Fluree project / server state
 .fluree/
 

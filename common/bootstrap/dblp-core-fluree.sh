@@ -22,9 +22,13 @@ BENCH_RUNS="${BENCH_RUNS:-3}"
 BENCH_WARMUP="${BENCH_WARMUP:-1}"
 BENCH_TIMEOUT="${BENCH_TIMEOUT:-180}"
 
-# Published DBLP-core run: Fluree v4.1.2. For a faithful reproduction, install the
-# official v4.1.2 release (see ../engine-setup/fluree.md) instead of building from
-# source; or pin FLUREE_BRANCH / FLUREE_COMMIT to build a specific ref from source.
+# Binary selection, in order of preference:
+#   FLUREE_VERSION=v4.1.6      install that official release (no compile, ~30 s) <- easiest
+#   FLUREE_USE_INSTALLER=1     install the latest official release
+#   FLUREE_BRANCH/FLUREE_COMMIT  build that ref from source (for unreleased refs)
+# Release binaries are the right default for release-vs-release regression runs;
+# build from source only when the ref you need has no release.
+FLUREE_VERSION="${FLUREE_VERSION:-}"
 FLUREE_BRANCH="${FLUREE_BRANCH:-main}"
 FLUREE_COMMIT="${FLUREE_COMMIT:-}"
 
@@ -50,13 +54,17 @@ fi
 # release (v4.1.0+, aarch64 & x86_64). Otherwise build from source, which lets you
 # pin a branch/commit for from-source reproductions.
 ARCH="$(uname -m)"
-if [[ "${FLUREE_USE_INSTALLER:-}" == "1" || "$ARCH" == "aarch64" ]]; then
+if [[ -n "$FLUREE_VERSION" || "${FLUREE_USE_INSTALLER:-}" == "1" || "$ARCH" == "aarch64" ]]; then
     if command -v fluree &>/dev/null; then
         log "Reusing existing binary: $(fluree --version 2>&1 | head -1)"
     else
-        log "Installing Fluree via official installer ($ARCH)..."
-        curl --proto '=https' --tlsv1.2 -LsSf \
-            https://github.com/fluree/db/releases/latest/download/fluree-db-cli-installer.sh | sh
+        # A pinned FLUREE_VERSION fetches that release's installer; otherwise "latest".
+        INSTALLER_REF="${FLUREE_VERSION:-latest}"
+        [[ "$INSTALLER_REF" == "latest" ]] \
+            && INSTALLER_URL="https://github.com/fluree/db/releases/latest/download/fluree-db-cli-installer.sh" \
+            || INSTALLER_URL="https://github.com/fluree/db/releases/download/${INSTALLER_REF}/fluree-db-cli-installer.sh"
+        log "Installing Fluree $INSTALLER_REF via official installer ($ARCH)..."
+        curl --proto '=https' --tlsv1.2 -LsSf "$INSTALLER_URL" | sh
         # cargo-dist installs to ~/bin (with an env script); also cover ~/.local & ~/.cargo.
         export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
         [[ -f "$HOME/bin/env" ]] && source "$HOME/bin/env"
