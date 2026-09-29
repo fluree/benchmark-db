@@ -12,7 +12,8 @@ and other engines, with datasets, hardware, versions, raw timings and setup comm
 | **17.5 ms** penalized geometric-mean latency (P=2) | **1.90 ms reads · 3.39 ms durable writes**, geometric means at large scale |
 
 Each comparison uses its own workload and protocol; timings are comparable within a
-benchmark. **All charts below show latency: lower is faster.** Per-query results and
+benchmark. **The DBLP-core and Pokec charts show latency (lower is faster); the BSBM
+charts show throughput (higher is faster).** Per-query results and
 correctness notes accompany each report.
 
 ## RDF / SPARQL — DBLP-core: 7 engines, matched hardware
@@ -73,6 +74,47 @@ faster (2.07 vs 2.19 ms).
 [run metadata](benchmarks/benchgraph/reports/pokec/meta.json)
 
 Measured September 11, 2026, using Fluree source build `0f26d9d6a`.
+
+## RDF / SPARQL throughput — BSBM: QLever and Virtuoso
+
+**Fluree v4.2.1 has the highest validated throughput in every multi-client comparison**
+with QLever 0.6.0 and Virtuoso 7.2.17 on the Berlin SPARQL Benchmark, at 1M, 100M and
+200M triples. On the SELECT-only Explore mix, Fluree's peak is **9.5× Virtuoso's and 72×
+QLever's at 1M triples**, and **2.2× and 9.8× at 100M**, where Fluree reaches
+**390,576 query mixes per hour** with 32 clients. Every Fluree cell completed with zero
+timeouts and zero driver errors, with fsync enabled.
+
+BSBM measures **throughput** on an e-commerce workload: each client repeatedly runs a mix
+of query templates re-instantiated with random parameters, and the driver reports query
+mixes per hour (QMpH). All three engines ran the same pinned driver, datasets, seed and
+query mixes on an AWS `m7a.4xlarge` database with a separate `m7a.2xlarge` driver; every
+cell is the median of three repeats.
+
+![BSBM Explore SELECT subset throughput vs clients at 1M, 100M and 200M triples for Fluree v4.2.1, QLever 0.6.0 and Virtuoso 7.2.17; higher is faster](assets/bsbm-select-scaling.svg)
+
+![BSBM full Explore mix throughput vs clients at 1M, 100M and 200M triples for Fluree v4.2.1 and Virtuoso 7.2.17; higher is faster](assets/bsbm-explore-virtuoso-scaling.svg)
+
+![BSBM Business Intelligence throughput vs clients at 1M triples for Fluree v4.2.1 and QLever 0.6.0; higher is faster](assets/bsbm-bi-1m-scaling.svg)
+
+![BSBM Explore-and-Update throughput vs clients at 1M triples for Fluree v4.2.1 and Virtuoso 7.2.17; higher is faster](assets/bsbm-update-1m-scaling.svg)
+
+Single-client results are closer, and some favor other engines: at 200M triples
+**Virtuoso is 13% faster** on the SELECT mix and 9% faster on the full Explore mix, and
+**QLever is 62% faster** on Business Intelligence. With durable, fsync-before-acknowledgement
+writes, Fluree's Explore-and-Update throughput at 1M is 1.8× Virtuoso's at one client and
+2.2× at peak. Filled chart points passed every validation check; hollow points on dashed
+segments have a median but failed a check; ✕ marks a cell where a repeat errored, so it
+has no median. QLever 0.6.0 cannot return the RDF/XML the full Explore mix requires, and
+Virtuoso's BI results at 1M are incorrect for one query, so not every engine appears in
+every chart; the [full report](benchmarks/bsbm/README.md#compared-with-qlever-and-virtuoso)
+lists the coverage and caveats.
+
+→ **[Full BSBM report](benchmarks/bsbm/README.md)** ·
+[Fluree results at every scale and client count](benchmarks/bsbm/README.md#results--fluree-v421) ·
+[cross-engine cells](benchmarks/bsbm/reports/v4.2.1/comparison.tsv) ·
+[raw driver XML](benchmarks/bsbm/reports/v4.2.1/runs/)
+
+Measured September 12–13, 2026.
 
 ## Other benchmarks
 
@@ -139,5 +181,6 @@ Fluree's HTTP Cypher endpoint and the other engines' native client protocols.
 - `benchmarks/sparqloscope/`: query sets, pinned datasets and multi-engine reports.
 - `benchmarks/wgpb/`: 850 Wikidata graph-pattern queries and results.
 - `benchmarks/benchgraph/`: Cypher/Pokec runner, queries and results.
+- `benchmarks/bsbm/`: BSBM throughput harness, engine setup and results.
 - `common/`: SPARQL runner, report/chart generators and engine setup.
 - `assets/`: generated SVG charts.
