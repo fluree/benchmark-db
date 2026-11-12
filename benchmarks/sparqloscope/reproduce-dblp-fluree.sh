@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Reproduce the published v4.2.0 DBLP run on a fresh Ubuntu 24.04 x86_64 host.
+# Reproduce the published v4.2.6 DBLP run on a fresh Ubuntu 24.04 x86_64 host.
 set -euo pipefail
 if [[ $# != 1 ]]; then
     echo "Usage: $0 /path/to/new-run" >&2
@@ -29,17 +29,17 @@ ulimit -n 1048576
 python3 - "$REPO_ROOT" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
-r=Path(sys.argv[1]);manifest=r/'benchmarks/sparqloscope/reports/dblp-core/v420-release/harness-sha256.json'
+r=Path(sys.argv[1]);manifest=r/'benchmarks/sparqloscope/reports/dblp-core/v426-release/harness-sha256.json'
 for name,expected in json.loads(manifest.read_text()).items():
     assert hashlib.sha256((r/name).read_bytes()).hexdigest()==expected, f'Harness differs: {name}'
 print('Harness hashes verified')
 PY
 curl --proto '=https' --tlsv1.2 -fLsS --retry 3 \
-    https://github.com/fluree/db/releases/download/v4.2.0/fluree-db-cli-installer.sh \
+    https://github.com/fluree/db/releases/download/v4.2.6/fluree-db-cli-installer.sh \
     -o "$RUN_DIR/installer.sh"
-printf '%s  %s\n' e03c4fae87ab8581fb61eef77f6762ecf1dc6d593df26a690b805a4eb33aa674 "$RUN_DIR/installer.sh" | sha256sum -c -
+printf '%s  %s\n' c4668683b18e3facb938423284e0d34f675d8eaadef8e6c2961e164fae1e10a6 "$RUN_DIR/installer.sh" | sha256sum -c -
 FLUREE_DB_CLI_INSTALL_DIR="$RUN_DIR/bin" FLUREE_DB_CLI_NO_MODIFY_PATH=1 sh "$RUN_DIR/installer.sh"
-printf '%s  %s\n' 03314b1de786268d07b96bca2c45e87c97f966a74780b1ae4700fba55f9c9fc4 "$RUN_DIR/bin/fluree" | sha256sum -c -
+printf '%s  %s\n' 4ca8cb75092f2a3780c62a929e1bd08a3d327553c5d6c69740192b70bf69c789 "$RUN_DIR/bin/fluree" | sha256sum -c -
 "$RUN_DIR/bin/fluree" --version
 curl --proto '=https' --tlsv1.2 -fLsS --retry 3 \
     https://drops.dagstuhl.de/storage/artifacts/dblp/rdf/2026/dblp-2026-06-01.nt.gz \

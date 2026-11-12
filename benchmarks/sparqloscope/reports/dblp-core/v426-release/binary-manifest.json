@@ -1,0 +1,10 @@
+{
+  "release": "v4.2.6",
+  "binary_sha256": "4ca8cb75092f2a3780c62a929e1bd08a3d327553c5d6c69740192b70bf69c789",
+  "version": "fluree 4.2.6",
+  "installer_sha256": "c4668683b18e3facb938423284e0d34f675d8eaadef8e6c2961e164fae1e10a6",
+  "target": "x86_64-unknown-linux-gnu",
+  "installer_url": "https://github.com/fluree/db/releases/download/v4.2.6/fluree-db-cli-installer.sh",
+  "archive": "fluree-db-cli-x86_64-unknown-linux-gnu.tar.xz",
+  "archive_sha256": "f394e96645838c492e4e3d37ab7cda19bf015946bd0089c5400f98b482b5b439"
+}
