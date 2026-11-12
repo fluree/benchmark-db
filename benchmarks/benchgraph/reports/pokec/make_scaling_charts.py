@@ -144,7 +144,7 @@ def chart(kind, title, subtitle, fname):
 
 
 def main():
-    box = "one m7a.4xlarge (16c/64GB) · persistent connections"
+    box = "m7a.4xlarge (16c/64GB) · persistent connections"
     chart("read", "Pokec reads · geometric-mean latency",
           f"27 queries · pristine store · {box}", "pokec-reads-scaling.svg")
     chart("write", "Pokec durable writes · geometric-mean latency",

@@ -13,7 +13,7 @@ subject+predicate. Distributed as a single gzipped N-Triples file.
 | Snapshot | 2026-05-29 11:17:24 GMT (rolling "latest"; pin the SHA) |
 | Size (.nt.gz) | 70,497,233,745 bytes (~70.5 GB compressed; ~700 GB+ uncompressed) |
 | SHA-256 (.nt.gz) | `9fb5a16502ac05d9b9aad9f161bfe4e3e9ac514e142d7cf5ae4efd030b9f739a` |
-| Triples | ~8B (exact count recorded after import) |
+| Triples | 8,186,371,175 N-Triples lines; 8,180,602,084 distinct triples |
 
 `fetch-data.sh` downloads + size/SHA-verifies the dump. The upstream URL is a
 rolling "latest" overwritten weekly, so the exact snapshot we benchmark is
@@ -22,12 +22,11 @@ mirrored as a GitHub release. Use
 
 ## How it's loaded
 
-- **Fluree:** `fluree create wikidata --from <file>`. N-Triples is a syntactic
-  subset of Turtle; if the importer dispatches on extension, present the data
-  with a `.ttl` extension (or the `.nt.gz` directly if supported) so it routes to
-  the Turtle/N-Triples parser. Same graph, same triple count. At ~700 GB
-  uncompressed, prefer streaming from `.nt.gz` over fully decompressing if the
-  importer allows it.
+- **Fluree:** the dump is re-split into 2,047 single-member gzip shards of
+  4,000,000 lines each, then imported with
+  `fluree create wikidata --from <shards dir>` using the default (automatic)
+  import settings, with `ulimit -n 1048576`. Fluree stores distinct triples, so
+  `COUNT(*)` after import is 8,180,602,084.
 - **QLever:** see [`Qleverfile`](Qleverfile) and `../../../../common/engine-setup/qlever.md`.
   Single N-Triples file with fully-expanded IRIs (no per-shard `@prefix`), so a
   plain parallel parse works. At ~8B triples the index build needs a large

@@ -16,7 +16,7 @@ query-set.tsv            DBLP query set (provenance; split_queries.py regenerate
 report-categories.tsv    query -> category map (drives the report rollup; category ids are shared)
 datasets/
   dblp-core/             DBLP bibliography only (our run: ~561.5M distinct triples)
-  wikidata-truthy/       Wikidata Truthy (~8.19B); has its OWN query-set.tsv + queries/
+  wikidata-truthy/       Wikidata Truthy (our run: ~8.18B distinct triples); has its OWN query-set.tsv + queries/
                          (from SPARQLoscope's wikidata-truthy.benchmark.tsv — Wikidata predicates)
 reports/<dataset>/       meta.json, engines/*.tsv, correctness.json, REPORT.md
 ```

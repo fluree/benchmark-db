@@ -227,8 +227,28 @@ def make_pokec_chart():
         f.write(grouped_chart(
             groups,
             f"Pokec · Fluree {version} · read and durable-write latency",
-            "1.6M nodes / 30.6M edges · one m7a.4xlarge (16c/64GB) · persistent connections · per-commit durable writes",
+            "1.6M nodes / 30.6M edges · m7a.4xlarge (16c/64GB) · persistent connections · per-commit durable writes",
             hi=12, nticks=6))
+
+
+def make_wikidata_chart():
+    # Penalized geo mean per the SPARQLoscope paper: a failed/timed-out query
+    # counts as 2x the 300 s timeout (P=2).
+    wd_rows = [
+        ("Fluree",          276.4,  "1.0×", "105/105"),
+        ("QLever",         3833, "13.9×",  "91/105"),
+        ("Virtuoso",      12900, "46.7×",  "81/105"),
+        ("MillenniumDB",  28700,  "104×",  "67/105"),
+        ("Jena",         151500,  "548×",  "31/105"),
+    ]
+    os.makedirs(OUT, exist_ok=True)
+    open(os.path.join(OUT, "wikidata-truthy-geomean.svg"), "w").write(
+        geomean_chart(
+            wd_rows,
+            "Wikidata-truthy (8.18B distinct triples) · geometric-mean query time (penalized, P=2)",
+            "5 engines · r7a.16xlarge (64c/512GB) · Fluree v4.2.6 · "
+            "failed query = 2× the 300 s timeout · linear, lower is better",
+            hi=30000, nticks=6, cap=30000))
 
 
 def main():
@@ -236,22 +256,7 @@ def main():
 
     make_dblp_chart()
 
-    # Penalized geo mean per the SPARQLoscope paper: a failed/timed-out query
-    # counts as 2x the 300 s timeout (P=2).
-    wd_rows = [
-        ("Fluree",          367,  "1.0×", "105/105"),
-        ("QLever",         3833, "10.4×",  "91/105"),
-        ("Virtuoso",      12900, "35.1×",  "81/105"),
-        ("MillenniumDB",  28700, "78.1×",  "67/105"),
-        ("Jena",         151500,  "412×",  "31/105"),
-    ]
-    open(os.path.join(OUT, "wikidata-truthy-geomean.svg"), "w").write(
-        geomean_chart(
-            wd_rows,
-            "Wikidata-truthy (8.19B triples) · geometric-mean query time (penalized, P=2)",
-            "5 engines, one box (r7a.16xlarge 64c/512GB) · Fluree v4.0.6 · "
-            "failed query = 2× the 300 s timeout · linear, lower is better",
-            hi=30000, nticks=6, cap=30000))
+    make_wikidata_chart()
 
     make_pokec_chart()
 

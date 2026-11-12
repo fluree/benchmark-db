@@ -1,5 +1,5 @@
 #!/bin/bash
-# Durability verification for the v4.2.1 Pokec run: count fsync-family syscalls per engine over an
+# Durability verification for the Pokec run: count fsync-family syscalls per engine over an
 # identical 40-write pass (8 write queries x 5 runs) on pokec small, in the exact configuration
 # the benchmark measures. Also counts the shipped defaults of Memgraph and FalkorDB for contrast.
 RUN=${RUN:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}
@@ -22,7 +22,7 @@ trace() { # name pid engine-args...
   [[ $result == 0 ]] || { cat "$OUT/dur_$name.log"; exit "$result"; }
   echo "== $name: $(grep -c . $OUT/dur_$name.tsv) rows; $(grep -E 'fsync|fdatasync|sync_file|syncfs' $OUT/dur_$name.strace | awk '{print $NF": "$(NF-1)}' | tr '\n' ' ')"
 }
-# Fluree v4.2.1, FLUREE_STORAGE_FSYNC=wal (as measured)
+# Fluree, FLUREE_STORAGE_FSYNC=wal (as measured)
 pkill -f "fluree server ru[n]"; sleep 2; rm -rf ~/pokec/dur-fluree; mkdir -p ~/pokec/dur-fluree; cd ~/pokec/dur-fluree
 export FLUREE_CYPHER_ALLOW_FULL_SCAN=1 FLUREE_STORAGE_FSYNC=wal; unset FLUREE_REINDEX_MIN_BYTES
 $FBIN init >/dev/null; $FBIN create pokec --from $DATA/pokec_small_import.cypher >/dev/null 2>&1; sync

@@ -1,15 +1,15 @@
 {
-  "status": "Run 2026-06-10..12 (fractional-ms timings via curl %{time_total}; per-run response bodies saved and archived to S3): Fluree, QLever, Virtuoso, MillenniumDB benchmarked on fresh boxes; Jena benchmarked 2026-06-05 with whole-second timing precision (too slow to reload, ~32h). Fluree v4.0.6: 105/105 PASSED -- the only engine to answer all 105, including the string/regex/groupconcat heavyweights (group-by-implicit-string-min/max ~120ms, group-by-string-groupconcat 1.9s via the SUM(STRLEN(GROUP_CONCAT)) algebraic identity, distinct-count 2ms, regex/str* family 8-33s). Passed: Fluree 105/105, QLever 91/105, Virtuoso 81/105 (cost-estimation gate disabled; loaded 8.168B with wktLiteral pre-filtered), MillenniumDB 67/105 (full load), Apache Jena 31/105 (whole-second timings). Blazegraph EXCLUDED (silently drops blank nodes; at its scale ceiling at 8B). 105 queries, 1 warmup + 3 runs, 300s timeout (early-abort). Run artifacts incl. per-query result bodies: s3://fluree-benchmark-data/runs/wikidata-truthy-20260610/. Engine-vs-engine on this box only; not comparable to the paper's 2025-04-18 snapshot.",
+  "status": "Fluree v4.2.6 measured 2026-11-12; QLever, Virtuoso and MillenniumDB measured 2026-06-10..12; Apache Jena measured 2026-06-05 with whole-second timing precision (its ~32 h load made a re-run impractical). Each engine ran on its own AWS r7a.16xlarge of the same specification. Fluree v4.2.6: 105/105 completed with no timeouts -- the only engine to answer all 105. Passed: Fluree 105/105, QLever 91/105, Virtuoso 81/105 (cost-estimation gate disabled; loaded 8.168B with wktLiteral pre-filtered), MillenniumDB 67/105 (full load), Apache Jena 31/105 (whole-second timings). Blazegraph EXCLUDED (silently drops blank nodes; at its scale ceiling at 8B). 105 queries, 1 warmup + 3 runs, 300s timeout (early-abort), fractional-ms timings via curl %{time_total}. Engine-vs-engine on this hardware specification only; not comparable to the paper's 2025-04-18 snapshot.",
   "dataset": {
     "name": "Wikidata Truthy",
-    "description": "Wikidata 'truthy' dump (latest-truthy.nt.gz)",
+    "description": "Wikidata 'truthy' dump (latest-truthy.nt.gz): 8,186,371,175 N-Triples lines, 8,180,602,084 distinct triples",
     "source_url": "https://dumps.wikimedia.org/wikidatawiki/entities/latest-truthy.nt.gz",
     "version": "snapshot 2026-05-29 11:17:24 GMT (rolling latest; pinned as GitHub release wikidata-truthy-source-20260529). Paper used 'as of 2025-04-18', no longer on the live mirror.",
     "sha256": "9fb5a16502ac05d9b9aad9f161bfe4e3e9ac514e142d7cf5ae4efd030b9f739a",
-    "triples": 8186371175,
+    "triples": 8180602084,
     "predicates": 13306,
     "subjects": 250814143,
-    "objects": 1660872132,
+    "objects": 1671906898,
     "size_disk": "70,497,233,745 bytes (~70.5 GB compressed .nt.gz; ~700 GB+ uncompressed)"
   },
   "hardware": {
@@ -31,15 +31,15 @@
   "engines": {
     "fluree": {
       "label": "Fluree",
-      "version": "v4.0.6",
-      "config": "server cache auto (~252 GB / 50% RAM); inline-indexed ledger; ulimit -n raised to 1048576 for the import. Built from source: cargo build --release -p fluree-db-cli; benchmarked natively 2026-06-12. v4.0.6 includes per-distinct-string folds for regex/contains/strlen aggregates, COUNT(DISTINCT) from POST lead groups, materialized encoded bindings for value-folding aggregates, and SUM(STRLEN(GROUP_CONCAT)) via algebraic identity.",
+      "version": "v4.2.6",
+      "config": "Official x86_64 Linux release binary (`fluree --version` = `fluree 4.2.6`). Import: `fluree create wikidata --from <shards dir>` with default (automatic) settings -- memory budget 403,980 MB, parallelism 64, chunk size 768 MB; ulimit -n 1048576. Server: `fluree server run --listen-addr 127.0.0.1:8090`, default cache. Measured 2026-11-12.",
       "import": {
-        "time": "5,227 s (1:27:07)",
-        "throughput": "1.57 M flakes/s",
-        "peak_ram": "~104 GB",
-        "index_size": "201 GB",
-        "notes": "Ledger imported 2026-06-10: 8,186,371,175 flakes across 2047 commits @ 1.57 M flakes/s, 201 GB index. Imported from a directory of 2047 single-member gzip shards (~4M triples each, re-split from the 70 GB multi-member gzip): Fluree's streaming chunker requires single-member shards for this high-prefix-cardinality data. Sanity COUNT(*) = 8,186,371,175 (exact match).",
-        "phases": "parse+commit to storage, then single-threaded index sort/merge buffering (peak ~104 GB RAM), then flush to 201 GB index"
+        "time": "4,964 s (1:22:44)",
+        "throughput": "1.65 M input triples/s",
+        "peak_ram": "252.6 GB peak RSS (includes memory the allocator had freed but not yet returned; available system memory stayed above 381 GB of 505 GB during the import)",
+        "index_size": "211 GB",
+        "notes": "Imported 2026-11-12 from the pinned dump (SHA-256 verified), re-split into 2,047 single-member gzip shards of 4,000,000 lines each: 8,186,371,175 input lines in 4,964 s (1.65 M/s), 2,047 commits, 211,031,698,039-byte ledger. Fluree stores distinct triples: 5,769,091 duplicate statements collapsed, and COUNT(*) after import = 8,180,602,084.",
+        "phases": ""
       }
     },
     "qlever": {
@@ -52,7 +52,7 @@
         "throughput": "0.95 M triples/s",
         "peak_ram": "n/a (mmap index)",
         "index_size": "180 GB",
-        "notes": "Parallel-parsed the single N-Triples stream (no @prefix) at ~2.8M/s from pigz -dc. QLever indexed 8,180,599,054 triples (Fluree 8,186,371,175; +0.07% delta — QLever dedups exact-duplicate triples). First attempt failed merging 816 partial vocabularies on the default 1024 fd limit inside Docker; fixed with --ulimit nofile=1048576 and re-ran.",
+        "notes": "Parallel-parsed the single N-Triples stream (no @prefix) at ~2.8M/s from pigz -dc. QLever indexed 8,180,599,054 triples (Fluree: 8,180,602,084 distinct triples, 3,030 more). First attempt failed merging 816 partial vocabularies on the default 1024 fd limit inside Docker; fixed with --ulimit nofile=1048576 and re-ran.",
         "phases": "parse ~48min, then convert-to-global-ids + 6-permutation sort/build"
       }
     },
@@ -80,7 +80,7 @@
         "throughput": "0.45 M triples/s",
         "peak_ram": "n/a",
         "index_size": "327 GB",
-        "notes": "Imported 8,180,602,084 triples (matches QLever's 8.18B exactly -- cleanest full load of the non-Fluree/QLever engines, no data loss). Server buffer total must stay below available RAM (288GB total failed to allocate right after the import).",
+        "notes": "Imported 8,180,602,084 triples (the same distinct-triple count as Fluree -- cleanest full load of the non-Fluree/QLever engines, no data loss). Server buffer total must stay below available RAM (288GB total failed to allocate right after the import).",
         "phases": ""
       }
     },
@@ -94,23 +94,23 @@
         "throughput": "n/a",
         "peak_ram": "n/a",
         "index_size": "655 GB",
-        "notes": "Loaded the full 8,186,371,175 triples (matches Fluree exactly). By far the slowest loader: xloader phases nodes -> ingest data -> build SPO/POS/OSP permutations (each a sort over 8.19B), ~32h total. Largest index of all engines (655 GB).",
+        "notes": "Loaded the full 8,186,371,175 input triples. By far the slowest loader: xloader phases nodes -> ingest data -> build SPO/POS/OSP permutations (each a sort over 8.19B), ~32h total. Largest index of all engines (655 GB).",
         "phases": "node table -> data ingest -> 3 permutation index builds (SPO/POS/OSP)"
       }
     }
   },
   "caveats": [
     "Wikidata Truthy is the second dataset with a published SPARQLoscope reference (alongside DBLP).",
-    "NOT comparable to the published SPARQLoscope table / paper: that used the 2025-04-18 truthy snapshot (~7.94B, gone from the live mirror); this is the current 2026-05-29 snapshot (~8.19B). Engine-vs-engine on this box is valid; absolute per-query COUNTs will not match the paper's reference yaml.",
-    "Fluree is v4.0.6, benchmarked 2026-06-12: 105/105 passed. Per-distinct-string folds, COUNT(DISTINCT)-from-POST-lead-groups, and the SUM(STRLEN(GROUP_CONCAT)) algebraic identity let the string/regex/groupconcat heavyweights complete (group-by-implicit-string-min/max ~120 ms, group-by-string-groupconcat 1.9 s, distinct-count-object-low-multiplicity 2 ms, regex family 8.7-33 s, str* family 7.9-9.0 s). With zero failures the P=2/P=10 penalized means equal the plain means. Fluree is COUNT-optimized and the SPARQLoscope queries are COUNT-dominated — weigh the aggregate lead accordingly.",
-    "Timings are recorded as fractional milliseconds from curl's %{time_total}, and every successful response body is saved (--save-outputs) and archived under s3://fluree-benchmark-data/runs/wikidata-truthy-20260610/<engine>/query-outputs/ as a debugging record. Jena's numbers carry whole-second rounding (benchmarked 2026-06-05; the ~32 h reload made re-benchmarking on the fractional-ms harness impractical).",
-    "Full-bench timings at this scale are cache-state sensitive: several queries (union-constraint family, filter-language-en, transitive paths, join-3-chain) measure 15-80% differently between full-bench context and isolated execution, and between full-bench runs, with no binary change — established by interleaved same-box A/B testing. Treat per-query deltas under ~20% between runs as within environmental noise unless reproduced isolated.",
+    "NOT comparable to the published SPARQLoscope table / paper: that used the 2025-04-18 truthy snapshot (~7.94B, gone from the live mirror); this is the 2026-05-29 snapshot (~8.19B input lines). Engine-vs-engine on this hardware specification is valid; absolute per-query COUNTs will not match the paper's reference yaml.",
+    "Fluree v4.2.6, measured 2026-11-12 with the official release binary and default settings: 105/105 completed, no timeouts. With zero failures the P=2/P=10 penalized means equal the plain means. Many SPARQLoscope queries are COUNT-dominated, which suits Fluree — weigh the aggregate lead accordingly. Fluree is not fastest everywhere: QLever leads the String / REGEX prefix queries, filter-language-en and several dataset-statistics counts (number-of-objects: Fluree 542 ms vs QLever 1.2 ms), and Virtuoso, MillenniumDB or Jena lead a number of small-result joins (see §1b–§1c).",
+    "Timings are recorded as fractional milliseconds from curl's %{time_total}. For QLever, Virtuoso and MillenniumDB every successful response body was saved (--save-outputs) and archived under s3://fluree-benchmark-data/runs/wikidata-truthy-20260610/<engine>/query-outputs/ as a debugging record. Jena's numbers carry whole-second rounding (benchmarked 2026-06-05; the ~32 h reload made re-benchmarking on the fractional-ms harness impractical).",
+    "The engines were not measured at the same time: Fluree v4.2.6 ran on 2026-11-12, the other engines in June 2026, each on its own r7a.16xlarge with the same disk configuration, the same pinned dump and the same harness and query files. Full-sweep timings at this scale are also cache-state sensitive (the same query can measure tens of percent differently depending on what ran before it), so treat per-query differences under ~20% as within environmental noise.",
     "QLever result cache disabled + cleared per query (re-executes each run) to match Fluree's no-result-cache behavior; stricter than the paper's run-once-with-warm-cache protocol.",
-    "Triple-count delta: Fluree 8,186,371,175 vs QLever 8,180,599,054 (+0.07%) — different exact-duplicate handling on import (QLever dedups exact-duplicate triples). Both agree exactly on 13,306 predicates and 250,814,143 subjects; distinct-object counts differ (Fluree 1,660,872,132 vs QLever 1,671,827,330, ~0.66%) — literal-normalization difference.",
-    "Both engines required a raised open-file limit (nofile 1048576) to index 8B triples: Fluree's import and QLever's vocabulary merge each hit the default 1024 fd limit (Fluree natively; QLever inside Docker via --ulimit).",
-    "Result-equivalence (per-query correctness): a 60s spot-check shows count queries mostly agree exactly between engines (e.g. exists-join-2-large-large-with-large-result = 1,702,521,603 both); join-family queries (exists/minus/optional with small results) diverge ~0.2-0.7%, tracking the triple-count delta plus OPTIONAL/blank-node semantics. (Full multi-row result-equivalence diffing is out of scope for this run.)",
+    "Counting answers: Fluree stores distinct triples — COUNT(*) = 8,180,602,084 from 8,186,371,175 input lines (5,769,091 duplicate statements collapsed) — the same count MillenniumDB imported. QLever indexed 8,180,599,054 (3,030 fewer). Fluree and QLever agree exactly on 13,306 predicates and 250,814,143 subjects. Literal counts differ by the same 3,030 (Fluree 6,788,371,325 vs QLever 6,788,368,295) and distinct-object counts by 79,568 (Fluree 1,671,906,898 vs QLever 1,671,827,330, 0.005%); the cause of these differences was not investigated.",
+    "Both Fluree and QLever were indexed with a raised open-file limit (nofile 1048576): Fluree's import ran with ulimit -n 1048576, and QLever's vocabulary merge failed on the default 1024 fd limit inside Docker until --ulimit was set.",
+    "Result-equivalence (per-query correctness): no full multi-row result-equivalence diff was run. The counting answers above are the cross-engine check available for this run; all 105 Fluree responses returned HTTP 200.",
     "Virtuoso (benchmarked 2026-06-11) loaded 8,168,210,937 triples: Wikidata's geo:wktLiteral coordinates trigger Virtuoso's RDFGE error which aborts whole load shards (no INI flag to disable), so this run pre-filters wktLiteral from all shards uniformly (~11.5M geo-coordinate triples dropped, see common/engine-setup/virtuoso.md). To give Virtuoso its best result, the stock ini's MaxQueryCostEstimationTime=400 gate was disabled (=0) -- with it, Virtuoso rejects the big join queries with HTTP 500 'estimated execution time exceeds the limit' before executing (join-2-largest-result and others would not run at all); the 300s execution timeout still applies. 81/105 passed.",
     "MillenniumDB (benchmarked 2026-06-11) loaded the full 8,180,602,084 triples (matches QLever exactly). 67/105 passed, no HTTP errors -- slowest of the loaded engines on the heavy COUNT/join/string categories, but a clean complete load. COUNT(*) is not verifiable post-load on MDB (a full scan exceeds its own 300s timeout); load verified by import stats + the 327 GB index.",
-    "Apache Jena loaded the full 8,186,371,175 triples but is the weakest at query time: 31/105 passed, 74 timeouts (no HTTP errors). Cold TDB2 page reads on the 655 GB index + no COUNT fastpath mean the COUNT-dominated SPARQLoscope queries overwhelmingly hit the 300s cap (geo-mean P=2 93.6s, median maxed at 300s)."
+    "Apache Jena loaded the full 8,186,371,175 triples but is the weakest at query time: 31/105 passed, 74 timeouts (no HTTP errors). Cold TDB2 page reads on the 655 GB index + no COUNT fastpath mean the COUNT-dominated SPARQLoscope queries overwhelmingly hit the 300s cap (geo-mean P=2 151.5 s; with 74 of 105 queries timing out, the median query hits the 300 s cap)."
   ]
 }

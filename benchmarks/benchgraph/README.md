@@ -1,4 +1,4 @@
-# Pokec / Cypher — Fluree v4.2.1 benchmark results
+# Pokec / Cypher — Fluree v4.2.6 benchmark results
 
 > **Fluree can store and query graphs larger than RAM.** Fluree and Neo4j use disk-backed
 > storage, so the entire database does not have to fit in memory. **Memgraph and FalkorDB,
@@ -33,15 +33,15 @@ read/write kind.
 
 ## Results
 
-**[→ Full report: Fluree v4.2.1 vs native Memgraph, Neo4j & FalkorDB](reports/pokec/REPORT.md)**
+**[→ Full report: Fluree v4.2.6 vs native Memgraph, Neo4j & FalkorDB](reports/pokec/REPORT.md)**
 ([raw per-engine TSVs](reports/pokec/engines/) · [per-query medians](reports/pokec/summary.tsv) ·
 [durability verification](reports/pokec/engines/durability/) · [run metadata](reports/pokec/meta.json))
 
-**Fluree v4.2.1 has the lowest geometric-mean latency for reads and durable writes at
-all three scales.** At large (1.6 M nodes / 30.6 M edges), reads are **3.17–5.49× faster**
-and durable writes **1.46–1.98× faster** than FalkorDB, Memgraph and Neo4j.
+**Fluree v4.2.6 has the lowest geometric-mean latency for reads and durable writes at
+all three scales.** At large (1.6 M nodes / 30.6 M edges), reads are **3.40–5.89× faster**
+and durable writes **1.82–2.47× faster** than FalkorDB, Memgraph and Neo4j.
 
-All four engines complete **35/35 queries at every scale** on one AWS `m7a.4xlarge`
+All four engines complete **35/35 queries at every scale** on AWS `m7a.4xlarge` hardware
 (16 cores / 64 GB), with persistent client connections and per-commit durable writes.
 The [durability traces](reports/pokec/engines/durability/) record flush syscalls in each
 measured configuration. Completion means no execution errors; result-count differences
@@ -59,36 +59,40 @@ Fluree is than each engine. **Bold = fastest in the row.**
 
 | scale | Fluree | Memgraph | Neo4j | FalkorDB | vs Memgraph | vs Neo4j | vs FalkorDB |
 |---|---|---|---|---|--:|--:|--:|
-| small | **2.57** | 3.25 | 2.93 | 3.15 | 1.26× faster | 1.14× faster | 1.22× faster |
-| medium | **2.82** | 3.70 | 3.56 | 3.62 | 1.31× faster | 1.26× faster | 1.28× faster |
-| large | **3.39** | 5.45 | 6.70 | 4.94 | 1.61× faster | 1.98× faster | 1.46× faster |
+| small | **2.39** | 3.25 | 2.93 | 3.15 | 1.36× faster | 1.23× faster | 1.32× faster |
+| medium | **2.51** | 3.70 | 3.56 | 3.62 | 1.47× faster | 1.42× faster | 1.44× faster |
+| large | **2.71** | 5.45 | 6.70 | 4.94 | 2.01× faster | 2.47× faster | 1.82× faster |
 
 **Read-only** (27 queries; Fluree lowest geometric mean at every scale):
 
 | scale | Fluree | Memgraph | Neo4j | FalkorDB | vs Memgraph | vs Neo4j | vs FalkorDB |
 |---|---|---|---|---|--:|--:|--:|
-| small | **0.77** | 1.54 | 3.38 | 0.88 | 1.99× faster | 4.37× faster | 1.14× faster |
-| medium | **1.29** | 3.86 | 6.56 | 2.42 | 3.00× faster | 5.09× faster | 1.88× faster |
-| large | **1.90** | 7.22 | 10.41 | 6.01 | 3.81× faster | 5.49× faster | 3.17× faster |
+| small | **0.71** | 1.54 | 3.38 | 0.88 | 2.16× faster | 4.74× faster | 1.24× faster |
+| medium | **1.23** | 3.86 | 6.56 | 2.42 | 3.14× faster | 5.33× faster | 1.97× faster |
+| large | **1.77** | 7.22 | 10.41 | 6.01 | 4.09× faster | 5.89× faster | 3.40× faster |
 
-The read advantage over the next-fastest engine grows from **1.14× at small to 3.17×
-at large**. At large, Fluree's five aggregate queries average **1.55 ms**, compared with
-221–266 ms for the other engines (**143–172× faster**). Fluree also leads the
+The read advantage over the next-fastest engine grows from **1.24× at small to 3.40×
+at large**. At large, Fluree's five aggregate queries average **1.52 ms**, compared with
+221–266 ms for the other engines (**145–175× faster**). Fluree also leads the
 neighbourhood and shortest-path category geometric means at that scale.
 
 Individual-query results show the limits of those averages. Fluree leads unfiltered
 three- and four-hop expansion at large; FalkorDB leads the expansion category overall
-(4.71 vs 6.45 ms) and point lookups (0.38 vs 0.57 ms). Neo4j's large `shortest_path`
-advantage is small: **2.07 vs 2.19 ms, about 6% faster**. The larger write gaps are
-`create__edge`, the 100-row batch insert, and `create__pattern` at large; full timings
+(4.71 vs 6.14 ms) and point lookups (0.38 vs 0.48 ms). Fluree is the fastest engine on
+the large `shortest_path` query (1.83 ms vs Neo4j's 2.07 ms), while Memgraph is faster on
+the other two path queries. The main write gap is the 100-row batch insert
+(`unwind_range_vertex_write`: 7.53 ms vs FalkorDB's 3.53 ms at large); Neo4j is also
+faster on `create__vertex_big` at large (2.32 vs 2.72 ms). Full timings
 and ratios are in the [per-query appendix](reports/pokec/REPORT.md#appendix--per-query-medians).
 
-Measured September 11, 2026, using Fluree source build `0f26d9d6a`; the exact build and
-configuration are recorded in [meta.json](reports/pokec/meta.json). These are single-client
+Fluree v4.2.6 was measured November 12, 2026, using the official release binary.
+Memgraph, Neo4j and FalkorDB were not re-run; their measurements are from September 11,
+2026, on the same instance type. The exact
+configuration is recorded in [meta.json](reports/pokec/meta.json). These are single-client
 latency measurements with the graphs fitting in RAM; they do not measure concurrent
 throughput or performance beyond RAM capacity.
 
-This replaces the July 2026 v4.1.2 results. Absolute times are not directly comparable:
+Absolute times are not directly comparable with the July 2026 v4.1.2 results:
 the earlier run used `r8a.4xlarge` hardware and a new Fluree TCP connection per request.
 **Correction to the previous report:** its Fluree writes were described as fsync-durable,
 but that storage implementation did not fsync each commit. This run uses per-commit WAL
@@ -102,7 +106,7 @@ To reproduce the whole four-engine run on a box:
 
 ## Reproduce the published HTTP measurements
 
-Use the measured source build (`0f26d9d6a`) and a freshly imported Pokec ledger with
+Use the official Fluree v4.2.6 release binary and a freshly imported Pokec ledger with
 `FLUREE_STORAGE_FSYNC=wal` as described under Setup. The committed
 [`params_small.json`](params_small.json), [`params_medium.json`](params_medium.json), and
 [`params_large.json`](params_large.json) contain the exact draws shared by all four engines.
@@ -153,7 +157,16 @@ mkdir -p data
 curl -L -o data/pokec_small_import.cypher \
   https://s3.eu-west-1.amazonaws.com/deps.memgraph.io/dataset/pokec/benchmark/pokec_small_import.cypher
 
-# 2. import the .cypher dump natively + serve over HTTP
+# 2. install the official Fluree v4.2.6 release binary (x86_64 Linux tarball; the release's
+#    fluree-db-cli-installer.sh is the alternative) and put it on PATH
+fluree_release=https://github.com/fluree/db/releases/download/v4.2.6
+mkdir -p "$HOME/fluree-v4.2.6"
+curl -fL "$fluree_release/fluree-db-cli-x86_64-unknown-linux-gnu.tar.xz" \
+  | tar -xJ -C "$HOME/fluree-v4.2.6" --strip-components=1
+export PATH="$HOME/fluree-v4.2.6:$PATH"
+fluree --version   # fluree 4.2.6
+
+# 3. import the .cypher dump natively + serve over HTTP
 #    fluree create --from *.cypher ingests the exact same file Memgraph/Neo4j load —
 #    no Turtle conversion, no @vocab context; bare Cypher names resolve directly.
 mkdir -p fluree-data && cd fluree-data
