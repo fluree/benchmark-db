@@ -121,18 +121,18 @@ measured September 2026, not re-run.
 ## Other benchmarks
 
 These are separate measurements; each report records its own engine versions, hardware
-and configuration. WGPB was measured September 12, 2026, using Fluree v4.2.1;
+and configuration. WGPB was measured November 14, 2026, using Fluree v4.2.7;
 Wikidata-truthy was measured November 12, 2026, using Fluree v4.2.6 (the other engines
 in that report were measured in June 2026).
 
 | Benchmark | Dataset | Fluree completed | Fluree geometric mean | Comparison |
 |---|---|---:|---:|---|
 | [Wikidata-truthy / SPARQLoscope — Fluree v4.2.6](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) | 8.181 B distinct triples | 105/105 | 276.4 ms | QLever: 13.9× the latency |
-| [Wikidata Graph Pattern Benchmark — Fluree v4.2.1](benchmarks/wgpb/reports/wikidata-all/REPORT.md) | 21.127 B distinct triples | 850/850 | 20.165 ms | Fluree only |
+| [Wikidata Graph Pattern Benchmark — Fluree v4.2.7](benchmarks/wgpb/reports/wikidata-all/REPORT.md) | 21.127 B distinct triples | 850/850 | 14.364 ms | Fluree only |
 
 WGPB uses the full Wikidata all-dump: 21.512 billion input records reconcile to
 21.127 billion distinct triples. The run used one warmup and three measured HTTP
-requests per query on an AWS `r7a.8xlarge` (32 vCPU / 256 GiB); 99.2% of per-query
+requests per query on an AWS `r7a.8xlarge` (32 vCPU / 256 GiB); 99.3% of per-query
 medians were under one second, with no errors or timeouts.
 [Raw timings and validation evidence](benchmarks/wgpb/reports/wikidata-all/evidence/README.md)
 accompany the report.

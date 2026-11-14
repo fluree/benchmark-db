@@ -11,7 +11,7 @@
       "returned_pairs": 2,
       "missing_solution_indices": [],
       "valid": true,
-      "diagnostic_seconds": 60.036331852999865
+      "diagnostic_seconds": 0.018689338000058342
     },
     {
       "predicate": "P2547",
@@ -19,7 +19,7 @@
       "returned_pairs": 1,
       "missing_solution_indices": [],
       "valid": true,
-      "diagnostic_seconds": 0.007794035999950211
+      "diagnostic_seconds": 0.0035779830000137736
     },
     {
       "predicate": "P1082",
@@ -27,7 +27,7 @@
       "returned_pairs": 7744,
       "missing_solution_indices": [],
       "valid": true,
-      "diagnostic_seconds": 0.2240804149998894
+      "diagnostic_seconds": 1.152442304000033
     }
   ]
 }

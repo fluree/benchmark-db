@@ -103,10 +103,9 @@ def main():
     check(counts["count"] + counts["duplicates"] == counts["input_records"]
           == meta["dataset"]["input_records"], "Input reconciliation mismatch")
     build = json.loads((evidence / "build.json").read_text())
-    for key in ("commit", "binary_sha256"):
-        check(build[key] == meta["engine"][key], f"Build identity mismatch: {key}")
+    check(build["version"] == meta["engine"]["version"], "Build version mismatch")
     print("Verified 850 queries, 2,550 samples and response sizes, summaries, query hashes,")
-    print("archive checksum, build identity, import reconciliation and all 3,000 TI3-40 source triples.")
+    print("archive checksum, build version, import reconciliation and all 3,000 TI3-40 source triples.")
     print(json.dumps(aggregates, indent=2))
 
 

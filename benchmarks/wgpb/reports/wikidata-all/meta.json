@@ -1,5 +1,5 @@
 {
-  "status": "Measured September 12, 2026: Fluree v4.2.1, 850/850 queries completed, no errors or timeouts.",
+  "status": "Measured November 14, 2026: Fluree v4.2.7, 850/850 queries completed, no errors or timeouts.",
   "benchmark": {
     "name": "Wikidata Graph Pattern Benchmark (WGPB)",
     "description": "850 basic graph pattern queries: 17 join shapes x 50 predicate instantiations. SELECT * ... LIMIT 1000 over Wikidata predicates; see the exact queries and archived hashes.",
@@ -22,21 +22,19 @@
     "source_url": "https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.nt.gz",
     "version": "snapshot dated 2026-06-04; pinned in S3 as wikidata-all/all-2026-06-04.nt.gz",
     "size_source": "250,036,308,745 bytes compressed (~3 TB uncompressed N-Triples)",
-    "triples": 21127103263,
+    "triples": 21127057160,
     "input_records": 21512007172,
-    "duplicate_input_records": 384903909,
+    "duplicate_input_records": 384950012,
     "shards": 5379,
     "shard_archive": "s3://fluree-benchmark-data/wikidata-all/shards-4m-v1/i-03ebd7567db755b63/shards.tar",
     "shard_archive_sha256": "c7cff7d23252ca31ada396cdf76c551ff19f621be9b567cfd13f41b30d3e061a"
   },
   "engine": {
     "name": "Fluree",
-    "version": "v4.2.1",
-    "commit": "5529b53ea41f349b18b8ff0980a4b738de51b497",
-    "binary_sha256": "d7eaa5ea2b45fa9feb1dd26c528dea45f901e567c988ceebdda1d5ec512ab820",
+    "version": "v4.2.7",
     "build_provenance": "evidence/build.json",
-    "import": "Retained database imported September 8, 2026; reused without reimport or rechunking. Import timing is not a v4.2.1 measurement.",
-    "ledger_size_bytes_at_import": 842218632692,
+    "import": "Retained database imported November 12, 2026 (5,379 verified shards, 21,580 s, peak import RSS 234 GiB); reused without reimport or rechunking.",
+    "ledger_size_bytes_at_import": 841586356521,
     "server": "HTTP SPARQL endpoint on loopback, WARN logging, FLUREE_CACHE_MAX_MB=88311"
   },
   "hardware": {
@@ -53,8 +51,8 @@
     "metric": "median",
     "timeout_s": 120,
     "accept": "text/tab-separated-values",
-    "notes": "Sequential queries in filename order; startup prime and TI3-40 JSON probe precede the suite. One warmup and three measured HTTP requests per query; curl time_total includes transfer. No cache clearing. One full-suite pass; no concurrency or cold-cache claim.",
-    "measured_at": "2026-09-12",
+    "notes": "Sequential queries in filename order; startup prime and TI3-40 JSON probe precede the suite. One warmup and three measured HTTP requests per query; curl time_total includes transfer. No cache clearing. One full-suite pass is reported; a second full pass on the same server confirmed it (geometric mean 15.12 ms). No concurrency or cold-cache claim.",
+    "measured_at": "2026-11-14",
     "query_correction": "J4-38: LIMIT 1000 placed after the closing WHERE brace; triple patterns and predicates unchanged.",
     "result_size_unit": "response bytes"
   },
@@ -63,14 +61,15 @@
     "measured_requests": 2550,
     "timeouts": 0,
     "errors": 0,
-    "geo_mean_ms": 20.16473757479598,
-    "median_ms": 16.442999999999998,
-    "arith_mean_ms": 90.89851411764705,
-    "max_ms": 3559.72,
-    "slowest_query": "P4-03",
-    "under_100ms": 672,
-    "under_500ms": 815,
-    "under_1000ms": 843
+    "geo_mean_ms": 14.36420687050953,
+    "median_ms": 10.211500000000001,
+    "arith_mean_ms": 70.79186352941177,
+    "max_ms": 1849.628,
+    "slowest_query": "S3-05",
+    "under_100ms": 724,
+    "under_500ms": 816,
+    "under_1000ms": 844,
+    "peak_server_rss_gib": 154.2
   },
   "evidence": {
     "archive": "evidence/artifacts.tar.gz",

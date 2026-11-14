@@ -1,8 +1,8 @@
 # Wikidata Graph Pattern Benchmark (WGPB)
 
-**Fluree v4.2.1 completed 850/850 queries with a 20.165 ms geometric mean** on
-September 12, 2026, against 21.127 billion distinct Wikidata triples on one AWS
-`r7a.8xlarge` (32 vCPU / 256 GiB). The median was 16.443 ms; 99.2% of queries
+**Fluree v4.2.7 completed 850/850 queries with a 14.364 ms geometric mean** on
+November 14, 2026, against 21.127 billion distinct Wikidata triples on one AWS
+`r7a.8xlarge` (32 vCPU / 256 GiB). The median was 10.212 ms; 99.3% of queries
 completed in under one second. No errors or timeouts occurred.
 
 [Full report](reports/wikidata-all/REPORT.md) ·
@@ -27,7 +27,7 @@ Algorithm for SPARQL* (ISWC 2019), [WGPB on Zenodo](https://zenodo.org/record/40
 
 ## Running
 
-Use the v4.2.1 source build identified in the [report](reports/wikidata-all/REPORT.md#3-hardware-build-and-timing-protocol)
+Use the Fluree v4.2.7 release identified in the [report](reports/wikidata-all/REPORT.md#3-hardware-build-and-timing-protocol)
 and an imported `wikidata` ledger. From the ledger directory, start the server:
 
 ```bash
