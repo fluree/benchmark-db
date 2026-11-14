@@ -235,18 +235,18 @@ def make_wikidata_chart():
     # Penalized geo mean per the SPARQLoscope paper: a failed/timed-out query
     # counts as 2x the 300 s timeout (P=2).
     wd_rows = [
-        ("Fluree",          276.4,  "1.0×", "105/105"),
-        ("QLever",         3833, "13.9×",  "91/105"),
-        ("Virtuoso",      12900, "46.7×",  "81/105"),
-        ("MillenniumDB",  28700,  "104×",  "67/105"),
-        ("Jena",         151500,  "548×",  "31/105"),
+        ("Fluree",          270.9,  "1.0×", "105/105"),
+        ("QLever",         3833, "14.2×",  "91/105"),
+        ("Virtuoso",      12900, "47.6×",  "81/105"),
+        ("MillenniumDB",  28700,  "106×",  "67/105"),
+        ("Jena",         151500,  "559×",  "31/105"),
     ]
     os.makedirs(OUT, exist_ok=True)
     open(os.path.join(OUT, "wikidata-truthy-geomean.svg"), "w").write(
         geomean_chart(
             wd_rows,
             "Wikidata-truthy (8.18B distinct triples) · geometric-mean query time (penalized, P=2)",
-            "5 engines · r7a.16xlarge (64c/512GB) · Fluree v4.2.6 · "
+            "5 engines · r7a.16xlarge (64c/512GB) · Fluree v4.2.7 · "
             "failed query = 2× the 300 s timeout · linear, lower is better",
             hi=30000, nticks=6, cap=30000))
 

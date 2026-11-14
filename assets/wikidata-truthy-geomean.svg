@@ -2,7 +2,7 @@
 <defs><pattern id='offscale' width='6' height='6' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'><rect width='6' height='6' fill='#64748b'/><line x1='0' y1='0' x2='0' y2='6' stroke='white' stroke-width='2'/></pattern></defs>
 <rect width='760' height='311' fill='white'/>
 <text x='20' y='26' font-size='17' font-weight='700' fill='#1e293b'>Wikidata-truthy (8.18B distinct triples) · geometric-mean query time (penalized, P=2)</text>
-<text x='20' y='46' font-size='12.5' fill='#64748b'>5 engines · r7a.16xlarge (64c/512GB) · Fluree v4.2.6 · failed query = 2× the 300 s timeout · linear, lower</text>
+<text x='20' y='46' font-size='12.5' fill='#64748b'>5 engines · r7a.16xlarge (64c/512GB) · Fluree v4.2.7 · failed query = 2× the 300 s timeout · linear, lower</text>
 <text x='20' y='64' font-size='12.5' fill='#64748b'>is better</text>
 <line x1='150.0' y1='82' x2='150.0' y2='267' stroke='#e2e8f0' stroke-width='1'/>
 <text x='150.0' y='283' font-size='11' fill='#64748b' text-anchor='middle'>0 ms</text>
@@ -19,20 +19,20 @@
 <line x1='728.0' y1='82' x2='728.0' y2='267' stroke='#e2e8f0' stroke-width='1'/>
 <text x='728.0' y='283' font-size='11' fill='#64748b' text-anchor='middle'>30 s</text>
 <text x='140' y='104.5' font-size='12.5' font-weight='700' fill='#1e293b' text-anchor='end'>Fluree</text>
-<rect x='150' y='89.4' width='5.3' height='22.2' rx='2' fill='#0d9488'/>
-<text x='163.3' y='104.5' font-size='12' font-weight='700' fill='#1e293b'>276.4 ms  <tspan fill='#64748b'>1.0× · 105/105</tspan></text>
+<rect x='150' y='89.4' width='5.2' height='22.2' rx='2' fill='#0d9488'/>
+<text x='163.2' y='104.5' font-size='12' font-weight='700' fill='#1e293b'>270.9 ms  <tspan fill='#64748b'>1.0× · 105/105</tspan></text>
 <text x='140' y='141.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>QLever</text>
 <rect x='150' y='126.4' width='73.8' height='22.2' rx='2' fill='#64748b'/>
-<text x='231.8' y='141.5' font-size='12' font-weight='400' fill='#1e293b'>3.8 s  <tspan fill='#64748b'>13.9× · 91/105</tspan></text>
+<text x='231.8' y='141.5' font-size='12' font-weight='400' fill='#1e293b'>3.8 s  <tspan fill='#64748b'>14.2× · 91/105</tspan></text>
 <text x='140' y='178.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Virtuoso</text>
 <rect x='150' y='163.4' width='248.5' height='22.2' rx='2' fill='#64748b'/>
-<text x='406.5' y='178.5' font-size='12' font-weight='400' fill='#1e293b'>12.9 s  <tspan fill='#64748b'>46.7× · 81/105</tspan></text>
+<text x='406.5' y='178.5' font-size='12' font-weight='400' fill='#1e293b'>12.9 s  <tspan fill='#64748b'>47.6× · 81/105</tspan></text>
 <text x='140' y='215.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>MillenniumDB</text>
 <rect x='150' y='200.4' width='553.0' height='22.2' rx='2' fill='#64748b'/>
-<text x='695.0' y='215.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>28.7 s   104× · 67/105</text>
+<text x='695.0' y='215.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>28.7 s   106× · 67/105</text>
 <text x='140' y='252.5' font-size='12.5' font-weight='400' fill='#1e293b' text-anchor='end'>Jena</text>
 <rect x='150' y='237.4' width='578.0' height='22.2' rx='2' fill='url(#offscale)'/>
 <rect x='492.8' y='237.4' width='235.2' height='22.2' fill='#64748b'/>
-<text x='720.0' y='252.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>151.5 s   548× · 31/105  ▶ off-scale</text>
+<text x='720.0' y='252.5' font-size='12' font-weight='700' fill='white' text-anchor='end'>151.5 s   559× · 31/105  ▶ off-scale</text>
 <text x='380' y='304' text-anchor='middle' font-size='13' font-weight='700' fill='#1e293b'>LOWER IS FASTER · shorter bars = less time</text>
 </svg>

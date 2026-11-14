@@ -7,9 +7,9 @@ and other engines, with datasets, hardware, versions, raw timings and setup comm
 
 | RDF / SPARQL · [DBLP-core](benchmarks/sparqloscope/reports/dblp-core/REPORT.md) | Property graph / Cypher · [Pokec](benchmarks/benchgraph/reports/pokec/REPORT.md) |
 |---|---|
-| **12.1× faster than QLever · 18.0× faster than Virtuoso** | **3.40–5.89× faster reads · 1.82–2.47× faster durable writes** than FalkorDB, Memgraph and Neo4j |
-| Fluree **v4.2.6** · 561 M triples · **105/105 queries complete** | Fluree **v4.2.6** · 1.6 M nodes / 30.6 M edges · **35/35 queries complete** |
-| **16.7 ms** penalized geometric-mean latency (P=2) | **1.77 ms reads · 2.71 ms durable writes**, geometric means at large scale |
+| **12.1× faster than QLever · 18.0× faster than Virtuoso** | **3.42–5.93× faster reads · 1.98–2.68× faster durable writes** than FalkorDB, Memgraph and Neo4j |
+| Fluree **v4.2.6** · 561 M triples · **105/105 queries complete** | Fluree **v4.2.7** · 1.6 M nodes / 30.6 M edges · **35/35 queries complete** |
+| **16.7 ms** penalized geometric-mean latency (P=2) | **1.76 ms reads · 2.50 ms durable writes**, geometric means at large scale |
 
 Each comparison uses its own workload and protocol; timings are comparable within a
 benchmark. **The DBLP-core and Pokec charts show latency (lower is faster); the BSBM
@@ -49,14 +49,14 @@ June 11, 2026, on the same instance class and dataset.
 > impose limits on disk-backed engines. See the [storage-mode comparison](benchmarks/benchgraph/README.md)
 > for details, including Memgraph's separate on-disk mode, which was not tested.
 
-**3.40–5.89× faster reads and 1.82–2.47× faster durable writes** on Pokec's
+**3.42–5.93× faster reads and 1.98–2.68× faster durable writes** on Pokec's
 1.6 million nodes and 30.6 million edges, compared with FalkorDB, Memgraph and Neo4j.
 Fluree has the lowest geometric-mean latency for both reads and writes at all three
 measured scales. All four engines run on AWS `m7a.4xlarge` hardware (16 cores / 64 GB).
 
-![Pokec reads across three graph sizes: Fluree v4.2.6 has the lowest geometric-mean latency at each scale; lower is faster](assets/pokec-reads-scaling.svg)
+![Pokec reads across three graph sizes: Fluree v4.2.7 has the lowest geometric-mean latency at each scale; lower is faster](assets/pokec-reads-scaling.svg)
 
-![Pokec durable writes across three graph sizes: Fluree v4.2.6 has the lowest geometric-mean latency at each scale; lower is faster](assets/pokec-writes-scaling.svg)
+![Pokec durable writes across three graph sizes: Fluree v4.2.7 has the lowest geometric-mean latency at each scale; lower is faster](assets/pokec-writes-scaling.svg)
 
 Geometric means of per-query medians: **27 reads and 8 writes**, measured separately
 with persistent client connections. Every engine uses per-commit durable writes;
@@ -66,14 +66,14 @@ completion does not imply identical results. The
 [report's correctness notes](benchmarks/benchgraph/reports/pokec/REPORT.md#5-methodology--caveats)
 detail differences on two read queries at small/medium scale. Some individual queries
 favor other engines; for example, FalkorDB's large-scale 100-row batch insert
-(`unwind_range_vertex_write`) is 2.13× faster (3.53 vs 7.53 ms).
+(`unwind_range_vertex_write`) is 1.83× faster (3.53 vs 6.45 ms).
 
 → **[Full Pokec report](benchmarks/benchgraph/reports/pokec/REPORT.md)** ·
 [results at all three scales & reproduction](benchmarks/benchgraph/README.md) ·
 [raw timings](benchmarks/benchgraph/reports/pokec/engines/) ·
 [run metadata](benchmarks/benchgraph/reports/pokec/meta.json)
 
-Fluree: official v4.2.6 release binary, measured November 12, 2026. Other engines:
+Fluree: v4.2.7 release build, measured November 14, 2026. Other engines:
 September 11, 2026, on the same instance type.
 
 ## RDF / SPARQL throughput — BSBM: QLever and Virtuoso
@@ -122,12 +122,12 @@ measured September 2026, not re-run.
 
 These are separate measurements; each report records its own engine versions, hardware
 and configuration. WGPB was measured November 14, 2026, using Fluree v4.2.7;
-Wikidata-truthy was measured November 12, 2026, using Fluree v4.2.6 (the other engines
+Wikidata-truthy was measured November 14, 2026, using Fluree v4.2.7 (the other engines
 in that report were measured in June 2026).
 
 | Benchmark | Dataset | Fluree completed | Fluree geometric mean | Comparison |
 |---|---|---:|---:|---|
-| [Wikidata-truthy / SPARQLoscope — Fluree v4.2.6](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) | 8.181 B distinct triples | 105/105 | 276.4 ms | QLever: 13.9× the latency |
+| [Wikidata-truthy / SPARQLoscope — Fluree v4.2.7](benchmarks/sparqloscope/reports/wikidata-truthy/REPORT.md) | 8.181 B distinct triples | 105/105 | 270.9 ms | QLever: 14.2× the latency |
 | [Wikidata Graph Pattern Benchmark — Fluree v4.2.7](benchmarks/wgpb/reports/wikidata-all/REPORT.md) | 21.127 B distinct triples | 850/850 | 14.364 ms | Fluree only |
 
 WGPB uses the full Wikidata all-dump: 21.512 billion input records reconcile to
