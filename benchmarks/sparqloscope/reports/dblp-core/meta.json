@@ -1,5 +1,5 @@
 {
-  "status": "Fluree v4.2.6: 105/105 queries, 16.7 ms geometric mean; QLever 202.4 ms and Virtuoso 299.7 ms. Native engines on matching m7a.4xlarge hardware, using the same DBLP snapshot and 105 queries.",
+  "status": "Fluree v4.2.7: 105/105 queries, 16.6 ms geometric mean; QLever 202.4 ms and Virtuoso 299.7 ms. Native engines on matching m7a.4xlarge hardware, using the same DBLP snapshot and 105 queries.",
   "dataset": {
     "name": "DBLP-core (bibliography only)",
     "description": "Standard DBLP RDF bibliography, no OpenCitations citations \u2014 DROPS monthly archive 2026-06-01",
@@ -34,16 +34,16 @@
   "engines": {
     "fluree": {
       "label": "Fluree",
-      "version": "v4.2.6",
-      "config": "Official x86_64 Linux release binary, checksum verified. Fresh native import; default auto cache and Sync durability. Local HTTP TSV; no result cache.",
+      "version": "v4.2.7",
+      "config": "v4.2.7 release build for x86_64 Linux (`fluree --version` = `fluree 4.2.7`). Queries run on the retained ledger from the 2026-11-12 native import of the same store (not re-imported; COUNT(*) re-checked = 561,477,456). Before the sweep the ledger was read into the page cache and a fresh server was started. Default auto cache and Sync durability. Local HTTP TSV; no result cache.",
       "import": {
         "time": "764 s",
         "throughput": "0.735 M tr/s",
         "peak_ram": "not recorded for this run",
         "index_size": "29.69 GB ledger directory",
-        "notes": "fluree create dblp --from dblp.nt; 561,477,456 distinct statements. Wall time of the import command as timed by the reproduce script (whole seconds), including import completion and statistics; single import measurement."
+        "notes": "From the 2026-11-12 import of this store by the release reproduction run; the 2026-11-14 query run reused that ledger and did not re-import. fluree create dblp --from dblp.nt; 561,477,456 distinct statements; 29,689,795,723-byte ledger directory. Wall time of the import command as timed by the reproduce script (whole seconds), including import completion and statistics; single import measurement."
       },
-      "measured_at": "2026-11-12"
+      "measured_at": "2026-11-14"
     },
     "qlever": {
       "label": "QLever",
@@ -131,7 +131,7 @@
     }
   },
   "caveats": [
-    "Fluree measured 2026-11-12; other engines measured 2026-06-11. Dedicated hosts of the same instance class, not the same physical host. Absolute timings can vary between hosts.",
+    "Fluree measured 2026-11-14 (on the ledger imported 2026-11-12); other engines measured 2026-06-11. Dedicated hosts of the same instance class, not the same physical host. Absolute timings can vary between hosts.",
     "All engines use the pinned 2026-06-01 DBLP archive. This differs from the older snapshots used in the SPARQLoscope paper, so absolute timings are not directly comparable to that paper.",
     "Virtuoso uses chunked TTLP loading; its ld_dir loader was broken in the tested Ubuntu package.",
     "Jena starts with a cold JVM/TDB cache and a 54 GB index on a 64 GB host; its completion count is cache-state sensitive.",
@@ -141,7 +141,6 @@
   ],
   "provenance": {
     "fluree": {
-      "manifest": "v426-release/binary-manifest.json",
       "harness": "v426-release/harness-sha256.json",
       "raw_timings": "engines/fluree.tsv",
       "summary": "engines/fluree_summary.tsv"

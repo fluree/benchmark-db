@@ -7,9 +7,9 @@ and other engines, with datasets, hardware, versions, raw timings and setup comm
 
 | RDF / SPARQL · [DBLP-core](benchmarks/sparqloscope/reports/dblp-core/REPORT.md) | Property graph / Cypher · [Pokec](benchmarks/benchgraph/reports/pokec/REPORT.md) |
 |---|---|
-| **12.1× faster than QLever · 18.0× faster than Virtuoso** | **3.42–5.93× faster reads · 1.98–2.68× faster durable writes** than FalkorDB, Memgraph and Neo4j |
-| Fluree **v4.2.6** · 561 M triples · **105/105 queries complete** | Fluree **v4.2.7** · 1.6 M nodes / 30.6 M edges · **35/35 queries complete** |
-| **16.7 ms** penalized geometric-mean latency (P=2) | **1.76 ms reads · 2.50 ms durable writes**, geometric means at large scale |
+| **12.2× faster than QLever · 18.1× faster than Virtuoso** | **3.42–5.93× faster reads · 1.98–2.68× faster durable writes** than FalkorDB, Memgraph and Neo4j |
+| Fluree **v4.2.7** · 561 M triples · **105/105 queries complete** | Fluree **v4.2.7** · 1.6 M nodes / 30.6 M edges · **35/35 queries complete** |
+| **16.6 ms** penalized geometric-mean latency (P=2) | **1.76 ms reads · 2.50 ms durable writes**, geometric means at large scale |
 
 Each comparison uses its own workload and protocol; timings are comparable within a
 benchmark. **The DBLP-core and Pokec charts show latency (lower is faster); the BSBM
@@ -18,17 +18,17 @@ correctness notes accompany each report.
 
 ## RDF / SPARQL — DBLP-core: 7 engines, matched hardware
 
-**Fluree v4.2.6 answers all 105 queries with a 16.7 ms geometric mean** on
-561 million triples. QLever averages 202.4 ms and Virtuoso 299.7 ms—**12.1× and
-18.0× Fluree's latency**, respectively. All seven engines use matching AWS
+**Fluree v4.2.7 answers all 105 queries with a 16.6 ms geometric mean** on
+561 million triples. QLever averages 202.4 ms and Virtuoso 299.7 ms—**12.2× and
+18.1× Fluree's latency**, respectively. All seven engines use matching AWS
 `m7a.4xlarge` hardware (16 cores / 64 GB).
 
 ![DBLP-core geometric-mean query time, all 7 engines on matched hardware; lower is faster](assets/dblp-core-geomean.svg)
 
-| metric | **Fluree v4.2.6** | QLever | Virtuoso | MillenniumDB | Jena | Oxigraph | Blazegraph |
+| metric | **Fluree v4.2.7** | QLever | Virtuoso | MillenniumDB | Jena | Oxigraph | Blazegraph |
 |---|---|---|---|---|---|---|---|
 | **queries passed** | **105/105** | 105/105 | 103/105 | 103/105 | 34/105 | 39/105 | 3/105 |
-| **geo mean (P=2)** | **16.7 ms (1.0×)** | 202.4 ms (12.1×) | 299.7 ms (18.0×) | 1,664.2 ms (99.9×) | 67.7 s (4060.2×) | 87.0 s (5223.4×) | 332.9 s (19975.9×) |
+| **geo mean (P=2)** | **16.6 ms (1.0×)** | 202.4 ms (12.2×) | 299.7 ms (18.1×) | 1,664.2 ms (100.4×) | 67.7 s (4079.7×) | 87.0 s (5248.6×) | 332.9 s (20072.2×) |
 
 _Geometric mean uses all 105 queries; failures count as 2× the 180-second timeout
 (SPARQLoscope P=2). Lower is faster. The full report includes P=10 and per-query results._
@@ -37,8 +37,9 @@ _Geometric mean uses all 105 queries; failures count as 2× the 180-second timeo
 [per-engine raw TSVs](benchmarks/sparqloscope/reports/dblp-core/engines/) ·
 [run metadata & setup facts](benchmarks/sparqloscope/reports/dblp-core/meta.json)
 
-Fluree: official v4.2.6 binary, measured November 12, 2026. Other engines:
-June 11, 2026, on the same instance class and dataset.
+Fluree: v4.2.7 release build, measured November 14, 2026, on the ledger imported
+November 12, 2026 (not re-imported). Other engines: June 11, 2026, on the same
+instance class and dataset.
 [Reproduce the Fluree run](benchmarks/sparqloscope/reports/dblp-core/v426-release/REPORT.md).
 
 ## Property graph / Cypher — Pokec: reads and durable writes
