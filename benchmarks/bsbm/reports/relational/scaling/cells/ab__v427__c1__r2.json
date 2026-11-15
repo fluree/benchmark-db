@@ -1,0 +1,118 @@
+{
+  "label": "ab__v427__c1__r2",
+  "workload": "explore",
+  "clients": 1,
+  "runs": 1400,
+  "warmups": 1000,
+  "engine": "fluree",
+  "scale": "100m",
+  "command": [
+    "java",
+    "-cp",
+    "diagnostic-classes:.:lib/*",
+    "-Xmx24G",
+    "-Dbsbm.keepAlive=true",
+    "-Dhttp.maxConnections=256",
+    "-Dlog4j.configuration=file:/home/ubuntu/log4j-warn.xml",
+    "-Xlog:gc:file=/home/ubuntu/results/cells/ab__v427__c1__r2.gc.log",
+    "benchmark.testdriver.TestDriver",
+    "-idir",
+    "/home/ubuntu/data",
+    "-ucf",
+    "usecases/explore/sparql.txt",
+    "-runs",
+    "1400",
+    "-w",
+    "1000",
+    "-seed",
+    "808080",
+    "-t",
+    "300000",
+    "-o",
+    "/home/ubuntu/results/cells/ab__v427__c1__r2.xml",
+    "-mt",
+    "1",
+    "http://172.31.74.56:8182/v1/fluree/query/bsbm:main"
+  ],
+  "started_at": "2026-11-14T20:55:34.770507+00:00",
+  "process_exit": 0,
+  "wall_seconds": 341.15738264599713,
+  "ended_at": "2026-11-14T21:01:15.932232+00:00",
+  "valid": true,
+  "driver_errors": false,
+  "qmph": 25768.36,
+  "seconds": 195.589,
+  "completed_mixes": 1400,
+  "executions": 35000,
+  "timeouts": 0,
+  "result_counts": {
+    "1": {
+      "executecount": "1400",
+      "avgresults": "7.85",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "2": {
+      "executecount": "8400",
+      "avgresults": "19.47",
+      "minresults": "5",
+      "maxresults": "35"
+    },
+    "3": {
+      "executecount": "1400",
+      "avgresults": "5.49",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "4": {
+      "executecount": "1400",
+      "avgresults": "7.90",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "5": {
+      "executecount": "2800",
+      "avgresults": "5.00",
+      "minresults": "3",
+      "maxresults": "5"
+    },
+    "7": {
+      "executecount": "5600",
+      "avgresults": "11.92",
+      "minresults": "1",
+      "maxresults": "119"
+    },
+    "8": {
+      "executecount": "2800",
+      "avgresults": "5.03",
+      "minresults": "0",
+      "maxresults": "18"
+    },
+    "9": {
+      "executecount": "5600",
+      "avgresults": "904.57",
+      "minresults": "889",
+      "maxresults": "917"
+    },
+    "10": {
+      "executecount": "2800",
+      "avgresults": "1.93",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "11": {
+      "executecount": "1400",
+      "avgresults": "10.00",
+      "minresults": "10",
+      "maxresults": "10"
+    },
+    "12": {
+      "executecount": "1400",
+      "avgresults": "1156.96",
+      "minresults": "1121",
+      "maxresults": "1198"
+    }
+  },
+  "qps": 178.94694444444445,
+  "minimum_duration": true
+}

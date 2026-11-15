@@ -1,0 +1,118 @@
+{
+  "label": "sa__nlj__p64__c128__r2",
+  "workload": "explore",
+  "clients": 128,
+  "runs": 64000,
+  "warmups": 1000,
+  "engine": "fluree",
+  "scale": "100m",
+  "command": [
+    "java",
+    "-cp",
+    "diagnostic-classes:.:lib/*",
+    "-Xmx24G",
+    "-Dbsbm.keepAlive=true",
+    "-Dhttp.maxConnections=256",
+    "-Dlog4j.configuration=file:/home/ubuntu/log4j-warn.xml",
+    "-Xlog:gc:file=/home/ubuntu/results/cells/sa__nlj__p64__c128__r2.gc.log",
+    "benchmark.testdriver.TestDriver",
+    "-idir",
+    "/home/ubuntu/data",
+    "-ucf",
+    "usecases/explore/sparql.txt",
+    "-runs",
+    "64000",
+    "-w",
+    "1000",
+    "-seed",
+    "808080",
+    "-t",
+    "300000",
+    "-o",
+    "/home/ubuntu/results/cells/sa__nlj__p64__c128__r2.xml",
+    "-mt",
+    "128",
+    "http://172.31.74.56:8182/v1/fluree/query/bsbm:main"
+  ],
+  "started_at": "2026-11-14T22:08:04.101389+00:00",
+  "process_exit": 0,
+  "wall_seconds": 161.39339657099845,
+  "ended_at": "2026-11-14T22:10:45.496626+00:00",
+  "valid": true,
+  "driver_errors": false,
+  "qmph": 1502218.84,
+  "seconds": 153.373,
+  "completed_mixes": 64000,
+  "executions": 1600000,
+  "timeouts": 0,
+  "result_counts": {
+    "1": {
+      "executecount": "64000",
+      "avgresults": "7.82",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "2": {
+      "executecount": "384000",
+      "avgresults": "19.44",
+      "minresults": "3",
+      "maxresults": "42"
+    },
+    "3": {
+      "executecount": "64000",
+      "avgresults": "5.30",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "4": {
+      "executecount": "64000",
+      "avgresults": "7.73",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "5": {
+      "executecount": "128000",
+      "avgresults": "5.00",
+      "minresults": "0",
+      "maxresults": "5"
+    },
+    "7": {
+      "executecount": "256000",
+      "avgresults": "11.87",
+      "minresults": "1",
+      "maxresults": "130"
+    },
+    "8": {
+      "executecount": "128000",
+      "avgresults": "4.97",
+      "minresults": "0",
+      "maxresults": "20"
+    },
+    "9": {
+      "executecount": "256000",
+      "avgresults": "904.58",
+      "minresults": "884",
+      "maxresults": "920"
+    },
+    "10": {
+      "executecount": "128000",
+      "avgresults": "1.89",
+      "minresults": "0",
+      "maxresults": "10"
+    },
+    "11": {
+      "executecount": "64000",
+      "avgresults": "10.00",
+      "minresults": "10",
+      "maxresults": "10"
+    },
+    "12": {
+      "executecount": "64000",
+      "avgresults": "1156.71",
+      "minresults": "1116",
+      "maxresults": "1205"
+    }
+  },
+  "qps": 10432.075277777778,
+  "minimum_duration": true
+}

@@ -1,0 +1,11 @@
+total 5380436
+-rw-rw-r-- 1 ubuntu ubuntu   18715782 Nov 14 16:03 01ProductFeature.sql
+-rw-rw-r-- 1 ubuntu ubuntu     790284 Nov 14 16:03 02ProductType.sql
+-rw-rw-r-- 1 ubuntu ubuntu    2407113 Nov 14 16:03 03Producer.sql
+-rw-rw-r-- 1 ubuntu ubuntu  415441122 Nov 14 16:03 04Product.sql
+-rw-rw-r-- 1 ubuntu ubuntu   17027202 Nov 14 16:03 05ProductTypeProduct.sql
+-rw-rw-r-- 1 ubuntu ubuntu   75925395 Nov 14 16:03 06ProductFeatureProduct.sql
+-rw-rw-r-- 1 ubuntu ubuntu    1234755 Nov 14 16:03 07Vendor.sql
+-rw-rw-r-- 1 ubuntu ubuntu  974860455 Nov 14 16:03 08Offer.sql
+-rw-rw-r-- 1 ubuntu ubuntu   12781304 Nov 14 16:03 09Person.sql
+-rw-rw-r-- 1 ubuntu ubuntu 3990350163 Nov 14 16:03 10Review.sql

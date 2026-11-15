@@ -1,0 +1,134 @@
+<?xml version="1.0"?><bsbm>
+  <querymix>
+     <scalefactor>284826</scalefactor>
+     <warmups>1000</warmups>
+     <nrthreads>1</nrthreads>
+     <seed>808080</seed>
+     <querymixruns>1400</querymixruns>
+     <minquerymixruntime>0.0414</minquerymixruntime>
+     <maxquerymixruntime>0.2347</maxquerymixruntime>
+     <totalruntime>176.945</totalruntime>
+     <actualtotalruntime>177.347</actualtotalruntime>
+     <qmph>28418.93</qmph>
+     <cqet>0.12639</cqet>
+     <cqetg>0.12192</cqetg>
+  </querymix>
+  <queries>
+    <query nr="1">
+      <executecount>1400</executecount>
+      <aqet>0.001430</aqet>
+      <aqetg>0.001218</aqetg>
+      <qps>697.84</qps>
+      <minqet>0.00048117</minqet>
+      <maxqet>0.00934419</maxqet>
+      <avgresults>7.82</avgresults>
+      <minresults>0</minresults>
+      <maxresults>10</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="2">
+      <executecount>8400</executecount>
+      <aqet>0.000429</aqet>
+      <aqetg>0.000413</aqetg>
+      <qps>2324.54</qps>
+      <minqet>0.00034708</minqet>
+      <maxqet>0.00441819</maxqet>
+      <avgresults>19.42</avgresults>
+      <minresults>6</minresults>
+      <maxresults>37</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="3">
+      <executecount>1400</executecount>
+      <aqet>0.001296</aqet>
+      <aqetg>0.001108</aqetg>
+      <qps>770.08</qps>
+      <minqet>0.00047262</minqet>
+      <maxqet>0.00753251</maxqet>
+      <avgresults>5.34</avgresults>
+      <minresults>0</minresults>
+      <maxresults>10</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="4">
+      <executecount>1400</executecount>
+      <aqet>0.001387</aqet>
+      <aqetg>0.001183</aqetg>
+      <qps>719.17</qps>
+      <minqet>0.00052299</minqet>
+      <maxqet>0.00885069</maxqet>
+      <avgresults>7.87</avgresults>
+      <minresults>0</minresults>
+      <maxresults>10</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="5">
+      <executecount>2800</executecount>
+      <aqet>0.042097</aqet>
+      <aqetg>0.034953</aqetg>
+      <qps>23.70</qps>
+      <minqet>0.00169203</minqet>
+      <maxqet>0.10558472</maxqet>
+      <avgresults>5.00</avgresults>
+      <minresults>1</minresults>
+      <maxresults>5</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="6">
+      <executecount>0</executecount>
+      <aqet>0.0</aqet>
+    </query>
+    <query nr="7">
+      <executecount>5600</executecount>
+      <aqet>0.005878</aqet>
+      <aqetg>0.004663</aqetg>
+      <qps>169.75</qps>
+      <minqet>0.00040658</minqet>
+      <maxqet>0.01945597</maxqet>
+      <avgresults>11.70</avgresults>
+      <minresults>1</minresults>
+      <maxresults>104</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="8">
+      <executecount>2800</executecount>
+      <aqet>0.004843</aqet>
+      <aqetg>0.003718</aqetg>
+      <qps>206.00</qps>
+      <minqet>0.00034710</minqet>
+      <maxqet>0.01577804</maxqet>
+      <avgresults>5.01</avgresults>
+      <minresults>0</minresults>
+      <maxresults>18</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="9">
+      <executecount>0</executecount>
+      <aqet>0.0</aqet>
+    </query>
+    <query nr="10">
+      <executecount>2800</executecount>
+      <aqet>0.000980</aqet>
+      <aqetg>0.000772</aqetg>
+      <qps>1018.49</qps>
+      <minqet>0.00036393</minqet>
+      <maxqet>0.00747439</maxqet>
+      <avgresults>1.94</avgresults>
+      <minresults>0</minresults>
+      <maxresults>9</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+    <query nr="11">
+      <executecount>1400</executecount>
+      <aqet>0.000352</aqet>
+      <aqetg>0.000340</aqetg>
+      <qps>2835.84</qps>
+      <minqet>0.00029959</minqet>
+      <maxqet>0.00171352</maxqet>
+      <avgresults>1.00</avgresults>
+      <minresults>1</minresults>
+      <maxresults>1</maxresults>
+      <timeoutcount>0</timeoutcount>
+    </query>
+  </queries>
+</bsbm>

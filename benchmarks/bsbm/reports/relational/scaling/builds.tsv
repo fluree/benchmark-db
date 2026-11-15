@@ -1,0 +1,5 @@
+build	source
+fluree-v4.2.7	release v4.2.7
+dev-2404	perf/nlj-leaflet-subject-skip 538af308
+dev-2405-preshard	perf/leaflet-cache-contention 7d8f0e09
+dev-2405-sharded	perf/leaflet-cache-contention d6951064
