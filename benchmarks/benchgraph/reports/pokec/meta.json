@@ -1,5 +1,5 @@
 {
-  "status": "Fluree v4.2.7 measured 2026-11-14 on an AWS m7a.4xlarge with the v4.2.7 release build; Memgraph, Neo4j and FalkorDB were not re-run and keep their 2026-09-11 measurements from the same instance type. Fluree v4.2.7 has the lowest read and durable-write geometric means at all three Pokec scales. All 35 queries complete without execution errors on all four engines. Two read queries have result-count differences at small/medium scale; see REPORT.md section 5, including a comparison excluding both queries.",
+  "status": "Fluree v4.2.7 measured 2026-11-14 on an AWS m7a.4xlarge; Memgraph, Neo4j and FalkorDB were not re-run and keep their 2026-09-11 measurements from the same instance type. Fluree v4.2.7 has the lowest read and durable-write geometric means at all three Pokec scales. All 35 queries complete without execution errors on all four engines. Two read queries have result-count differences at small/medium scale; see REPORT.md section 5, including a comparison excluding both queries.",
   "dataset": {
     "name": "Pokec (benchgraph / mgbench)",
     "description": "Slovak Pokec social network, Memgraph's published benchgraph distribution. Single :User node label, single Friend relationship type, no edge properties.",
@@ -55,7 +55,7 @@
     "fluree": {
       "label": "Fluree",
       "version": "v4.2.7",
-      "config": "Fluree v4.2.7 release build for x86_64 Linux (release profile, default features). Served over the HTTP/JSON API (fluree server run, default log level). FLUREE_STORAGE_FSYNC=wal (per-commit WAL fdatasync), background indexing at the shipped default threshold, FLUREE_CYPHER_ALLOW_FULL_SCAN=1 for whole-graph aggregate queries. Every measured query runs end-to-end through Fluree's Cypher surface (verbatim Neo4j query texts); SPARQL plays no part at query time.",
+      "config": "Fluree v4.2.7 for x86_64 Linux (release profile, default features). Served over the HTTP/JSON API (fluree server run, default log level). FLUREE_STORAGE_FSYNC=wal (per-commit WAL fdatasync), background indexing at the shipped default threshold, FLUREE_CYPHER_ALLOW_FULL_SCAN=1 for whole-graph aggregate queries. Every measured query runs end-to-end through Fluree's Cypher surface (verbatim Neo4j query texts); SPARQL plays no part at query time.",
       "transport": "HTTP (JSON), one keep-alive connection",
       "durability": "per-commit WAL fdatasync, durable on-disk index",
       "in_memory": false,

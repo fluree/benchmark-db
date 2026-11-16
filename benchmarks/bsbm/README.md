@@ -266,7 +266,7 @@ Protocol details are in [`capacity/README.md`](capacity/README.md). In summary:
 
 | | |
 |---|---|
-| Release | **Fluree v4.2.7**, release build (`x86_64-unknown-linux-gnu`) |
+| Release | **Fluree v4.2.7** (`x86_64-unknown-linux-gnu`) |
 | Server | `fluree server run --listen-addr 0.0.0.0:8182 --log-level warn` |
 | Environment | `FLUREE_STORAGE_FSYNC=1`, `FLUREE_INDEXING_ENABLED=true`, `FLUREE_REINDEX_MIN_BYTES=2097152` (import and serving) |
 

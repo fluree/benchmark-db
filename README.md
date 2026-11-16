@@ -37,7 +37,7 @@ _Geometric mean uses all 105 queries; failures count as 2× the 180-second timeo
 [per-engine raw TSVs](benchmarks/sparqloscope/reports/dblp-core/engines/) ·
 [run metadata & setup facts](benchmarks/sparqloscope/reports/dblp-core/meta.json)
 
-Fluree: v4.2.7 release build, measured November 14, 2026, on the ledger imported
+Fluree: v4.2.7, measured November 14, 2026, on the ledger imported
 November 12, 2026 (not re-imported). Other engines: June 11, 2026, on the same
 instance class and dataset.
 [Reproduce the Fluree run](benchmarks/sparqloscope/reports/dblp-core/v426-release/REPORT.md).
@@ -74,7 +74,7 @@ favor other engines; for example, FalkorDB's large-scale 100-row batch insert
 [raw timings](benchmarks/benchgraph/reports/pokec/engines/) ·
 [run metadata](benchmarks/benchgraph/reports/pokec/meta.json)
 
-Fluree: v4.2.7 release build, measured November 14, 2026. Other engines:
+Fluree: v4.2.7, measured November 14, 2026. Other engines:
 September 11, 2026, on the same instance type.
 
 ## RDF / SPARQL throughput — BSBM: QLever and Virtuoso
@@ -116,7 +116,7 @@ lists the coverage and caveats.
 [cross-engine cells](benchmarks/bsbm/reports/v4.2.7/comparison.tsv) ·
 [raw driver XML](benchmarks/bsbm/reports/v4.2.7/runs/)
 
-Fluree: v4.2.7 release build, measured November 14, 2026. QLever and Virtuoso:
+Fluree: v4.2.7, measured November 14, 2026. QLever and Virtuoso:
 measured September 2026, not re-run.
 
 ## Other benchmarks

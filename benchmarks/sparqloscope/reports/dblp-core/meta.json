@@ -35,7 +35,7 @@
     "fluree": {
       "label": "Fluree",
       "version": "v4.2.7",
-      "config": "v4.2.7 release build for x86_64 Linux (`fluree --version` = `fluree 4.2.7`). Queries run on the retained ledger from the 2026-11-12 native import of the same store (not re-imported; COUNT(*) re-checked = 561,477,456). Before the sweep the ledger was read into the page cache and a fresh server was started. Default auto cache and Sync durability. Local HTTP TSV; no result cache.",
+      "config": "x86_64 Linux build (`fluree --version` = `fluree 4.2.7`). Queries run on the retained ledger from the 2026-11-12 native import of the same store (not re-imported; COUNT(*) re-checked = 561,477,456). Before the sweep the ledger was read into the page cache and a fresh server was started. Default auto cache and Sync durability. Local HTTP TSV; no result cache.",
       "import": {
         "time": "764 s",
         "throughput": "0.735 M tr/s",

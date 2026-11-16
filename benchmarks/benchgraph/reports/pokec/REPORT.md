@@ -5,7 +5,7 @@ At large (1.6 M nodes / 30.6 M edges), reads are **3.42–5.93× faster** and du
 writes **1.98–2.68× faster** than FalkorDB, Memgraph and Neo4j.
 
 Fluree v4.2.7 was measured November 14, 2026, on an AWS `m7a.4xlarge` (16 cores / 64 GB,
-Ubuntu 24.04) using the v4.2.7 release build. Memgraph, Neo4j and FalkorDB were not
+Ubuntu 24.04). Memgraph, Neo4j and FalkorDB were not
 re-run: their measurements are from September 11, 2026, on the same instance type, with
 the same protocol and query parameters. The 35-query [benchgraph](https://memgraph.com/benchgraph) suite runs through Fluree's
 HTTP Cypher endpoint, Memgraph 3.11.0 and Neo4j 5.26.30 Community over Bolt, and
@@ -156,7 +156,7 @@ cross-checked per query across all four engines, and the two differences found a
 
 | | version | transport | durability | in-memory? | install |
 |---|---|---|---|---|---|
-| **Fluree** | **v4.2.7** (`fluree --version`: `fluree 4.2.7`) | HTTP (JSON), keep-alive | per-commit WAL `fdatasync` + on-disk index | **no** (disk-backed + page cache) | v4.2.7 release build (x86_64 Linux) |
+| **Fluree** | **v4.2.7** (`fluree --version`: `fluree 4.2.7`) | HTTP (JSON), keep-alive | per-commit WAL `fdatasync` + on-disk index | **no** (disk-backed + page cache) | x86_64 Linux build |
 | **Memgraph** | 3.11.0 | Bolt 7687 | `--storage-wal-file-flush-every-n-tx=1` (per-commit fsync) | yes | official Docker image, `--network host` |
 | **Neo4j** | 5.26.30 Community | Bolt 7687 | durable by default | partly (page cache, disk store) | official Docker image, `--network host` |
 | **FalkorDB** | 4.20.4 (graph module `42004`, Redis 8.6.3) | RESP `GRAPH.QUERY` | Redis AOF `appendfsync always` | **yes** (RAM-resident graph) | official Docker image, `--network host` |

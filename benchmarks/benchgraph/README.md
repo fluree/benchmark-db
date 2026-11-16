@@ -85,7 +85,7 @@ the other two path queries. The main write gap is the 100-row batch insert
 engines are also faster on `create__edge` at large (3.54 ms vs Neo4j's 2.93 ms). Full timings
 and ratios are in the [per-query appendix](reports/pokec/REPORT.md#appendix--per-query-medians).
 
-Fluree v4.2.7 was measured November 14, 2026, using the v4.2.7 release build.
+Fluree v4.2.7 was measured November 14, 2026.
 Memgraph, Neo4j and FalkorDB were not re-run; their measurements are from September 11,
 2026, on the same instance type. The exact
 configuration is recorded in [meta.json](reports/pokec/meta.json). These are single-client

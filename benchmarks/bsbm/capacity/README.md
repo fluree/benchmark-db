@@ -29,7 +29,7 @@ python3 benchmarks/bsbm/capacity/run-cell.py \
 ```
 
 For QLever, use `--engine qlever`, endpoint `/`, `--workload select` and omit `--graph`. For Fluree, use `--engine fluree`, endpoint `/v1/fluree/query/bsbm:main` and omit `--graph`.
-The v4.2.7 results use the release build listed in the [BSBM README](../README.md#build-and-environment),
+The v4.2.7 results use the build listed in the [BSBM README](../README.md#build-and-environment),
 `FLUREE_STORAGE_FSYNC=1`, `FLUREE_INDEXING_ENABLED=true`,
 `FLUREE_REINDEX_MIN_BYTES=2097152`, and server `--log-level warn`. Set those environment
 variables for both import and serving.
