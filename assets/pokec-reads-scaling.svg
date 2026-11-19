@@ -36,12 +36,12 @@
 <circle cx='70.0' cy='360.0' r='3.4' fill='#e11d48'/>
 <circle cx='330.0' cy='321.9' r='3.4' fill='#e11d48'/>
 <circle cx='590.0' cy='232.8' r='3.4' fill='#e11d48'/>
-<polyline points='70.0,364.1 330.0,351.2 590.0,338.4' fill='none' stroke='#0d9488' stroke-width='3.2'/>
-<circle cx='70.0' cy='364.1' r='3.4' fill='#0d9488'/>
-<circle cx='330.0' cy='351.2' r='3.4' fill='#0d9488'/>
-<circle cx='590.0' cy='338.4' r='3.4' fill='#0d9488'/>
-<text x='602' y='342.4' font-size='12' font-weight='700' fill='#0d9488'>Fluree v4.2.7</text>
-<text x='602' y='356.4' font-size='10' fill='#64748b'>1.76 ms at large</text>
+<polyline points='70.0,364.5 330.0,350.1 590.0,337.0' fill='none' stroke='#0d9488' stroke-width='3.2'/>
+<circle cx='70.0' cy='364.5' r='3.4' fill='#0d9488'/>
+<circle cx='330.0' cy='350.1' r='3.4' fill='#0d9488'/>
+<circle cx='590.0' cy='337.0' r='3.4' fill='#0d9488'/>
+<text x='602' y='341.0' font-size='12' font-weight='700' fill='#0d9488'>Fluree v4.2.7</text>
+<text x='602' y='355.0' font-size='10' fill='#64748b'>1.81 ms at large</text>
 <text x='602' y='236.8' font-size='12' font-weight='400' fill='#e11d48'>FalkorDB</text>
 <text x='602' y='250.8' font-size='10' fill='#64748b'>6.01 ms at large</text>
 <text x='602' y='206.7' font-size='12' font-weight='400' fill='#f59e0b'>Memgraph</text>

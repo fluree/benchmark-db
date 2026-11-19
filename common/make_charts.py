@@ -246,7 +246,7 @@ def make_wikidata_chart():
         geomean_chart(
             wd_rows,
             "Wikidata-truthy (8.18B distinct triples) · geometric-mean query time (penalized, P=2)",
-            "5 engines · r7a.16xlarge (64c/512GB) · Fluree v4.2.7 · "
+            "5 engines · r7a.16xlarge (64c/512GB) · Fluree v4.2.8 · "
             "failed query = 2× the 300 s timeout · linear, lower is better",
             hi=30000, nticks=6, cap=30000))
 

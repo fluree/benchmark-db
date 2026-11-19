@@ -1,41 +1,41 @@
 query_id	description	run	status	time_ms	result_size	error
-arango__single_edge_write	CREATE edge between two matched users	run1	200	39.319	1	
-arango__single_edge_write	CREATE edge between two matched users	run2	200	7.475	1	
-arango__single_edge_write	CREATE edge between two matched users	run3	200	6.141	1	
-arango__single_edge_write	CREATE edge between two matched users	run4	200	5.380	1	
-arango__single_edge_write	CREATE edge between two matched users	run5	200	5.905	1	
-arango__single_vertex_write	CREATE UserTemp node	run1	200	7.931	1	
-arango__single_vertex_write	CREATE UserTemp node	run2	200	4.390	1	
-arango__single_vertex_write	CREATE UserTemp node	run3	200	6.026	1	
-arango__single_vertex_write	CREATE UserTemp node	run4	200	6.392	1	
-arango__single_vertex_write	CREATE UserTemp node	run5	200	4.105	1	
-arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run1	200	9.086	1	
-arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run2	200	9.869	1	
-arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run3	200	9.730	1	
-arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run4	200	9.300	1	
-arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run5	200	10.304	1	
-create__edge	CREATE TempEdge between matched users	run1	200	7.535	1	
-create__edge	CREATE TempEdge between matched users	run2	200	6.060	1	
-create__edge	CREATE TempEdge between matched users	run3	200	5.664	1	
-create__edge	CREATE TempEdge between matched users	run4	200	5.687	1	
-create__edge	CREATE TempEdge between matched users	run5	200	4.973	1	
-create__pattern	CREATE ()-[:TempEdge]->()	run1	200	9.754	1	
-create__pattern	CREATE ()-[:TempEdge]->()	run2	200	6.909	1	
-create__pattern	CREATE ()-[:TempEdge]->()	run3	200	4.753	1	
-create__pattern	CREATE ()-[:TempEdge]->()	run4	200	4.537	1	
-create__pattern	CREATE ()-[:TempEdge]->()	run5	200	4.244	1	
-create__vertex	CREATE () bare node	run1	200	5.058	1	
-create__vertex	CREATE () bare node	run2	200	4.165	1	
-create__vertex	CREATE () bare node	run3	200	3.648	1	
-create__vertex	CREATE () bare node	run4	200	4.119	1	
-create__vertex	CREATE () bare node	run5	200	4.110	1	
-create__vertex_big	CREATE node with 7 labels + 7 props	run1	200	4.120	1	
-create__vertex_big	CREATE node with 7 labels + 7 props	run2	200	10.976	1	
-create__vertex_big	CREATE node with 7 labels + 7 props	run3	200	5.961	1	
-create__vertex_big	CREATE node with 7 labels + 7 props	run4	200	4.984	1	
-create__vertex_big	CREATE node with 7 labels + 7 props	run5	200	4.471	1	
-update__vertex_on_property	SET n.property = -1 (label-less match)	run1	200	5.355	1	
-update__vertex_on_property	SET n.property = -1 (label-less match)	run2	200	4.295	1	
-update__vertex_on_property	SET n.property = -1 (label-less match)	run3	200	5.130	1	
-update__vertex_on_property	SET n.property = -1 (label-less match)	run4	200	4.306	1	
-update__vertex_on_property	SET n.property = -1 (label-less match)	run5	200	4.402	1	
+arango__single_edge_write	CREATE edge between two matched users	run1	200	38.920	1	
+arango__single_edge_write	CREATE edge between two matched users	run2	200	7.416	1	
+arango__single_edge_write	CREATE edge between two matched users	run3	200	6.573	1	
+arango__single_edge_write	CREATE edge between two matched users	run4	200	5.755	1	
+arango__single_edge_write	CREATE edge between two matched users	run5	200	8.411	1	
+arango__single_vertex_write	CREATE UserTemp node	run1	200	6.256	1	
+arango__single_vertex_write	CREATE UserTemp node	run2	200	4.994	1	
+arango__single_vertex_write	CREATE UserTemp node	run3	200	7.779	1	
+arango__single_vertex_write	CREATE UserTemp node	run4	200	5.486	1	
+arango__single_vertex_write	CREATE UserTemp node	run5	200	4.812	1	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run1	200	10.051	1	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run2	200	9.707	1	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run3	200	9.596	1	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run4	200	8.453	1	
+arango__unwind_range_vertex_write	UNWIND range(1,100) batch insert	run5	200	12.080	1	
+create__edge	CREATE TempEdge between matched users	run1	200	8.020	1	
+create__edge	CREATE TempEdge between matched users	run2	200	6.725	1	
+create__edge	CREATE TempEdge between matched users	run3	200	4.831	1	
+create__edge	CREATE TempEdge between matched users	run4	200	5.450	1	
+create__edge	CREATE TempEdge between matched users	run5	200	5.412	1	
+create__pattern	CREATE ()-[:TempEdge]->()	run1	200	9.028	1	
+create__pattern	CREATE ()-[:TempEdge]->()	run2	200	4.521	1	
+create__pattern	CREATE ()-[:TempEdge]->()	run3	200	6.596	1	
+create__pattern	CREATE ()-[:TempEdge]->()	run4	200	4.393	1	
+create__pattern	CREATE ()-[:TempEdge]->()	run5	200	4.875	1	
+create__vertex	CREATE () bare node	run1	200	5.935	1	
+create__vertex	CREATE () bare node	run2	200	5.934	1	
+create__vertex	CREATE () bare node	run3	200	4.093	1	
+create__vertex	CREATE () bare node	run4	200	4.032	1	
+create__vertex	CREATE () bare node	run5	200	4.308	1	
+create__vertex_big	CREATE node with 7 labels + 7 props	run1	200	7.834	1	
+create__vertex_big	CREATE node with 7 labels + 7 props	run2	200	8.185	1	
+create__vertex_big	CREATE node with 7 labels + 7 props	run3	200	4.439	1	
+create__vertex_big	CREATE node with 7 labels + 7 props	run4	200	5.261	1	
+create__vertex_big	CREATE node with 7 labels + 7 props	run5	200	4.734	1	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run1	200	4.876	1	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run2	200	4.934	1	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run3	200	5.545	1	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run4	200	5.484	1	
+update__vertex_on_property	SET n.property = -1 (label-less match)	run5	200	5.085	1	

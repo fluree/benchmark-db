@@ -9,7 +9,7 @@ in-memory engines for contrast. Raw `strace -c` output and runner TSVs are along
 |---|--:|--:|--:|--:|--:|---|
 | FalkorDB 4.20.4, AOF appendfsync always (measured) | 40 | 40 | 0 | 0 | 0 | yes |
 | FalkorDB 4.20.4, shipped default | 40 | 0 | 0 | 0 | 0 | no |
-| Fluree v4.2.7, FLUREE_STORAGE_FSYNC=wal (measured) | 40 | 45 | 2 | 4 | 135 | yes |
+| Fluree v4.2.8, FLUREE_STORAGE_FSYNC=wal (measured) | 40 | 44 | 2 | 4 | 108 | yes |
 | Memgraph 3.11.0, shipped default | 40 | 0 | 0 | 0 | 0 | no |
 | Memgraph 3.11.0, --storage-wal-file-flush-every-n-tx=1 (measured) | 40 | 0 | 40 | 0 | 0 | yes |
 | Neo4j 5.26.30, default (measured) | 40 | 57 | 0 | 0 | 0 | yes |

@@ -1,4 +1,4 @@
-# Pokec / Cypher — Fluree v4.2.7 benchmark results
+# Pokec / Cypher — Fluree v4.2.8 benchmark results
 
 > **Fluree can store and query graphs larger than RAM.** Fluree and Neo4j use disk-backed
 > storage, so the entire database does not have to fit in memory. **Memgraph and FalkorDB,
@@ -33,13 +33,13 @@ read/write kind.
 
 ## Results
 
-**[→ Full report: Fluree v4.2.7 vs native Memgraph, Neo4j & FalkorDB](reports/pokec/REPORT.md)**
+**[→ Full report: Fluree v4.2.8 vs native Memgraph, Neo4j & FalkorDB](reports/pokec/REPORT.md)**
 ([raw per-engine TSVs](reports/pokec/engines/) · [per-query medians](reports/pokec/summary.tsv) ·
 [durability verification](reports/pokec/engines/durability/) · [run metadata](reports/pokec/meta.json))
 
-**Fluree v4.2.7 has the lowest geometric-mean latency for reads and durable writes at
-all three scales.** At large (1.6 M nodes / 30.6 M edges), reads are **3.42–5.93× faster**
-and durable writes **1.98–2.68× faster** than FalkorDB, Memgraph and Neo4j.
+**Fluree v4.2.8 has the lowest geometric-mean latency for reads and durable writes at
+all three scales.** At large (1.6 M nodes / 30.6 M edges), reads are **3.32–5.75× faster**
+and durable writes **1.94–2.63× faster** than FalkorDB, Memgraph and Neo4j.
 
 All four engines complete **35/35 queries at every scale** on AWS `m7a.4xlarge` hardware
 (16 cores / 64 GB), with persistent client connections and per-commit durable writes.
@@ -59,33 +59,33 @@ Fluree is than each engine. **Bold = fastest in the row.**
 
 | scale | Fluree | Memgraph | Neo4j | FalkorDB | vs Memgraph | vs Neo4j | vs FalkorDB |
 |---|---|---|---|---|--:|--:|--:|
-| small | **2.34** | 3.25 | 2.93 | 3.15 | 1.39× faster | 1.25× faster | 1.34× faster |
-| medium | **2.52** | 3.70 | 3.56 | 3.62 | 1.47× faster | 1.41× faster | 1.44× faster |
-| large | **2.50** | 5.45 | 6.70 | 4.94 | 2.18× faster | 2.68× faster | 1.98× faster |
+| small | **2.63** | 3.25 | 2.93 | 3.15 | 1.24× faster | 1.11× faster | 1.20× faster |
+| medium | **2.40** | 3.70 | 3.56 | 3.62 | 1.54× faster | 1.48× faster | 1.51× faster |
+| large | **2.54** | 5.45 | 6.70 | 4.94 | 2.14× faster | 2.63× faster | 1.94× faster |
 
 **Read-only** (27 queries; Fluree lowest geometric mean at every scale):
 
 | scale | Fluree | Memgraph | Neo4j | FalkorDB | vs Memgraph | vs Neo4j | vs FalkorDB |
 |---|---|---|---|---|--:|--:|--:|
-| small | **0.72** | 1.54 | 3.38 | 0.88 | 2.14× faster | 4.70× faster | 1.23× faster |
-| medium | **1.24** | 3.86 | 6.56 | 2.42 | 3.11× faster | 5.28× faster | 1.95× faster |
-| large | **1.76** | 7.22 | 10.41 | 6.01 | 4.11× faster | 5.93× faster | 3.42× faster |
+| small | **0.71** | 1.54 | 3.38 | 0.88 | 2.18× faster | 4.79× faster | 1.25× faster |
+| medium | **1.29** | 3.86 | 6.56 | 2.42 | 3.01× faster | 5.10× faster | 1.88× faster |
+| large | **1.81** | 7.22 | 10.41 | 6.01 | 3.99× faster | 5.75× faster | 3.32× faster |
 
-The read advantage over the next-fastest engine grows from **1.23× at small to 3.42×
-at large**. At large, Fluree's five aggregate queries average **1.51 ms**, compared with
-221–266 ms for the other engines (**146–176× faster**). Fluree also leads the
+The read advantage over the next-fastest engine grows from **1.25× at small to 3.32×
+at large**. At large, Fluree's five aggregate queries average **1.54 ms**, compared with
+221–266 ms for the other engines (**144–173× faster**). Fluree also leads the
 neighbourhood and shortest-path category geometric means at that scale.
 
 Individual-query results show the limits of those averages. Fluree leads unfiltered
 three- and four-hop expansion at large; FalkorDB leads the expansion category overall
-(4.71 vs 6.18 ms) and point lookups (0.38 vs 0.47 ms). Fluree is the fastest engine on
-the large `shortest_path` query (1.75 ms vs Neo4j's 2.07 ms), while Memgraph is faster on
+(4.71 vs 6.13 ms) and point lookups (0.38 vs 0.47 ms). Fluree is the fastest engine on
+the large `shortest_path` query (1.88 ms vs Neo4j's 2.07 ms), while Memgraph is faster on
 the other two path queries. The main write gap is the 100-row batch insert
-(`unwind_range_vertex_write`: 6.45 ms vs FalkorDB's 3.53 ms at large); all three other
-engines are also faster on `create__edge` at large (3.54 ms vs Neo4j's 2.93 ms). Full timings
+(`unwind_range_vertex_write`: 8.39 ms vs FalkorDB's 3.53 ms at large); Neo4j is also
+faster on `create__edge` at large (2.93 ms vs Fluree's 3.08 ms). Full timings
 and ratios are in the [per-query appendix](reports/pokec/REPORT.md#appendix--per-query-medians).
 
-Fluree v4.2.7 was measured November 14, 2026.
+Fluree v4.2.8 was measured November 19, 2026.
 Memgraph, Neo4j and FalkorDB were not re-run; their measurements are from September 11,
 2026, on the same instance type. The exact
 configuration is recorded in [meta.json](reports/pokec/meta.json). These are single-client
@@ -106,7 +106,7 @@ To reproduce the whole four-engine run on a box:
 
 ## Reproduce the published HTTP measurements
 
-Use the official Fluree v4.2.7 release binary and a freshly imported Pokec ledger with
+Use the official Fluree v4.2.8 release binary and a freshly imported Pokec ledger with
 `FLUREE_STORAGE_FSYNC=wal` as described under Setup. The committed
 [`params_small.json`](params_small.json), [`params_medium.json`](params_medium.json), and
 [`params_large.json`](params_large.json) contain the exact draws shared by all four engines.
@@ -157,14 +157,14 @@ mkdir -p data
 curl -L -o data/pokec_small_import.cypher \
   https://s3.eu-west-1.amazonaws.com/deps.memgraph.io/dataset/pokec/benchmark/pokec_small_import.cypher
 
-# 2. install the official Fluree v4.2.7 release binary (x86_64 Linux tarball; the release's
+# 2. install the official Fluree v4.2.8 release binary (x86_64 Linux tarball; the release's
 #    fluree-db-cli-installer.sh is the alternative) and put it on PATH
-fluree_release=https://github.com/fluree/db/releases/download/v4.2.7
-mkdir -p "$HOME/fluree-v4.2.7"
+fluree_release=https://github.com/fluree/db/releases/download/v4.2.8
+mkdir -p "$HOME/fluree-v4.2.8"
 curl -fL "$fluree_release/fluree-db-cli-x86_64-unknown-linux-gnu.tar.xz" \
-  | tar -xJ -C "$HOME/fluree-v4.2.7" --strip-components=1
-export PATH="$HOME/fluree-v4.2.7:$PATH"
-fluree --version   # fluree 4.2.7
+  | tar -xJ -C "$HOME/fluree-v4.2.8" --strip-components=1
+export PATH="$HOME/fluree-v4.2.8:$PATH"
+fluree --version   # fluree 4.2.8
 
 # 3. import the .cypher dump natively + serve over HTTP
 #    fluree create --from *.cypher ingests the exact same file Memgraph/Neo4j load —
