@@ -1,0 +1,142 @@
+engine	version	scale	workload	clients	qmph_median	status	detail	source
+fluree	v4.2.8	1m	explore	1	204946.60	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore	4	817712.71	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore	8	1500977.26	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore	16	2431296.94	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore	32	4361362.63	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore	64	4518755.85	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+virtuoso	7.2.17	1m	explore	1	45245.03	accepted		runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-explore-c1.json
+virtuoso	7.2.17	1m	explore	4	164943.80	accepted		runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-explore-c4.json
+virtuoso	7.2.17	1m	explore	8	314279.45	accepted		runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-explore-c8.json
+virtuoso	7.2.17	1m	explore	16	419557.29	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-explore-c16.json
+virtuoso	7.2.17	1m	explore	32	287936.56	flagged	spread 50.4%	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-explore-c32.json
+virtuoso	7.2.17	1m	explore	64	403253.50	flagged	result counts differ between repeats; spread 33.1%	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-explore-c64.json
+fluree	v4.2.8	100m	explore	1	47374.53	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore	4	189057.39	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore	8	348042.92	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore	16	605595.61	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore	32	774093.49	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore	64	763187.71	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+virtuoso	7.2.17	100m	explore	1	16724.17	accepted		runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-explore-c1.json
+virtuoso	7.2.17	100m	explore	4	66827.32	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-explore-c4.json
+virtuoso	7.2.17	100m	explore	8	49394.65	accepted		runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-explore-c8.json
+virtuoso	7.2.17	100m	explore	16	167337.22	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-explore-c16.json
+virtuoso	7.2.17	100m	explore	32	169430.76	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-explore-c32.json
+virtuoso	7.2.17	100m	explore	64		no-result	a repeat errored; no median	runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-explore-c64.json
+fluree	v4.2.8	200m	explore	1	30628.96	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore	4	123061.84	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore	8	231066.13	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore	16	402975.25	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore	32	492762.23	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore	64	483005.94	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+virtuoso	7.2.17	200m	explore	1	17514.56	accepted		runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-explore-c1.json
+virtuoso	7.2.17	200m	explore	4	23539.60	flagged	result counts differ between repeats; spread 14.7%	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-explore-c4.json
+virtuoso	7.2.17	200m	explore	8	34658.62	accepted		runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-explore-c8.json
+virtuoso	7.2.17	200m	explore	16	53407.72	flagged	result counts differ between repeats; spread 5.8%	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-explore-c16.json
+virtuoso	7.2.17	200m	explore	32	54268.98	flagged	result counts differ between repeats; spread 6.5%	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-explore-c32.json
+virtuoso	7.2.17	200m	explore	64	54883.40	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-explore-c64.json
+fluree	v4.2.8	1m	explore-select	1	232407.48	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore-select	4	912920.88	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore-select	8	1702772.44	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore-select	16	2769240.13	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore-select	32	4932204.45	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	explore-select	64	5034352.86	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+qlever	0.6.0	1m	explore-select	1	3337.39	accepted		runs/bsbm-capacity-refresh-20260907/qlever-1m-generator/live/summary-select-c1.json
+qlever	0.6.0	1m	explore-select	4	13403.72	accepted		runs/bsbm-capacity-refresh-20260907/qlever-1m-generator/live/summary-select-c4.json
+qlever	0.6.0	1m	explore-select	8	26165.20	accepted		runs/bsbm-capacity-refresh-20260907/qlever-1m-generator/live/summary-select-c8.json
+qlever	0.6.0	1m	explore-select	16	47419.62	accepted		runs/bsbm-capacity-refresh-20260907/qlever-1m-generator/live/summary-select-c16.json
+qlever	0.6.0	1m	explore-select	32	58327.96	accepted		runs/bsbm-capacity-refresh-20260907/qlever-1m-generator/live/summary-select-c32.json
+qlever	0.6.0	1m	explore-select	64	56861.49	accepted		runs/bsbm-capacity-refresh-20260907/qlever-1m-generator/live/summary-select-c64.json
+virtuoso	7.2.17	1m	explore-select	1	50082.58	accepted		runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-select-c1.json
+virtuoso	7.2.17	1m	explore-select	4	183185.56	accepted		runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-select-c4.json
+virtuoso	7.2.17	1m	explore-select	8	346292.01	accepted		runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-select-c8.json
+virtuoso	7.2.17	1m	explore-select	16	443023.50	accepted		runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-select-c16.json
+virtuoso	7.2.17	1m	explore-select	32	428471.24	flagged	spread 30.5%	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-select-c32.json
+virtuoso	7.2.17	1m	explore-select	64		no-result	a repeat errored; no median	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-select-c64.json
+fluree	v4.2.8	100m	explore-select	1	48657.54	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore-select	4	195384.80	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore-select	8	358713.02	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore-select	16	636626.92	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore-select	32	796931.73	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	explore-select	64	789626.03	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+qlever	0.6.0	100m	explore-select	1	2830.99	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-select-c1.json
+qlever	0.6.0	100m	explore-select	4	7535.34	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-select-c4.json
+qlever	0.6.0	100m	explore-select	8	11157.84	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-select-c8.json
+qlever	0.6.0	100m	explore-select	16	20299.11	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-select-c16.json
+qlever	0.6.0	100m	explore-select	32	29756.86	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-select-c32.json
+qlever	0.6.0	100m	explore-select	64	35572.02	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-select-c64.json
+qlever	0.6.0	100m	explore-select	128	40021.63	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-select-c128.json
+virtuoso	7.2.17	100m	explore-select	1	24160.54	accepted		runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-select-c1.json
+virtuoso	7.2.17	100m	explore-select	4	36440.16	accepted		runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-select-c4.json
+virtuoso	7.2.17	100m	explore-select	8	114390.76	accepted		runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-select-c8.json
+virtuoso	7.2.17	100m	explore-select	16	180295.22	flagged	result counts differ between repeats; spread 5.4%	runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-select-c16.json
+virtuoso	7.2.17	100m	explore-select	32	177098.43	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-select-c32.json
+virtuoso	7.2.17	100m	explore-select	64	175509.83	accepted		runs/bsbm-gap-closure-20260907/virtuoso-100m-generator/live/summary-select-c64.json
+fluree	v4.2.8	200m	explore-select	1	31377.37	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore-select	4	124246.66	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore-select	8	233830.80	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore-select	16	413219.98	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore-select	32	497843.41	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	explore-select	64	490046.70	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+qlever	0.6.0	200m	explore-select	1	2636.92	accepted		runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-select-c1.json
+qlever	0.6.0	200m	explore-select	4	9442.18	flagged	spread 10.7%	runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-select-c4.json
+qlever	0.6.0	200m	explore-select	8	7204.87	accepted		runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-select-c8.json
+qlever	0.6.0	200m	explore-select	16	13377.42	accepted		runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-select-c16.json
+qlever	0.6.0	200m	explore-select	32	21230.06	accepted		runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-select-c32.json
+qlever	0.6.0	200m	explore-select	64	29021.48	accepted		runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-select-c64.json
+qlever	0.6.0	200m	explore-select	128	33641.99	accepted		runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-select-c128.json
+virtuoso	7.2.17	200m	explore-select	1	18308.62	accepted		runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-select-c1.json
+virtuoso	7.2.17	200m	explore-select	4	24626.94	flagged	spread 11.9%	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-select-c4.json
+virtuoso	7.2.17	200m	explore-select	8	38762.42	flagged	result counts differ between repeats; spread 6.0%	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-select-c8.json
+virtuoso	7.2.17	200m	explore-select	16	57167.87	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-select-c16.json
+virtuoso	7.2.17	200m	explore-select	32	59523.29	flagged	result counts differ between repeats	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-select-c32.json
+virtuoso	7.2.17	200m	explore-select	64	58765.76	flagged	result counts differ between repeats; spread 6.9%	runs/bsbm-gap-closure-20260907/virtuoso-200m-generator/live/summary-select-c64.json
+fluree	v4.2.8	1m	bi	1	7157.73	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	bi	4	26363.63	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	bi	8	48058.66	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	bi	16	78709.10	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	bi	32	81634.51	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+qlever	0.6.0	1m	bi	1	775.16	accepted		runs/bsbm-gap-closure-20260907/qlever-1m-generator/live/summary-bi-c1.json
+qlever	0.6.0	1m	bi	4	2504.05	accepted		runs/bsbm-gap-closure-20260907/qlever-1m-generator/live/summary-bi-c4.json
+qlever	0.6.0	1m	bi	8	6265.90	accepted		runs/bsbm-gap-closure-20260907/qlever-1m-generator/live/summary-bi-c8.json
+qlever	0.6.0	1m	bi	16	13032.94	accepted		runs/bsbm-gap-closure-20260907/qlever-1m-generator/live/summary-bi-c16.json
+qlever	0.6.0	1m	bi	32	26098.21	accepted		runs/bsbm-gap-closure-20260907/qlever-1m-generator/live/summary-bi-c32.json
+virtuoso	7.2.17	1m	bi	1	372.34	invalid	BI Q5 returns an empty result (incorrect); see reports/engine-comparison/BI-Q5-CORRECTNESS.md	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-bi-c1.json
+virtuoso	7.2.17	1m	bi	4	1722.98	invalid	BI Q5 returns an empty result (incorrect); see reports/engine-comparison/BI-Q5-CORRECTNESS.md	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-bi-c4.json
+virtuoso	7.2.17	1m	bi	8	2335.82	invalid	BI Q5 returns an empty result (incorrect); see reports/engine-comparison/BI-Q5-CORRECTNESS.md	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-bi-c8.json
+virtuoso	7.2.17	1m	bi	16	2883.93	invalid	BI Q5 returns an empty result (incorrect); see reports/engine-comparison/BI-Q5-CORRECTNESS.md	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-bi-c16.json
+virtuoso	7.2.17	1m	bi	32	2735.38	invalid	BI Q5 returns an empty result (incorrect); see reports/engine-comparison/BI-Q5-CORRECTNESS.md	runs/bsbm-gap-closure-20260907/virtuoso-1m-generator/live/summary-bi-c32.json
+fluree	v4.2.8	100m	bi	1	53.40	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	bi	4	146.56	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	bi	8	281.71	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	bi	16	486.97	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	100m	bi	32	697.00	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+qlever	0.6.0	100m	bi	1	40.97	accepted		runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/summary-bi-c1.json
+qlever	0.6.0	100m	bi	4		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/failure-bi-c4.json
+qlever	0.6.0	100m	bi	8		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/failure-bi-c8.json
+qlever	0.6.0	100m	bi	16		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/failure-bi-c16.json
+qlever	0.6.0	100m	bi	32		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-100m-generator/live/failure-bi-c32.json
+fluree	v4.2.8	200m	bi	1	21.24	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	bi	4	66.41	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	bi	8	128.56	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	bi	16	234.90	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	bi	32	328.60	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+qlever	0.6.0	200m	bi	1	33.81	accepted		runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/summary-bi-c1.json
+qlever	0.6.0	200m	bi	4		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/failure-bi-c4.json
+qlever	0.6.0	200m	bi	8		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/failure-bi-c8.json
+qlever	0.6.0	200m	bi	16		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/failure-bi-c16.json
+qlever	0.6.0	200m	bi	32		no-result	repeated-failure after restart	runs/bsbm-gap-closure-20260907/qlever-200m-generator/live/failure-bi-c32.json
+fluree	v4.2.8	1m	update	1	37885.51	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	update	4	65960.39	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	update	8	79659.18	flagged	spread 9.3%	benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	update	16	88464.00	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	update	32	84265.39	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	1m	update	64	79791.31	accepted		benchmarks/bsbm/reports/v4.2.8/summary.tsv
+virtuoso	7.2.17	1m	update	1	13940.07	accepted		runs/bsbm-capacity-refresh-20260907/virtuoso-1m-generator/live/summary-update-c1.json
+virtuoso	7.2.17	1m	update	4	25116.67	accepted		runs/bsbm-capacity-refresh-20260907/virtuoso-1m-generator/live/summary-update-c4.json
+virtuoso	7.2.17	1m	update	8	25404.50	accepted		runs/bsbm-capacity-refresh-20260907/virtuoso-1m-generator/live/summary-update-c8.json
+virtuoso	7.2.17	1m	update	16	25359.20	accepted		runs/bsbm-capacity-refresh-20260907/virtuoso-1m-generator/live/summary-update-c16.json
+virtuoso	7.2.17	1m	update	32	25311.44	accepted		runs/bsbm-capacity-refresh-20260907/virtuoso-1m-generator/live/summary-update-c32.json
+virtuoso	7.2.17	1m	update	64	25265.84	accepted		runs/bsbm-capacity-refresh-20260907/virtuoso-1m-generator/live/summary-update-c64.json
+fluree	v4.2.8	100m	update	1	10848.30	flagged	spread 17.9%	benchmarks/bsbm/reports/v4.2.8/summary.tsv
+fluree	v4.2.8	200m	update	1	6387.85	flagged	spread 31.4%	benchmarks/bsbm/reports/v4.2.8/summary.tsv

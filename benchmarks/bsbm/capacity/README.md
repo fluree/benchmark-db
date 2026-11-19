@@ -1,6 +1,6 @@
 # BSBM capacity protocol
 
-This is the protocol behind the published [Fluree v4.2.7 results](../README.md) (November 2026). It uses the same BSBM queries and parameter generator with a **transport-only HTTP keepalive patch**. The original toolkit JAR remains intact. Historical short-run results use a different measurement protocol.
+This is the protocol behind the published [Fluree v4.2.8 results](../README.md) (November 2026). It uses the same BSBM queries and parameter generator with a **transport-only HTTP keepalive patch**. The original toolkit JAR remains intact. Historical short-run results use a different measurement protocol.
 
 Use the [engine setup instructions](../engines/README.md) for identical database resources and a separate generator per database. Generate the same scale on both hosts and verify its SHA256. Install JDK 21 on the generator, then:
 
@@ -29,7 +29,7 @@ python3 benchmarks/bsbm/capacity/run-cell.py \
 ```
 
 For QLever, use `--engine qlever`, endpoint `/`, `--workload select` and omit `--graph`. For Fluree, use `--engine fluree`, endpoint `/v1/fluree/query/bsbm:main` and omit `--graph`.
-The v4.2.7 results use the build listed in the [BSBM README](../README.md#build-and-environment),
+The v4.2.8 results use the build listed in the [BSBM README](../README.md#build-and-environment),
 `FLUREE_STORAGE_FSYNC=1`, `FLUREE_INDEXING_ENABLED=true`,
 `FLUREE_REINDEX_MIN_BYTES=2097152`, and server `--log-level warn`. Set those environment
 variables for both import and serving.

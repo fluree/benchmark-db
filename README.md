@@ -79,11 +79,11 @@ September 11, 2026, on the same instance type.
 
 ## RDF / SPARQL throughput — BSBM: QLever and Virtuoso
 
-**Fluree v4.2.7 has the highest validated throughput in every multi-client comparison**
+**Fluree v4.2.8 has the highest validated throughput in every multi-client comparison**
 with QLever 0.6.0 and Virtuoso 7.2.17 on the Berlin SPARQL Benchmark, at 1M, 100M and
-200M triples. On the SELECT-only Explore mix, Fluree's peak is **10.6× Virtuoso's and 81×
-QLever's at 1M triples**, and **2.5× and 11× at 100M**, where Fluree reaches
-**443,090 query mixes per hour** with 32 clients. Every Fluree cell completed with zero
+200M triples. On the SELECT-only Explore mix, Fluree's peak is **11.4× Virtuoso's and 86×
+QLever's at 1M triples**, and **4.5× and 20× at 100M**, where Fluree reaches
+**796,932 query mixes per hour** with 32 clients. Every Fluree cell completed with zero
 timeouts and zero driver errors, with fsync enabled.
 
 BSBM measures **throughput** on an e-commerce workload: each client repeatedly runs a mix
@@ -92,31 +92,32 @@ mixes per hour (QMpH). All three engines ran the same pinned driver, datasets, s
 query mixes on an AWS `m7a.4xlarge` database with a separate `m7a.2xlarge` driver; every
 cell is the median of three repeats.
 
-![BSBM Explore SELECT subset throughput vs clients at 1M, 100M and 200M triples for Fluree v4.2.7, QLever 0.6.0 and Virtuoso 7.2.17; higher is faster](assets/bsbm-select-scaling.svg)
+![BSBM Explore SELECT subset throughput vs clients at 1M, 100M and 200M triples for Fluree v4.2.8, QLever 0.6.0 and Virtuoso 7.2.17; higher is faster](assets/bsbm-select-scaling.svg)
 
-![BSBM full Explore mix throughput vs clients at 1M, 100M and 200M triples for Fluree v4.2.7 and Virtuoso 7.2.17; higher is faster](assets/bsbm-explore-virtuoso-scaling.svg)
+![BSBM full Explore mix throughput vs clients at 1M, 100M and 200M triples for Fluree v4.2.8 and Virtuoso 7.2.17; higher is faster](assets/bsbm-explore-virtuoso-scaling.svg)
 
-![BSBM Business Intelligence throughput vs clients at 1M triples for Fluree v4.2.7 and QLever 0.6.0; higher is faster](assets/bsbm-bi-1m-scaling.svg)
+![BSBM Business Intelligence throughput vs clients at 1M triples for Fluree v4.2.8 and QLever 0.6.0; higher is faster](assets/bsbm-bi-1m-scaling.svg)
 
-![BSBM Explore-and-Update throughput vs clients at 1M triples for Fluree v4.2.7 and Virtuoso 7.2.17; higher is faster](assets/bsbm-update-1m-scaling.svg)
+![BSBM Explore-and-Update throughput vs clients at 1M triples for Fluree v4.2.8 and Virtuoso 7.2.17; higher is faster](assets/bsbm-update-1m-scaling.svg)
 
-Single-client results are closer, and some favor other engines: at 200M triples
-**Virtuoso is 6% faster** on the SELECT mix and 2% faster on the full Explore mix, and
-**QLever is 60% faster** on Business Intelligence. With durable, fsync-before-acknowledgement
+Single-client results are closer, and one favors another engine: at 200M triples **QLever
+is 59% faster** on Business Intelligence, while Fluree leads single-client SELECT and full
+Explore at every scale (1.7× Virtuoso at 200M). With durable, fsync-before-acknowledgement
 writes, Fluree's Explore-and-Update throughput at 1M is 2.7× Virtuoso's at one client and
-3.1× at peak. Filled chart points passed every validation check; hollow points on dashed
+3.5× at peak. Filled chart points passed every validation check; hollow points on dashed
 segments have a median but failed a check; ✕ marks a cell where a repeat errored, so it
 has no median. QLever 0.6.0 cannot return the RDF/XML the full Explore mix requires, and
 Virtuoso's BI results at 1M are incorrect for one query, so not every engine appears in
-every chart; the [full report](benchmarks/bsbm/README.md#compared-with-qlever-and-virtuoso)
-lists the coverage and caveats.
+every chart; the
+[full report](benchmarks/bsbm/README.md#compared-with-qlever-and-virtuoso) lists the
+coverage and caveats.
 
 → **[Full BSBM report](benchmarks/bsbm/README.md)** ·
-[Fluree results at every scale and client count](benchmarks/bsbm/README.md#results--fluree-v427) ·
-[cross-engine cells](benchmarks/bsbm/reports/v4.2.7/comparison.tsv) ·
-[raw driver XML](benchmarks/bsbm/reports/v4.2.7/runs/)
+[Fluree results at every scale and client count](benchmarks/bsbm/README.md#results--fluree-v428) ·
+[cross-engine cells](benchmarks/bsbm/reports/v4.2.8/comparison.tsv) ·
+[raw driver XML](benchmarks/bsbm/reports/v4.2.8/runs/)
 
-Fluree: v4.2.7, measured November 14, 2026. QLever and Virtuoso:
+Fluree: v4.2.8, measured November 19, 2026. QLever and Virtuoso:
 measured September 2026, not re-run.
 
 ## Other benchmarks
