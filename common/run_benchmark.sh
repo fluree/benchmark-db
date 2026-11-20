@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 #
-# Run the SPARQLoscope DBLP benchmark queries against a running Fluree server.
+# Run a benchmark's SPARQL queries against a running SPARQL endpoint: Fluree's
+# ledger query path by default, or any engine's endpoint with --endpoint.
 #
 # Usage:
 #   ./run_benchmark.sh [options]
 #
 # Options:
-#   -h, --host HOST      Server host (default: localhost)
-#   -p, --port PORT      Server port (default: 8090)
-#   -l, --ledger LEDGER  Ledger name (default: dblp)
+#   -h, --host HOST      Fluree server host (default: localhost)
+#   -p, --port PORT      Fluree server port (default: 8090)
+#   -l, --ledger LEDGER  Fluree ledger name (default: dblp)
+#   --endpoint URL       Query this SPARQL endpoint instead of Fluree's
+#                        (skips the Fluree health check)
+#   --queries DIR        Query directory (default: queries/, relative to the
+#                        directory you run from)
 #   -r, --runs N         Number of timed runs per query (default: 3)
 #   -w, --warmup N       Warmup runs before timing (default: 1)
 #   -o, --output FILE    Output results file (default: results/<timestamp>.tsv)
@@ -16,6 +21,12 @@
 #   -s, --start N        Start at query number N (1-based, default: 1)
 #   -t, --timeout SECS   Query timeout in seconds (default: 300)
 #   --accept TYPE        Accept header (default: text/tab-separated-values)
+#   --post-form          Send the query url-encoded as query=... (Virtuoso)
+#                        instead of as an application/sparql-query body
+#   --default-graph IRI  Add default-graph-uri (with --post-form)
+#   --clear-url URL      GET this URL before every run, to clear an engine's
+#                        result cache
+#   --auth-token TOKEN   Send it as a Bearer Authorization header
 #   --dry-run            Print queries without executing
 #   --save-outputs DIR   Save each response body to DIR/<query_id>-run<N>.tsv
 #                        (only successful 200 responses are saved)

@@ -41,7 +41,7 @@
         "throughput": "0.735 M tr/s",
         "peak_ram": "not recorded for this run",
         "index_size": "29.69 GB ledger directory",
-        "notes": "From the 2026-11-12 import of this store by the release reproduction run; the 2026-11-19 query run reused that ledger and did not re-import. fluree create dblp --from dblp.nt; 561,477,456 distinct statements; 29,689,795,723-byte ledger directory. Wall time of the import command as timed by the reproduce script (whole seconds), including import completion and statistics; single import measurement."
+        "notes": "From the 2026-11-12 native import of this store; the 2026-11-19 query run reused that ledger and did not re-import. fluree create dblp --from dblp.nt; 561,477,456 distinct statements; 29,689,795,723-byte ledger directory. Wall time of the import command as timed by the reproduce script (whole seconds), including import completion and statistics; single import measurement."
       },
       "measured_at": "2026-11-19"
     },
@@ -137,11 +137,11 @@
     "Jena starts with a cold JVM/TDB cache and a 54 GB index on a 64 GB host; its completion count is cache-state sensitive.",
     "Oxigraph uses no warmup and one measured request, with a 180 s timeout, a memory cap, and restart on failure. This differs from the other engines' warmup/median-of-three protocol.",
     "This comparison measures query completion and latency. It does not assert result equivalence across all engines. See the per-query table for differences in performance.",
-    "[Reproduce the Fluree run](v426-release/REPORT.md): pinned binary, dataset and harness checksums, import and query commands."
+    "[Reproduce the Fluree v4.2.8 run](v428-release/REPORT.md): pinned release binary, dataset and harness checksums, import and query commands."
   ],
   "provenance": {
     "fluree": {
-      "harness": "v426-release/harness-sha256.json",
+      "harness": "v428-release/harness-sha256.json",
       "raw_timings": "engines/fluree.tsv",
       "summary": "engines/fluree_summary.tsv"
     }

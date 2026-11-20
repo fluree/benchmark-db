@@ -1,5 +1,5 @@
 {
-  "common/run_benchmark.sh": "787bac70e3a99e2bc79b420682dc0d1ddcda7d7a8546d06af356563059dafeba",
+  "common/run_benchmark.sh": "b5eceb4ff27bfb349fbd387b2afaa78955ec03d53ad71ecd709d6437eb7ebde5",
   "common/summarize.py": "7ad9f67da43d273844f3f65426a59ffb96cc1160c7c0dccbd65cdf0be5fea378",
   "benchmarks/sparqloscope/queries/date-day.sparql": "3b45e79341f70f674673140b542774eff44f1a7b9000ae608d87c2a0ab9e8ddc",
   "benchmarks/sparqloscope/queries/date-month.sparql": "344afa12001024b6d83f7300757c3aafae099aae6c8023bd1e0d20359278381f",

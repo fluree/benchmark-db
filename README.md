@@ -40,7 +40,7 @@ _Geometric mean uses all 105 queries; failures count as 2× the 180-second timeo
 Fluree: v4.2.8, measured November 19, 2026, on the ledger imported
 November 12, 2026 (not re-imported). Other engines: June 11, 2026, on the same
 instance class and dataset.
-[Reproduce the Fluree run](benchmarks/sparqloscope/reports/dblp-core/v426-release/REPORT.md).
+[Reproduce the Fluree v4.2.8 run](benchmarks/sparqloscope/reports/dblp-core/v428-release/REPORT.md).
 
 ## Property graph / Cypher — Pokec: reads and durable writes
 
@@ -150,9 +150,10 @@ On Ubuntu 24.04 x86_64, with curl, pigz, Python 3, coreutils and xz-utils instal
 bash benchmarks/sparqloscope/reproduce-dblp-fluree.sh /path/to/new-run
 ```
 
-The script installs the pinned v4.2.6 binary, verifies binary and dataset checksums,
-imports a fresh ledger, runs all 105 queries, and saves timings and responses.
-See the [run instructions](benchmarks/sparqloscope/reports/dblp-core/v426-release/REPORT.md)
+The script installs the official Fluree v4.2.8 release binary, verifies the installer,
+binary and dataset checksums, imports a fresh ledger, runs all 105 queries, and saves
+timings and responses.
+See the [run instructions](benchmarks/sparqloscope/reports/dblp-core/v428-release/REPORT.md)
 for hardware requirements. Dataset sources are pinned under
 [SPARQLoscope datasets](benchmarks/sparqloscope/datasets/), with copies in
 `s3://fluree-benchmark-data/`.

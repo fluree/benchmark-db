@@ -163,7 +163,7 @@ _No correctness check available for this run._
 
 | engine | import time | throughput | peak RAM | index size | notes |
 |---|---|---|---|---|---|
-| Fluree | 764 s | 0.735 M tr/s | not recorded for this run | 29.69 GB ledger directory | From the 2026-11-12 import of this store by the release reproduction run; the 2026-11-19 query run reused that ledger and did not re-import. fluree create dblp --from dblp.nt; 561,477,456 distinct statements; 29,689,795,723-byte ledger directory. Wall time of the import command as timed by the reproduce script (whole seconds), including import completion and statistics; single import measurement. |
+| Fluree | 764 s | 0.735 M tr/s | not recorded for this run | 29.69 GB ledger directory | From the 2026-11-12 native import of this store; the 2026-11-19 query run reused that ledger and did not re-import. fluree create dblp --from dblp.nt; 561,477,456 distinct statements; 29,689,795,723-byte ledger directory. Wall time of the import command as timed by the reproduce script (whole seconds), including import completion and statistics; single import measurement. |
 | QLever | 521 s | 1.08 M tr/s | 20.8 GB | 9.4 GB | qlever index (native), parallel parse @ 2.3 M/s. in-memory-compressed vocab, num-triples-per-batch 1M (matches the paper). Native on the host needed two things Docker masked: ulimit -n raised to 1048576 (533 partial vocabs) and --stxxl-memory 20G (permutation merge). Loaded 561,477,456 distinct triples. |
 | Oxigraph | 572 s | 0.98 M tr/s | n/a | 43 GB | oxigraph load --format nt --lenient. Till-ready = 329 s parse @ 1.70 M t/s + ~243 s RocksDB compaction. Loaded 561,477,456 triples. No COUNT fastpath. 39/105 queries completed within 180 s; 66/105 timed out. |
 | Virtuoso | ~700 s | ~0.8 M tr/s | ~28 GB | 17 GB | split -l 50000 + 8 parallel TTLP threads + checkpoint. Loaded 561,483,067 triples, 90 predicates. number-of-objects timed out (>180 s full distinct scan); transitive-path-plus returned engine error. 103/105 completed. |
@@ -210,4 +210,4 @@ _No correctness check available for this run._
 - Jena starts with a cold JVM/TDB cache and a 54 GB index on a 64 GB host; its completion count is cache-state sensitive.
 - Oxigraph uses no warmup and one measured request, with a 180 s timeout, a memory cap, and restart on failure. This differs from the other engines' warmup/median-of-three protocol.
 - This comparison measures query completion and latency. It does not assert result equivalence across all engines. See the per-query table for differences in performance.
-- [Reproduce the Fluree run](v426-release/REPORT.md): pinned binary, dataset and harness checksums, import and query commands.
+- [Reproduce the Fluree v4.2.8 run](v428-release/REPORT.md): pinned release binary, dataset and harness checksums, import and query commands.

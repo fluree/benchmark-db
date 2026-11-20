@@ -323,7 +323,7 @@ gzip -dk data/pokec_large.setup.cypher.gz
 # Fresh load per engine/scale -> discarded reads1 -> canonical reads2 -> full write pass.
 # Uses the committed params_<scale>.json and the persistent HTTP/Bolt/RESP clients.
 # ENGINES=fluree limits the run to Fluree, as in the November 19 measurement.
-export OUT="$PWD/results/v427"
+export OUT="$PWD/results/v428"
 bash run-4engine-box.sh
 python3 merge_runs.py "$OUT" "$OUT/engines" query-set.tsv
 python3 gen_report.py "$OUT/engines" "$OUT" --tables
